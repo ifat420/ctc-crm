@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'font regular';
+    src: url('~/assets/fonts/SFUIText-Regular.woff') format('woff');
+}
+
+$font-primary: 'font regular'; 
+
+$color-primary: rgba(0, 0, 0, 1);
+$color-secondary: rgba(255, 255, 255, 0.93);
+$color-tertiary: rgba(138, 138, 138, 1);
+$color-background: #E5E5E5;

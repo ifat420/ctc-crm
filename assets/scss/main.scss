@@ -1,0 +1,28 @@
+.color-black {
+    color: $color-primary;
+}
+
+.color-white {
+    color: $color-secondary;
+}
+
+.color-gray {
+    color: $color-tertiary;
+}
+
+.bg-color-white {
+    background-color: $color-secondary;
+}
+
+.bg-color-black {
+    background-color: $color-primary;
+}
+
+.bg-color-body {
+    background-color: $color-background;
+}
+
+.font {
+    font-family: $font-primary;
+}
+
