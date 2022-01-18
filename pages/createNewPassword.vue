@@ -23,6 +23,9 @@ import InputField from '~/components/shared/InputField'
 import Button from '~/components/shared/Button'
 
 export default {
+
+    layout: 'others',
+    
     components: {
         Logo,
         InputField,

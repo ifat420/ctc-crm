@@ -27,6 +27,10 @@
 import Logo from '~/components/shared/Logo'
 import Button from '~/components/shared/Button'
 export default {
+
+    layout: 'others',
+
+    
     components: {
         Logo,
         Button

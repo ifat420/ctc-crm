@@ -22,6 +22,10 @@ import InputCheckbox from '~/components/shared/InputCheckbox'
 import Button from '~/components/shared/Button'
 
 export default {
+
+    layout: 'others',
+
+    
     components: {
         Logo,
         InputField,
