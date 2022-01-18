@@ -7,8 +7,8 @@
                 </div>
                 <h1 class="color-black text-xl font-bold antialiased font">Reset Password</h1>
             </div>
-            <form class="w-full flex flex-col gap-y-6" action="">
-                <InputField type="text" placeholder="Email address"/>
+            <form class="w-full flex flex-col gap-y-6" action="" @submit.prevent="">
+                <InputField type="text" placeholder="Email address" :content="text" v-on:changedContent="updatedText($event)"/>
                 <Button :buttonContent="buttonContent"/>
             </form>
         </div>
@@ -32,7 +32,16 @@ export default {
     data() {
 
         return {
+            text: "",
             buttonContent: "Send instructions"
+        }
+    },
+
+    methods: {
+
+        updatedText(content) {
+            this.text = content;
+            console.log(this.text);
         }
     }
 }
