@@ -1,26 +1,23 @@
 <template>
     <div class="flex h-screen justify-center items-center bg-white">
         <div class="flex flex-col gap-y-6 max-w-lg w-full bg-white rounded-xl sm:shadow-lg px-6 py-12 sm:text-left">
-            <div class="w-full flex flex-col gap-y-6 items-start sm:items-center px-3">
+            <div class="w-full flex flex-col gap-y-4 items-start sm:items-center px-3">
                 <div class="shrink-0">
                     <Logo />
                 </div>
-                <h1 class="color-black text-xl font-bold antialiased">Sign in to your account</h1>
+                <h1 class="color-black text-xl font-bold antialiased font">Sign in to your account</h1>
             </div>
-            <form class="w-full flex flex-col gap-y-6" action="">
-                <InputField type="text" placeholder="Email address"/>
-                <InputField type="password" placeholder="Password"/>
+            <form class="w-full flex flex-col gap-y-6" action="" @submit.prevent="">
+                <InputField type="text" placeholder="Email address" :content="text" v-on:changedContent="updatedText($event)"/>
+                <InputField type="password" placeholder="Password" :content="password" v-on:changedContent="updatedPassword($event)"/>
                 <div class="flex items-center justify-between">
                     <InputCheckbox />
-                    <!-- <div>
-                        <InputCheckbox type="checkbox"/>
-                        <label for="">Remember me</label>
-                    </div> -->
-                    <a class="text-sm color-black underline hidden sm:block">Forget your password?</a>
+                    <nuxt-link to="/resetPassword" class="text-sm color-black underline hidden font sm:block">Forget your password?</nuxt-link>
                 </div>
-                <Button />
-                <a class="text-sm text-center color-black underline sm:hidden">Forget your password?</a>
+                <Button :buttonContent="buttonContent"/>
+                <nuxt-link to="/resetPassword" class="text-sm text-center color-black underline font sm:hidden">Forget your password?</nuxt-link>
             </form>
+            
         </div>
     </div>
 </template>
@@ -37,6 +34,29 @@ export default {
         InputField,
         Button,
         InputCheckbox
+    },
+
+    data() {
+
+        return {
+
+            text: '',
+            password: '',
+            buttonContent: "Sign in"
+        }
+    },
+
+    methods: {
+
+        updatedText(content) {
+            this.text = content;
+            console.log(this.text);
+        },
+
+        updatedPassword(content) {
+            this.password = content;
+            console.log(this.password);
+        }
     }
 }
 </script>
