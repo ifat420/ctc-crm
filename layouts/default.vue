@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="default">
     <Header/>
-    <div class="flex">
+    <div class="grid grid-cols-1 sm:grid-cols-footer">
       <Sidebar/>
       <Nuxt />
     </div>
@@ -18,3 +18,7 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+    
+</style>

@@ -1,12 +1,11 @@
 <template>
-  <div class=" ">
-      
+    <div>
         <div class="flex justify-between items-center box-shadow-dashboard p-6 relative" v-if="!mobileView">
             <div class="flex items-center gap-x-4">
                 <div class="shrink-0">
-                    <Logo />
+                    <LogoMomin />
                 </div>
-                <h1 class="text-sm font-bold">Client Name</h1>
+                <h1 class="text-sm font-bold">MUMINUNNISA GOVT. MOHILA COLLEGE</h1>
             </div>
             <div class="flex items-center gap-x-6">
                 <div  v-for="(buttonContent,index) in buttonContents" :key="index">
@@ -17,19 +16,18 @@
 
         <div v-else>
             <MenuDrawer :mobileView="mobileView" :showNav="showNav"/>
-        </div>
-        
-  </div>
+        </div>    
+    </div>
 </template>
 
 <script>
-import Logo from "~/components/shared/Logo"
+import LogoMomin from "~/components/shared/LogoMomin"
 import ButtonDashboard from "~/components/dashboard/ButtonDashboard"
 import MenuDrawer from "~/components/dashboard/MenuDrawer"
 export default {
 
     components: {
-        Logo,
+        LogoMomin,
         MenuDrawer,
         ButtonDashboard
     },

@@ -1,0 +1,229 @@
+<template>
+
+<div>
+    <div class=" bg-color-body">
+        <ShowUrl :content="mainContents"/>
+        <div class="px-6 py-6 bg-color-whiteTwo mt-6 ml-6 mr-6">
+            <div class="flex flex-wrap justify-between items-center">
+                <SelectInput />
+                <SelectInput />
+                <SelectInput />
+                <SelectInput />
+            </div> 
+            <div class="flex items-center justify-start gap-x-4">
+                <div v-for="(buttonContent,index) in buttonContents" :key="index" class="">
+                    <ButtonDashboard :buttonContent="buttonContent" />
+                </div>
+            </div>
+        </div>   
+    </div>
+
+
+    <div class="bg-color-gray flex flex-col">
+    
+    <div class="-my-2  sm:-mx-6 lg:-mx-8  p-8">
+      <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="shadow overflow-hidden p-8 bg-color-whiteTwo sm:rounded-lg">
+          <div class="flex justify-between pb-10">
+              <h4 class="pb-4 font">Subjectwise Statistics</h4>
+              <div class="flex gap-x-4">
+                  <div v-for="(buttonContent,index) in buttonContentsTwo" :key="index" class="">
+                    <ButtonDashboard :buttonContent="buttonContent" />
+                </div>
+              </div>
+          </div>
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium font text-gray-500 uppercase tracking-wider">
+                  Roll
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium font text-gray-500 uppercase tracking-wider">
+                  Name
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium font text-gray-500 uppercase tracking-wider">
+                  Session
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium font text-gray-500 uppercase tracking-wider">
+                  Exam
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium font text-gray-500 uppercase tracking-wider">
+                  Class
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium font text-gray-500 uppercase tracking-wider">
+                  Group
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium font text-gray-500 uppercase tracking-wider">
+                  Subjects
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr v-for="(person,index) in people" :key="index">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                      <div class=" font-size text-gray-500">
+                        {{ person.roll }}
+                      </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-500 font-size">{{ person.name }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex leading-5 font font-size text-gray-500">
+                    {{ person.session }}
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap font font-size  text-gray-500">
+                  {{ person.exam }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap font font-size  text-gray-500">
+                  {{ person.class }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap font font-size text-gray-500">
+                  {{ person.group }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap font font-size text-gray-500">
+                  {{ person.subjects }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</template>
+
+<script>
+import ShowUrl from '~/components/shared/ShowUrl'
+import SelectInput from '~/components/shared/SelectInput'
+import ButtonDashboard from '~/components/shared/ButtonDashboard'
+export default {
+  components: {
+
+      ShowUrl,
+      SelectInput,
+      ButtonDashboard
+  },
+
+  data() {
+      return {
+          buttonContents: ["Reset","Search"],
+          buttonContentsTwo: ["Save","Print"],
+          mainContents: {
+              folderName: "show-result",
+              compName: "subjectwise-statistics",
+              topicName: "Subjectwise Statistics"
+          },
+
+           people: [
+              {
+                  roll: 511,
+                  name: "Rubel",
+                  session: "2016-17",
+                  exam: "pre-Test",
+                  class: "XII",
+                  group: "Science",
+                  subjects: "Bangla(23)"
+              },
+
+              {
+                  roll: 511,
+                  name: "Rubel",
+                  session: "2016-17",
+                  exam: "pre-Test",
+                  class: "XII",
+                  group: "Science",
+                  subjects: "Bangla(23)"
+              },
+
+              {
+                  roll: 511,
+                  name: "Rubel",
+                  session: "2016-17",
+                  exam: "pre-Test",
+                  class: "XII",
+                  group: "Science",
+                  subjects: "Bangla(23)"
+              },
+
+              {
+                  roll: 511,
+                  name: "Rubel",
+                  session: "2016-17",
+                  exam: "pre-Test",
+                  class: "XII",
+                  group: "Science",
+                  subjects: "Bangla(23)"
+              },
+
+              {
+                  roll: 511,
+                  name: "Rubel",
+                  session: "2016-17",
+                  exam: "pre-Test",
+                  class: "XII",
+                  group: "Science",
+                  subjects: "Bangla(23)"
+              },
+
+              {
+                  roll: 511,
+                  name: "Rubel",
+                  session: "2016-17",
+                  exam: "pre-Test",
+                  class: "XII",
+                  group: "Science",
+                  subjects: "Bangla(23)"
+              },
+
+              {
+                  roll: 511,
+                  name: "Rubel",
+                  session: "2016-17",
+                  exam: "pre-Test",
+                  class: "XII",
+                  group: "Science",
+                  subjects: "Bangla(23)"
+              },
+
+              {
+                  roll: 511,
+                  name: "Rubel",
+                  session: "2016-17",
+                  exam: "pre-Test",
+                  class: "XII",
+                  group: "Science",
+                  subjects: "Bangla(23)"
+              },
+
+              {
+                  roll: 511,
+                  name: "Rubel",
+                  session: "2016-17",
+                  exam: "pre-Test",
+                  class: "XII",
+                  group: "Science",
+                  subjects: "Bangla(23)"
+              },
+
+              {
+                  roll: 511,
+                  name: "Rubel",
+                  session: "2016-17",
+                  exam: "pre-Test",
+                  class: "XII",
+                  group: "Science",
+                  subjects: "Bangla(23)"
+              }
+          ]
+      }
+  }
+}
+</script>
+<style lang="scss" scoped>
+    
+</style>
