@@ -16,10 +16,7 @@
                 </div>
             </div>
 
-            <div class="w-96 h-80 my-4  bg-color-gray border-dotted border border-black flex flex-col justify-center items-center">
-                <img class="w-12 h-12" src="/icons/Shape.svg" alt="">
-                <h3 class="">Drop files to upload</h3>
-            </div>
+            <FileUpload />
             
             <div class="flex items-center justify-start gap-x-4 pb-20">
                 <div v-for="(buttonContent,index) in buttonContentsTwo" :key="index" class="">
@@ -34,12 +31,14 @@
 import ShowUrl from '~/components/shared/ShowUrl'
 import SelectInput from '~/components/shared/SelectInput'
 import ButtonDashboard from '~/components/shared/ButtonDashboard'
+import FileUpload from '~/components/dashboard/FileUpload'
 export default {
   components: {
 
       ShowUrl,
       SelectInput,
-      ButtonDashboard
+      ButtonDashboard,
+      FileUpload
   },
 
   data() {

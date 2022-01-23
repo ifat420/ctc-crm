@@ -1,23 +1,23 @@
 <template>
     <div class="sidebar box-shadow-dashboard" v-if="!mobileView">
         <div>
-            <ul class="flex flex-col gap-y-6 pl-6 pt-12 pb-6 border-bottom">
+            <ul class="flex flex-col gap-y-8 pl-6 pt-12 pb-6 border-bottom">
                 <li v-for="(menu,index) in menus" :key="index">
                     <Menu :showItems="showItems" :menu="menu"/>
                 </li>
             </ul>
         </div>
         <div>
-            <ul class="flex flex-col gap-y-6 p-6">
+            <ul class="flex flex-col gap-y-8 p-6">
                 <li>
                     <a href="" class="flex items-center gap-x-6">
-                        <img src="/dashboard/settings.svg" alt="">
+                        <img class="icon-width" src="/dashboard/settings.svg" alt="">
                         <p class="font">Settings</p>
                     </a>
                 </li>
                 <li>
                     <a href="" class="flex items-center gap-x-6">
-                        <img src="/dashboard/logout.svg" alt="">
+                        <img class="icon-width" src="/dashboard/logout.svg" alt="">
                         <p class="font">Logout</p>
                     </a>
                 </li>
