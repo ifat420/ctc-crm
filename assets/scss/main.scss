@@ -70,6 +70,37 @@ html {
 }
 
 
+.pagination {
+    display: flex;
+    // background-color: bisque;
+    align-items: center;
+    justify-content: flex-end;
+    column-gap: 20px;
+    padding: 50px 0px;
+
+
+}
+
+.pagination li {
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    padding: 7px 12px;
+}
+
+.pagination li a {
+    // background-color: rgb(226, 224, 224);
+    
+    padding: 7px 12px;
+
+
+}
+
+.pagination li.active {
+    background-color: #1890FF;
+    color: rgba(255, 255, 255, 1);
+}
+
+
 
 
 

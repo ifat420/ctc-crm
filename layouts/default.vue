@@ -1,7 +1,7 @@
 <template>
   <div class="default">
     <Header/>
-    <div class="grid grid-cols-1 sm:grid-cols-footer">
+    <div class="grid grid-cols-medium desktop:grid-cols-default">
       <Sidebar/>
       <Nuxt />
     </div>

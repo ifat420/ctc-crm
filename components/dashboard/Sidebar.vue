@@ -82,7 +82,7 @@ export default {
     },
     methods: {
         handleView(){
-            this.mobileView = window.innerWidth <= 640;
+            this.mobileView = window.innerWidth <= 1240;
             // console.log(this.mobileView, window.innerWidth);
         },
 
