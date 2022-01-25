@@ -3,18 +3,37 @@
 <div>
     <div class=" bg-color-body">
         <ShowUrl :content="mainContents"/>
-        <!-- <div class="px-6 py-6 bg-color-whiteTwo mt-6 ml-6 mr-6">
-            <div class="flex flex-wrap justify-between items-center pb-4">
-                <SelectInput />
-                <SelectInput />
-                <SelectInput />
-                <SelectInput />
+        <div class="px-6 py-6 bg-color-whiteTwo mt-6 ml-6 mr-6">
+            
+            <div class="flex flex-wrap justify-between items-center pb-4" >
+                <div v-for="(input,index) in inputs" :key="index">
+                    
+                    <SelectInput :input="input"/>
+                </div>
+            </div>
+
+
+
+            <div class="flex justify-start gap-x-4 pt-2 pb-6">
+              <div v-for="(radio,index) in radios" :key="index">
+                <div class="form-check">
+                  <input class="form-check-input rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault" :value="radio.value" v-model="picked" :id='radio.id'>
+                  <label class="form-check-label inline-block text-gray-800" :for="radio.id">
+                    {{ radio.value }}
+                  </label>
+                </div>
+              </div>
             </div> 
+
+            <h2>{{ picked }}</h2>
+
+
+
             <div class="flex items-center justify-start gap-x-4">
                 <button class="bg-color-black color-white flex items-center gap-x-6  px-4 py-2 font border-radius-button">Search</button>
                 <button class="bg-color-black color-white flex items-center gap-x-6  px-4 py-2 font border-radius-button">Reset</button>
             </div>
-          </div>    -->
+        </div>   
     </div>
 
 
@@ -23,7 +42,7 @@
       <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
         <div class="shadow overflow-hidden p-8 bg-color-whiteTwo sm:rounded-lg">
           <div class="flex justify-between pb-10">
-              <h4 class="pb-4 font">Subjectwise Statistics</h4>
+              <h4 class="pb-4 font">Search Result</h4>
               <div class="flex gap-x-4">
                   <button class="bg-color-black color-white flex items-center gap-x-6 px-4 py-2 font border-radius-button">Save</button>
                   <button class="bg-color-black color-white flex items-center gap-x-6 px-4 py-2 font border-radius-button">Print</button>
@@ -125,16 +144,56 @@ export default {
 
   data() {
       return {
-          buttonContents: ["Reset","Search"],
-          buttonContentsTwo: ["Save","Print"],
+          // buttonContents: ["Reset","Search"],
+          // buttonContentsTwo: ["Save","Print"],
+          picked: "",
           currentPage: 1,
           mainContents: {
-              folderName: "show-result",
-              compName: "subjectwise-statistics",
-              topicName: "Subjectwise Statistics"
+              folderName: "search-result",
+              compName: "search-result",
+              topicName: "Search Result"
           },
 
           shortListedData: this.computedTableData,
+          radios: [
+            { id:1, value: "all pass"},
+            { id:2, value: "one subject fail"},
+            { id:3, value: "two subject fail"},
+            { id:4, value: "three subject fail"},
+            { id:5, value: "four subject fail"}
+          ],
+          inputs: [
+              {
+                name: 'Session',
+                options: [
+                  { value: "2016-17" },
+                  { value: "2017-18" },
+                  { value: "2018-19" },
+                  { value: "2019-20" },
+                ]
+              },
+
+              {
+                name: 'Group',
+                options: [
+                  { value: "Science" },
+                  { value: "Arts" },
+                  { value: "Commerce" }
+                ]
+              },
+
+              {
+                name: 'Exam Name',
+                options: [
+                  { value: "test" },
+                  { value: "pre-test" },
+                  { value: "final" },
+                  { value: "mid-term" },
+                ]
+              }
+          ],
+
+          selectInputNames: ["session","exam name","group"],
 
           people: [
 

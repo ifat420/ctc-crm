@@ -77,6 +77,14 @@ export default {
                     url: "/file-upload/file-upload-history",
                     child: []
                 },
+
+                {
+                    img: "/dashboard/search.svg",
+                    name: "Search Result",
+                    url: "/search-result/search-result",
+                    child: []
+                }
+
             ]
         }
     },

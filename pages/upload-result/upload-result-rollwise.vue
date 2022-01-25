@@ -1,8 +1,8 @@
 <template>
     <div class=" bg-color-body">
         <ShowUrl :content="mainContents"/>
-        <div class="px-6 py-12 bg-color-whiteTwo m-6">
-            <div class="flex flex-wrap justify-between items-center">
+        <div class="px-6 py-6 bg-color-whiteTwo m-6">
+            <!-- <div class="flex flex-wrap justify-between items-center pb-4">
                 <SelectInput />
                 <SelectInput />
                 <SelectInput />
@@ -11,19 +11,13 @@
                 <SelectInput />
             </div> 
             <div class="flex items-center justify-start gap-x-4">
-                <div v-for="(buttonContent,index) in buttonContents" :key="index" class="">
-                    <ButtonDashboard :buttonContent="buttonContent" />
-                </div>
-            </div>
-            <!-- <div class="w-96 h-80 my-4  bg-color-gray border-dotted border border-black flex flex-col justify-center items-center">
-                <img class="w-12 h-12" src="/icons/Shape.svg" alt="">
-                <h3 class="">Drop files to upload</h3>
+                <button class="bg-color-black color-white flex items-center gap-x-6  px-4 py-2 font border-radius-button">Search</button>
+                <button class="bg-color-black color-white flex items-center gap-x-6  px-4 py-2 font border-radius-button">Reset</button>
             </div> -->
             <FileUpload />
             <div class="flex items-center justify-start gap-x-4 pb-20">
-                <div v-for="(buttonContent,index) in buttonContentsTwo" :key="index" class="">
-                    <ButtonDashboard :buttonContent="buttonContent" />
-                </div>
+                <button class="bg-color-black color-white flex items-center gap-x-6 px-4 py-2 font border-radius-button">Upload Files</button>
+                <button class="bg-color-black color-white flex items-center gap-x-6 px-4 py-2 font border-radius-button">Cancel</button>
             </div>
             
         </div>   
@@ -33,27 +27,22 @@
 <script>
 import ShowUrl from '~/components/shared/ShowUrl'
 import SelectInput from '~/components/shared/SelectInput'
-import ButtonDashboard from '~/components/shared/ButtonDashboard'
 import FileUpload from '~/components/dashboard/FileUpload'
 export default {
   components: {
 
       ShowUrl,
       SelectInput,
-      ButtonDashboard,
       FileUpload
   },
 
   data() {
       return {
-          buttonContents: ["Reset","Search"],
           mainContents: {
               folderName: "upload-result",
               compName: "upload-result-rollwise",
               topicName: "Upload Result Rollwise"
           },
-
-          buttonContentsTwo: ["Upload Files","Cancel"],
       }
   }
 }
