@@ -27,7 +27,7 @@
 
 <script>
 import ShowUrl from '~/components/shared/ShowUrl'
-import SelectInput from '~/components/shared/SelectInput'
+// import SelectInput from '~/components/shared/SelectInput'
 // import ButtonDashboard from '~/components/shared/ButtonDashboard'
 import FileUpload from '~/components/dashboard/FileUpload'
 export default {

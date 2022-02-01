@@ -15,7 +15,7 @@
                         <p class="font">Settings</p>
                     </a>
                 </li>
-                <li>
+                <li @click="logout">
                     <a href="" class="flex items-center gap-x-6">
                         <img class="icon-width" src="/dashboard/logout.svg" alt="">
                         <p class="font">Logout</p>
@@ -58,18 +58,39 @@ export default {
                 },
                 {
                     img: "/dashboard/upload.svg",
-                    name: "Upload Result",
+                    name: "Upload Student File",
                     url: "/",
                     child: [
                         {
-                            name: "Upload Result Subjectwise",
-                            url: '/upload-result/upload-result-subjectwise'
+                            name: "Upload Subject File",
+                            url: '/upload-student-file/upload-subject-information'
                         },
                         {
-                            name: "Upload Result Rollwise",
-                            url: '/upload-result/upload-result-rollwise'
+                            name: "Upload Student File",
+                            url: '/upload-student-file/upload-student-information'
+                        },
+                        {
+                            name: "Upload Marks Table",
+                            url: '/upload-student-file/upload-student-marks-table'
                         }
                     ]
+                },
+                {
+                    img: "/dashboard/reading.png",
+                    name: "Students",
+                    url: "/",
+                    child: [
+                        {
+                            name: "Students List",
+                            url: '/students/students-list'
+                        },
+                    ]
+                },
+                {
+                    img: "/dashboard/history.svg",
+                    name: "Publish Result",
+                    url: "/publish-result",
+                    child: []
                 },
                 {
                     img: "/dashboard/history.svg",
@@ -94,6 +115,11 @@ export default {
             // console.log(this.mobileView, window.innerWidth);
         },
 
+        logout() {
+            this.$auth.logout();
+            // this.$router.push('/login');
+        }
+
         
     },
 
@@ -112,5 +138,6 @@ export default {
     .easy {
         transition: all .5s ease-in-out;
     }
+
     
 </style>

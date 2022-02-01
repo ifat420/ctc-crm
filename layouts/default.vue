@@ -12,10 +12,13 @@
 import Header from '~/components/dashboard/Header'
 import Sidebar from '~/components/dashboard/Sidebar'
 export default {
+  middleware: ['auth'],
   components: {
     Header,
     Sidebar
-  }
+  },
+
+  
 }
 </script>
 

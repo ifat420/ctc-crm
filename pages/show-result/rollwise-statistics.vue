@@ -111,12 +111,12 @@
 
 <script>
 import ShowUrl from '~/components/shared/ShowUrl'
-import SelectInput from '~/components/shared/SelectInput'
+// import SelectInput from '~/components/shared/Input/SelectInput'
 import html2pdf from 'html2pdf.js'
 export default {
   components: {
       ShowUrl,
-      SelectInput
+      // SelectInput
   },
 
   data() {

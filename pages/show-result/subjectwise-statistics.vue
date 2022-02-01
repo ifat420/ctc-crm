@@ -108,7 +108,7 @@
 
 <script>
 import ShowUrl from '~/components/shared/ShowUrl'
-import SelectInput from '~/components/shared/SelectInput'
+// import SelectInput from '~/components/shared/SelectInput'
 // import TableSubWise from '~/components/dashboard/TableSubWise'
 
 
@@ -116,7 +116,7 @@ export default {
   components: {
 
       ShowUrl,
-      SelectInput,
+      // SelectInput,
      
   },
 
