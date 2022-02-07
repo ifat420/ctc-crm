@@ -2,19 +2,22 @@
   <div class="flex justify-between items-center box-shadow-dashboard p-6 relative">
             <div class="flex items-center gap-x-4">
                 <div class="shrink-0">
-                    <Logo />
+                    <LogoMomin />
                 </div>
-                <h1 class="text-sm font-bold">Client Name</h1>
+                <h1 class="text-sm font-bold">MUMINUNNISA GOVT. MOHILA COLLEGE</h1>
             </div>
             <div class="flex flex-col items-center gap-y-1 cursor-pointer" @click="showNavbar = true" :class="{'hide': showNavbar}">
                 <img src="/dashboard/Line.svg" alt="">
                 <img src="/dashboard/Line.svg" alt="">
                 <img src="/dashboard/Line.svg" alt="">
             </div>
-            <div class="cursor-pointer" @click="showNavbar=false" :class="{'hide': showNavbar==false}">
-                <img src="/dashboard/Fill.svg" alt="">
-            </div>
-            <div class="navbar absolute z-10 bg-white w-screen" :class="{'open':showNavbar}">
+            
+            <div class="navbar absolute z-10 bg-white w-full" :class="{'open':showNavbar}">
+                    
+                    <div class="cross-img cursor-pointer" @click="showNavbar=false" :class="{'hide': showNavbar==false}">
+                        <img src="/dashboard/Fill.svg" alt="">
+                    </div>
+
                     <div>
                         <ul class="flex flex-col gap-y-6 pl-6 pt-12 pb-6 border-bottom">
                             <li class="" v-for="(menu,index) in menus" :key="index">
@@ -43,12 +46,12 @@
 </template>
 
 <script>
-import Logo from "~/components/shared/Logo"
+import LogoMomin from "~/components/shared/LogoMomin"
 import Arrow from "~/components/shared/Arrow"
 import Menu from "~/components/shared/Menu"
 export default {
     components:{
-        Logo,
+        LogoMomin,
         Arrow,
         Menu
     },
@@ -107,13 +110,15 @@ export default {
 <style lang="scss" scoped>
     .navbar {
 
-        transform: translateX(100vw);
-        top: 63px;
+        transform: translateX(100%);
+        top: 0px;
         left: 0px;
-        margin-top: 25px;
-        height: calc(100vh - 88px);
+        // margin-top: 25px;
+        // height: calc(100vh - 88px);
+        height: 100vh;
         transition: transform .5s ease-in-out;
         // z-index: -1;
+        padding-top: 40px;
     }
 
     .open {
@@ -124,5 +129,12 @@ export default {
     .hide {
 
         display: none;
+    }
+
+    .cross-img {
+        margin-right: 30px;
+        margin-left: auto;
+        width: 30px;
+        padding-left: 5px;
     }
 </style>

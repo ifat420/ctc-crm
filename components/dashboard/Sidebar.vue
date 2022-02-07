@@ -1,5 +1,5 @@
 <template>
-    <div class="sidebar box-shadow-dashboard" v-if="!mobileView">
+    <div class="sidebar sidebar-main box-shadow-dashboard" v-if="!mobileView">
         <div>
             <ul class="flex flex-col gap-y-8 pl-6 pt-12 pb-6 border-bottom">
                 <li v-for="(menu,index) in menus" :key="index">
@@ -84,6 +84,10 @@ export default {
                             name: "Students List",
                             url: '/students/students-list'
                         },
+                        {
+                            name: "Create A Student",
+                            url: '/students/create-a-student'
+                        }
                     ]
                 },
                 {
@@ -112,6 +116,7 @@ export default {
     methods: {
         handleView(){
             this.mobileView = window.innerWidth <= 1240;
+            this.$emit("mobileView", this.mobileView);
             // console.log(this.mobileView, window.innerWidth);
         },
 
@@ -126,17 +131,27 @@ export default {
     mounted() {
         this.handleView();
         window.addEventListener('resize',this.handleView);
+        
     }
 }
 </script>
 
 <style lang="scss" scoped>
-    .sidebar {
-        height: calc(100vh - 96px);
-    }
+    // .sidebar {
+    //     height: calc(100vh - 96px);
+    // }
 
     .easy {
         transition: all .5s ease-in-out;
+    }
+
+    .sidebar-main {
+        position: fixed;
+        z-index: 1;
+        width: 340px;
+        height: 100%;
+        background-color: #FFFFFF;
+        top: 105px;
     }
 
     

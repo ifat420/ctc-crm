@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="flex justify-between items-center box-shadow-dashboard p-6 relative" v-if="!mobileView">
+    <div class="">
+        <div class=" flex justify-between items-center box-shadow-dashboard p-6 relative" v-if="!mobileView">
             <div class="flex items-center gap-x-4">
                 <div class="shrink-0">
                     <LogoMomin />
@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div v-else>
+        <div v-else >
             <MenuDrawer :mobileView="mobileView" :showNav="showNav"/>
         </div>    
     </div>
@@ -66,5 +66,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    .page-width {
+        width: 1400px;
+    }
+
     
 </style>

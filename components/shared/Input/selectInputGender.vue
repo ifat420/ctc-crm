@@ -1,5 +1,5 @@
 <template>
-    <div :class="{widthStyle : widthStyle}">
+  <div :class="{widthStyle : widthStyle}">
       
     
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
@@ -26,7 +26,7 @@
                 :class="{ shadowStudent : shadowStudent }"
                 >
             
-                    <option value="">Select Session</option>
+                    <option value="">Select Gender</option>
                     <option v-for="(option,index) in input.options" :key="index" :value="option.value">{{option.name}}</option>
                 </select>
                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -36,13 +36,12 @@
             </div>
        
     </div>
-    
 </template>
 
 <script>
 export default {
     props: ["input", "value", "widthStyle", "widthStudent", "shadowStudent", "marginBottom"],
-    
+
     data: () => ({
         selected: ""
     }),
@@ -59,7 +58,6 @@ export default {
             this.selected = val
         }
     }
-
 }
 </script>
 

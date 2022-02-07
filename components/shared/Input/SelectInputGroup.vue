@@ -4,7 +4,7 @@
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
             {{ input.name }}
         </label>
-        <div class="mb-3 relative width-main" :class="{widthSelect: widthStyle}">
+        <div class="mb-3 relative width-main" :class="{widthSelect: widthStyle, widthStudent: widthStudent, marginBottom: marginBottom}">
             <select class="form-select appearance-none
             capitalize
             width
@@ -21,7 +21,8 @@
             m-0
             focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example"
             v-model="selected"
-            @change="changedOption">
+            @change="changedOption"
+            :class="{ shadowStudent : shadowStudent }">
                 <option value="">Select Group</option>
                 <option v-for="(option,index) in input.options" :key="index" :value="option.value">{{option.name}}</option>
             </select>
@@ -35,7 +36,7 @@
 
 <script>
 export default {
-    props: ["input","value", "widthStyle"],
+    props: ["input","value", "widthStyle", "widthStudent", "shadowStudent", "marginBottom"],
     
     data(){
         return {
@@ -63,7 +64,7 @@ export default {
     }
 
     .width-main {
-        width: 250px;
+        width: 350px;
         max-width: 100%;
     }
 
@@ -74,5 +75,21 @@ export default {
 
     .widthSelect {
         width: 100%;
+    }
+
+    .widthStudent {
+        width: 100%;
+    }
+
+    .shadowStudent {
+        
+        box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.05);
+        border: none;
+        padding: 10px 12px;
+        border-radius: 7px;
+    }
+
+    .marginBottom {
+        margin-bottom: 0px;
     }
 </style>

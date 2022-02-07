@@ -206,7 +206,7 @@ export default {
 
   mounted() {
     console.log('this.$route :>> ', this.$route);
-    if(this.$route && this.$route.query) this.postStudentInformation(this.$route.query)
+    if(this.$route && this.$route.query) this.postStudentInformation(this.$route.query);
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-color-gray flex flex-col">
+  <div class=" flex flex-col">
     <div class="box-shadow-dashboard bg-color-whiteTwo py-6">
       <h2 class="px-7 font font-bold">File Upload History</h2>
     </div>

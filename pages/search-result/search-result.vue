@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="bg-color-body">
+    <div class="">
       <ShowUrl :content="mainContents" />
-      <div class="px-6 py-6 bg-color-whiteTwo mt-6 ml-6 mr-6">
+      <div class="px-6 py-6 bg-color-whiteTwo mt-6 ml-6 mr-6 box-shadow-dashboard sm:rounded-lg">
         <div class="flex flex-wrap justify-between items-center pb-4">
             <div>
               <SelectInputSession :value="student.session" :input="sessionList" @hello="sessionChanged"/>
@@ -51,7 +51,7 @@
         </div>
   
         <div>
-          <div class="flex  justify-start gap-x-4 pt-2 pb-6">
+          <div class="flex flex-wrap justify-start gap-x-4 pt-2 pb-6">
             <div v-for="(radio, index) in radios" :key="index">
               <div class="form-check">
                 <input
@@ -94,42 +94,26 @@
 
         <div class="flex items-center justify-start gap-x-4">
           <button
-            class="
-              bg-color-black
-              color-white
-              flex
-              items-center
-              gap-x-6
-              px-4
-              py-2
-              font
-              border-radius-button
-            "
+            class="btn block rounded-lg font relative"
+            :disabled="is('postResult')"
             @click.prevent="showAll"
           >
             Search
+            <span :class="{'load loading': is('postResult') }"></span>
           </button>
           <button
-            class="
-              bg-color-black
-              color-white
-              flex
-              items-center
-              gap-x-6
-              px-4
-              py-2
-              font
-              border-radius-button
-            "
+            class="btn block rounded-lg font relative"
+            :disabled="startLoading"
             @click.prevent="resetAll"
           >
             Reset
+            <span :class="{'load loading': startLoading }"></span>
           </button>
         </div>
       </div>
     </div>
 
-    <div class="bg-color-gray flex flex-col">
+    <div class=" flex flex-col">
       <div class="-my-2 sm:-mx-6 lg:-mx-8 p-8">
         <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
           <div
@@ -140,8 +124,7 @@
               <div class="flex gap-x-4" v-if="showButton">
                 <button
                   class="
-                    bg-color-black
-                    color-white
+                    btn
                     flex
                     items-center
                     gap-x-6
@@ -155,8 +138,7 @@
                 </button>
                 <button
                   class="
-                    bg-color-black
-                    color-white
+                    btn
                     flex
                     items-center
                     gap-x-6
@@ -185,17 +167,6 @@
               </div>
             </div>
 
-            <!-- <paginate
-              :page-count="5"
-              :page-range="4"
-              v-model="currentPage"
-              :click-handler="goToPage"
-              :prev-text="'Prev'"
-              :next-text="'Next'"
-              :container-class="'pagination'"
-              :page-class="'page-item'"
-            >
-            </paginate> -->
           </div>
         </div>
       </div>
@@ -224,6 +195,7 @@ export default {
 
   data() {
     return {
+      startLoading: false,
       
       dummydata: [
     {
@@ -340,7 +312,7 @@ export default {
 
   computed: {
     ...mapState(["session","group","class","result"]),
-    // ...mapGetters(["getSessionList"]),
+    ...mapGetters(["is","isError"]),
 
 
 
@@ -348,15 +320,6 @@ export default {
       this.active = true;
       return this.resultData = this.result;
     },
-
-    // computedTableData() {
-    //   if (!this.people) return [];
-    //   else {
-    //     const firstIndex = (this.currentPage - 1) * 4;
-    //     const lastIndex = this.currentPage * 4;
-    //     return this.people.slice(firstIndex, lastIndex);
-    //   }
-    // },
 
     sessionList() {
       let obj = {}
@@ -451,6 +414,7 @@ export default {
     },
 
     resetAll() {
+      this.startLoading = true;
       this.student.session = ""
       this.student.class = ""
       this.student.exam_name = ""
@@ -458,6 +422,7 @@ export default {
       this.student.search_type = "allpass"
       this.resultData.length=0;
       this.showButton = false;
+      this.startLoading = false;
     }
   },
 
@@ -484,7 +449,7 @@ export default {
     }
 
     .width-main {
-        width: 250px;
+        width: 350px;
         max-width: 100%;
     }
 

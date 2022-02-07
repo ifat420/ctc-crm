@@ -1,10 +1,14 @@
 <template>
-    <div class="flex justify-start gap-y-4 flex-col relative">
-        <div class="flex items-center cursor-pointer main" @click="showDropdown">
-            <nuxt-link :to="menu.url" class="flex items-center gap-x-6 w-full" :class="{ activate: menu.child.length <= 0}">
+    <div class="zero flex justify-start gap-y-4 flex-col relative">
+        <div class="first flex items-center cursor-pointer main" @click="showDropdown">
+            <nuxt-link v-if="menu.child.length <= 0" :to="menu.url" class="flex items-center gap-x-6 w-full" :class="{ activate: menu.child.length <= 0}">
                 <img class="menu-img" :src="menu.img" alt="">
                 <p class="font menu-color">{{ menu.name }}</p>
             </nuxt-link>
+            <div class="flex items-center gap-x-6 w-full" v-else>
+                <img class="menu-img" :src="menu.img" alt="">
+                <p ref="para" class="second font menu-color">{{ menu.name }}</p>
+            </div>
             <div class="arrow-one ml-auto mr-4 cursor-pointer p-3" :class="{rotate: this.showItem==true}" v-if="menu.child.length > 0">
                 <Arrow />
             </div>
@@ -26,6 +30,7 @@
 
 <script>
 import Arrow from "~/components/shared/Arrow"
+import { getCurrentInstance} from "vue";
 export default {
     components: {
         Arrow
@@ -42,7 +47,42 @@ export default {
     methods: {
         showDropdown(e) {
             this.showItem = !this.showItem;
-        }
+        },
+
+        // handleLink(event) {
+        //     console.log("Event",event);
+
+        //     console.log("hello",event.path);
+        //     const path = event.path;
+        //     let gotyou = document.querySelectorAll('.gotyou');
+        //     if ( gotyou.length) {
+        //         console.log("xxxxx",gotyou[0].classList);
+        //         let list = gotyou[0].classList;
+        //        list.splice(3,1);
+        //     }
+
+
+        //     // const pathLength = event.path.length;
+        //     const pathLength = 8;
+        //     console.log(pathLength);
+
+        //     for (let i = 0; i< pathLength; i++) {
+                
+        //             for (let j =0; j< pathLength; j++) {
+        //                 if (path[j].className.includes('zero') && path[i].className.includes('nuxt-link-exact-active')) {
+        //                     console.log("this element",path[i].className);
+        //                     console.log("this element",path[i].childNodes[0].childNodes[0].childNodes[2]);
+        //                     const item = path[j].childNodes[0].childNodes[0].childNodes[2].classList;
+        //                     item.add('gotyou');
+        //                 }
+        //             }
+                    
+                
+                   
+        //     }
+
+            
+        // }
     }
 }
 </script>
@@ -102,6 +142,14 @@ export default {
     .activate {
         padding: 10px;
         padding-left: 0px;
+    }
+
+    // .border-bottom-menu {
+    //     border-bottom: 1px solid black;
+    // }
+
+    .gotyou {
+        border-bottom: 1px solid black;
     }
 
     

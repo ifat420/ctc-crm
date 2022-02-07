@@ -29,6 +29,7 @@ export default {
     
     { src: '~plugins/paginate.js', ssr: false },
     { src: '~/plugins/vuelidate', ssr: true },
+    { src: '~/plugins/vue-good-table', ssr: false }
     
   ],
 
@@ -39,7 +40,13 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+
+    // Simple usage
+    '@nuxtjs/moment',
+
+    // With options
+    ['@nuxtjs/moment', { /* module options */ }]
   ],
 
   styleResources: {
@@ -60,7 +67,7 @@ export default {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: 'http://localhost:4000',
   },
-
+  
 
   auth: {
     strategies: {
@@ -92,5 +99,6 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+
   }
 }

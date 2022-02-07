@@ -99,7 +99,7 @@ export default {
 
         async login() {
             this.$v.$touch();
-            if (!this.$v.user.password.minLength == false){
+            if (!this.$v.user.password.minLength == false && this.$v.user.email.$anyError == false){
                 await this.loginAction(this.user);
             }
         }

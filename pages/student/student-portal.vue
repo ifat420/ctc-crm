@@ -10,10 +10,22 @@
 
             <form class="w-full flex flex-col" @submit.prevent="showSingleStudentData">
 
-                <div class="flex flex-wrap justify-between items-center ">
-                    <SelectInputSession :widthStyle="widthStyle" :value="student.session" :input="sessionList" @hello="sessionChanged"/>
-                    <SelectInputExamName :widthStyle="widthStyle" :value="student.exam_name" :input="examsList" @hello="examChanged"/>
-                    <SelectInputGroup :widthStyle="widthStyle" :value="student.group" :input="groupList" @hello="groupChanged"/>
+                <div class="flex flex-wrap justify-between items-center gap-y-2">
+                   
+                      <SelectInputSession :widthStyle="widthStyle" :value="student.session" :input="sessionList" @hello="sessionChanged"/>
+                      <span v-if="!$v.student.session.required && $v.student.session.$dirty" class="error pb-3">*Session is required</span>
+                    
+
+                    
+                      <SelectInputExamName :widthStyle="widthStyle" :value="student.exam_name" :input="examsList" @hello="examChanged"/>
+                      <span v-if="!$v.student.exam_name.required && $v.student.exam_name.$dirty" class="error pb-3">*Exam Name is required</span>
+                    
+                    
+                   
+                      <SelectInputGroup :widthStyle="widthStyle" :value="student.group" :input="groupList" @hello="groupChanged"/>
+                      <span v-if="!$v.student.group.required && $v.student.group.$dirty" class="error pb-3">*Group is required</span>
+                   
+
                 </div>
 
                 <div class="pb-4">
@@ -22,18 +34,14 @@
                   </label>
                   <input class="sm:shadow-sm w-full py-3 px-3 rounded focus:outline-none font box-shadow" type="text" placeholder="Roll Number" v-model="student.roll_number">
                 </div>
+                <span v-if="!$v.student.roll_number.required && $v.student.roll_number.$dirty" class="error pb-3">*Roll Number is required</span>
                 
                 <button
-                  class="
-                    bg-color-black
-                    color-white
-                    block
-                    p-3
-                    font
-                    border-radius-button
-                  "
+                  class="btn px-4 block rounded-lg py-4 font relative"
+                  :disabled="is('postStudentInformation')"
                 >
                   Submit
+                  <span :class="{'load loading': is('postStudentInformation') }"></span>
                 </button>
             </form>
             
@@ -43,6 +51,7 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex'
+import { required, minLength, email } from 'vuelidate/lib/validators'
 import LogoMomin from '~/components/shared/LogoMomin'
 import SelectInputSession from "~/components/shared/Input/SelectInputSession";
 import SelectInputGroup from "~/components/shared/Input/SelectInputGroup";
@@ -77,8 +86,27 @@ export default {
         }
     },
 
+    validations: {
+
+            student: {
+                session: {
+                    required
+                },
+                exam_name: {
+                    required
+                },
+                group: {
+                    required
+                },
+                roll_number: {
+                    required
+                }
+            }
+        },
+
     computed: {
       ...mapState(["session","exams","group"]),
+      ...mapGetters(["is","isError"]),
 
       sessionList() {
           let obj = {}
@@ -150,9 +178,13 @@ export default {
       },
 
       async showSingleStudentData() {
-        console.log(this.student);
-        this.postStudentInformation(this.student);
-        this.$router.push({ path: "/student/show-student-info" , query: this.student});
+        this.$v.$touch();
+        if (this.$v.student.session.$anyError == false && this.$v.student.group.$anyError == false && this.$v.student.exam_name.$anyError == false && this.$v.student.roll_number.$anyError == false) {
+          await this.postStudentInformation(this.student);
+          this.$router.push({ path: "/student/show-student-info" , query: this.student });
+        }
+        
+        
       }
     },
 

@@ -1,14 +1,14 @@
 <template>
-  <div class="bg-color-body">
+  <div class="">
     <ShowUrl :content="mainContents" />
-    <div class="px-6 py-6 bg-color-whiteTwo m-6">
+    <div class="px-6 py-6 bg-color-whiteTwo m-6 box-shadow-dashboard sm:rounded-lg">
       <!-- ................... Select Option ................................. -->
 
       <form
         class="w-full flex flex-col"
-        @submit.prevent="showSingleStudentData"
+        @submit.prevent="uploadMarksFile"
       >
-        <div class="flex flex-wrap justify-between gap-6 items-center">
+        <div class="flex flex-wrap gap-6 justify-between pb-8">
           <div>
               <SelectInputSession
               :widthStyle="widthStyle"
@@ -60,91 +60,82 @@
               <span v-if="!$v.student.group.required && $v.student.group.$dirty" class="error">*Group is required</span>
           </div>
         </div>
-      </form>
+      
 
       <!-- ...................File Upload ............................... -->
 
-      <div>
-        <div
-        class="flex w-full h-96 mt-16 mb-10 items-center justify-center bg-color-gray"
-      >
-        <label
-          class="
-            w-full
-            h-full
-            justify-center
-            flex flex-col
-            items-center
-            px-4
-            py-6
-            bg-white
-            text-cyan-500
-            rounded-lg
-            shadow-lg
-            tracking-wide
-            uppercase
-            border border-blue
-            cursor-pointer
-            hover:text-blue
-          "
-        >
-          <svg
-            class="w-8 h-8"
-            fill="currentColor"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-          >
-            <path
-              d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z"
-            />
-          </svg>
-          <span class="mt-2 text-base leading-normal">Select a file</span>
-          <input
-            type="file"
-            class="block pl-20 pt-5 cursor-pointer"
-            id="inputFile"
-            @change="handleFileUpload"
-          />
-        </label>
 
-        
-      </div>
-      <span v-if="hasFile == false" class="error">*File is required</span>
+      <div class="max-w-md bg-white rounded-lg overflow-hidden box-shadow md:max-w-lg">
+                <div class="md:flex">
+                    <div class="w-full">
+                        <div class="p-4 border-b-2"> <span class="text-gray-700 text-xs font-bold uppercase tracking-wide">Add files</span> </div>
+                        <div class="p-3">
+
+                            <div class="mb-2"> 
+                                <div class="relative h-40 rounded-lg border-dashed border-2 border-gray-200 bg-white flex justify-center items-center hover:cursor-pointer my-6">
+                                    <div class="absolute">
+                                        <div class="flex flex-col items-center "> 
+                                            <i class="fa fa-cloud-upload fa-3x text-gray-200"></i> 
+                                            <span class="block text-gray-400 font-normal">Attach you files here</span> 
+                                            <span class="block text-gray-400 font-normal">or</span> 
+                                            <span class="block text-blue-400 font-normal">Browse files</span> 
+                                        </div>
+                                    </div> 
+
+                                    <input type="file" class="h-full w-full opacity-0" name="" id="inputFile" @change="handleFileUpload">
+
+                                </div>
+                                <div class="flex justify-between items-center text-gray-400"> 
+                                    <span>{{ fileName }}</span> 
+                                    <span class="flex items-center ">
+                                        <i class="fa fa-lock mr-1"></i> secure
+                                    </span> 
+                                </div>
+                            </div>
+                            
+
+                        </div>
+                    </div>
+                </div>
       </div>
 
-      <div>
-        <div class="flex items-center justify-start gap-x-4 pb-20 pt-8">
-          <button
-            class="
-              bg-color-black
-              color-white
-              flex
-              items-center
-              gap-x-6
-              px-4
-              py-2
-              font
-              border-radius-button
-            "
-            @click="uploadMarksFile">
-            Upload Files
-          </button>
-          <span class="success capitalize pl-8" v-if="isError('marksFileUpload') && isError('marksFileUpload').has_error == false">{{ marksFileUploadResponse.message }}</span>
-        </div>
-        
+      <span v-if="fileRequired" class="error">*File is required</span>
+
+      <div v-if="!fileRequired && marksFileUploadResponse && marksFileUploadResponse.message" class="pt-3">
+          <h1 class="font success">{{marksFileUploadResponse.message}}</h1>
       </div>
       
+      <div v-if="isError('marksFileUpload')  && isError('marksFileUpload').has_error" class="pt-3">
+          <h1 class="font text-red-600"> {{ isError('marksFileUpload').error }} </h1>
+      </div>
+
+      <div class="flex items-center justify-start gap-x-4 py-8">
+          <button
+            class="btn block rounded-lg font relative"
+            :disabled="is('marksFileUpload')"
+            >
+            Upload Files
+            <span :class="{'load loading': is('marksFileUpload') }"></span>
+          </button>
+      <div>
+
+      </div>
+    </div>
+    </form>
     </div>
   </div>
 </template>
 
 <script>
+
 import { mapActions, mapState, mapGetters } from "vuex";
 import { required, minLength, email } from 'vuelidate/lib/validators'
+
 import ShowUrl from "~/components/shared/ShowUrl";
 import SelectInputSession from "~/components/shared/Input/SelectInputSession";
 import SelectInputGroup from "~/components/shared/Input/SelectInputGroup";
 import SelectInputExamName from "~/components/shared/Input/SelectInputExamName";
+
 export default {
   components: {
     ShowUrl,
@@ -161,9 +152,10 @@ export default {
         topicName: "Upload Marks Table",
       },
 
-      fileUploadSuccess: false,
+      hasFile: false,
+      fileRequired: false,
       widthStyle: false,
-      hasFile: false, 
+
       student: {
         session: "",
         exam_name: "",
@@ -171,6 +163,10 @@ export default {
         uploadedMarksFile: "",
         file: ""
       },
+
+      fileName: "",
+      fileMain: null,
+      formData: {},
 
       examNames:[
               {
@@ -252,38 +248,60 @@ export default {
     },
 
     handleFileUpload(event) {
-      if (event.target.files.length <= 0) {
-        this.hasFile = false
-        return
-      }
+      console.log("hello");
+      this.hasFile = true;
+      if (this.hasFile) this.fileRequired = false
+      else this.fileRequired = true
 
-      this.hasFile = true
+
       let file = event.target.files[0];
+      console.log("File",file);
       this.student.file = file;
-      let formData = new FormData();
-      formData.append("file", file);
+      if (file) {
+        this.fileName = file.name;
+      }
+      
+      this.formData = new FormData();
+      this.formData.append("file", file);
 
-      formData.append("session", this.student.session);
-      formData.append("group", this.student.group);
-      formData.append("exam_name", this.student.exam_name);
-      this.student.uploadedMarksFile = formData;
+      this.formData.append("session", this.student.session);
+      this.formData.append("group", this.student.group);
+      this.formData.append("exam_name", this.student.exam_name);
+      console.log("Total 4 on handle",this.formData);
+     
     },
 
     async uploadMarksFile() {
-      this.$v.$touch();
-        if (this.$v.student.session.$anyError == false && this.$v.student.group.$anyError == false && this.$v.student.exam_name.$anyError == false) {
-                await this.marksFileUpload(this.student.uploadedMarksFile);
-                console.log(this.student.uploadedMarksFile);
-            }
-      
-      var oldInput = document.getElementById("inputFile");
-      var newInput = document.createElement("input");
 
-      newInput.type = "file";
-      newInput.id = oldInput.id;
-      newInput.className = oldInput.className;
-      newInput.style.cssText = oldInput.style.cssText;
-      oldInput.parentNode.replaceChild(newInput, oldInput);
+      this.$v.$touch();
+      if (this.hasFile) this.fileRequired = false
+      else this.fileRequired = true
+      if (this.fileRequired) return
+      
+      
+      if (!this.formData.get('file')) {
+          this.fileRequired = true
+          return
+      }
+
+      
+      if (this.$v.student.session.$anyError == false && this.$v.student.group.$anyError == false && this.$v.student.exam_name.$anyError == false ) {
+              await this.marksFileUpload(this.formData);
+              console.log("TOTAL 4 FILES UPLOADED",this.formData);
+              this.formData = new FormData();
+              
+          }
+
+      this.fileName = null
+      
+      // var oldInput = document.getElementById("inputFile");
+      // var newInput = document.createElement("input");
+
+      // newInput.type = "file";
+      // newInput.id = oldInput.id;
+      // newInput.className = oldInput.className;
+      // newInput.style.cssText = oldInput.style.cssText;
+      // oldInput.parentNode.replaceChild(newInput, oldInput);
 
       
     },
@@ -308,7 +326,7 @@ export default {
     }
 
     .width-main {
-        width: 250px;
+        width: 350px;
         max-width: 100%;
     }
 

@@ -1,25 +1,13 @@
 <template>
 
 <div>
-    <div class=" bg-color-body">
+    <div class="">
         <ShowUrl :content="mainContents"/>
-        <!-- <div class="px-6 py-6 bg-color-whiteTwo mt-6 ml-6 mr-6">
-            <div class="flex flex-wrap justify-between items-center pb-4">
-                <SelectInput />
-                <SelectInput />
-                <SelectInput />
-                <SelectInput />
-            </div> 
-            <div class="flex items-center justify-start gap-x-4">
-                <button class="bg-color-black color-white flex items-center gap-x-6  px-4 py-2 font border-radius-button">Search</button>
-                <button class="bg-color-black color-white flex items-center gap-x-6  px-4 py-2 font border-radius-button">Reset</button>
-            </div>
-          </div>    -->
     </div>
 
 
-    <div class="bg-color-gray flex flex-col">
-    <div class="-my-2  sm:-mx-6 lg:-mx-8  p-8">
+    <div class=" ">
+    <div class="my-2  sm:-mx-6 lg:-mx-8 p-8">
       <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
         <div class="shadow overflow-hidden p-8 bg-color-whiteTwo sm:rounded-lg">
           <div class="flex justify-between pb-10">

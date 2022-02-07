@@ -1,136 +1,148 @@
 <template>
-  <div class="bg-color-body">
+  <div class="">
     <ShowUrl :content="mainContents" />
 
-    <div class="px-6 py-6 bg-color-whiteTwo m-6">
+    <div class="px-6 py-6 bg-color-whiteTwo m-6 box-shadow-dashboard sm:rounded-lg">
         <form
         class="w-full flex flex-col"
         >
             <div class="flex flex-wrap justify-between gap-6 items-center">
-            <div>
-                <SelectInputSession
-                :widthStyle="widthStyle"
-                :value="student.session"
-                :input="sessionList"
-                @hello="sessionChanged"
-                /> 
-            </div>
+                <div>
+                    <SelectInputSession :value="student.session" :input="sessionList" @hello="sessionChanged"/>
+                    <span v-if="!$v.student.session.required && $v.student.session.$dirty" class="error">*Session is required</span>
+                </div>
             </div>
         </form>
+
+        <div v-if="isError('getStudentsList')  && isError('getStudentsList').has_error" class="pt-3">
+            <h1 class="font text-red-600"> {{ isError('getStudentsList').error }} </h1>
+        </div>
+
         <div>
             <div class="flex items-center justify-start gap-x-4 pb-4 pt-8">
             <button
-                class="
-                bg-color-black
-                color-white
-                flex
-                items-center
-                gap-x-6
-                px-4
-                py-2
-                font
-                border-radius-button
-                "
+                class="btn block rounded-lg font relative"
+                :disabled="is('getStudentsList')"
                 @click="uploadInfo">
                 Show Students List
+                <span :class="{'load loading': is('getStudentsList') }"></span>
             </button>
             </div>
             
         </div>
     </div>
     
-    <div class="flex my-8 justify-center items-center bg-white mx-6">
-        <input class="sm:shadow-sm w-full py-3 px-3 rounded focus:outline-none font box-shadow" type="text" v-model="query" placeholder="Search"/>
-        <button @click="search()" >Search</button>
-    </div>
-    
 
 
-    <div class="flex my-8 justify-center items-center bg-white mx-6" v-if="studentsList && studentsList.length">
+    <div class="my-8 bg-white mx-6" v-if="studentsList && studentsList.length">
         <div class="p-6 sm:shadow-xm">
-            <table class="w-full flex flex-row flex-no-wrap sm:bg-white sm:py-4 rounded-lg overflow-hidden  my-5">
-                <thead  class="text-black">
-                    <tr class="bg-teal-400 flex flex-col flex-no wrap sm:table-row sm:rounded-none mb-2 sm:mb-0" v-for="(table,index) in tableSizeSmall" :key="index">
-                        <th class="p-3 text-left border td-height" v-for="(head,index) in tableHead" :key="index">
-                            {{ head }}
-                        </th>
-                    </tr>
-                </thead>
-
-
-
-                <tbody class="flex-1 sm:flex-none" v-if="studentsList && studentsList.length">
-                    <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0 border" v-for="(student,index) in studentsList" :key="index">
-                        <td class="border-grey-light border sm:border-1 hover:bg-gray-100 p-3 td-height">
-                            {{ student.roll_number }}
-                        </td>
-                        <td class="border-grey-light border sm:border-1 hover:bg-gray-100 p-3 td-height">
-                            {{ student.group }}
-                            
-                        </td>
-                        
-                        <td class="border-grey-light border sm:border-1 hover:bg-gray-100 p-3 td-height">
-                            {{ student.first_name }}
-                        </td>
-                        <td  class="border-grey-light border sm:border-1 hover:bg-gray-100 p-3 td-height">
-                            {{ student.reg_number  }}
-                        </td>
-                        <td class="border-grey-light border sm:border-1 hover:bg-gray-100 p-3 td-height">
-                            {{ student.session }}
-                        </td>
-                        <td class="border-grey-light border sm:border-1 hover:bg-gray-100 p-3 td-height">
-                            {{ student.gender }}
-                        </td>
-                        <td class="border-grey-light border sm:border-1 hover:bg-gray-100 p-3 td-height">
-                            {{ student.class }}
-                        </td>
-                        <td class="border-grey-light border sm:border-1 hover:bg-gray-100 p-3 td-height">
-                            {{ student.forth_subject_name }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div> 
+                <vue-good-table
+                :columns="columns"
+                :rows="studentsList" 
+                :search-options="{
+                    enabled: true
+                }"
+                :pagination-options="{
+                    enabled: true,
+                    perPage: 5,
+                    mode: 'pages'
+                }"
+                >
+                </vue-good-table>
+            </div> 
         </div>
     </div>
-    <!-- <div class="flex my-8 justify-center items-center bg-white mx-6"> -->
-            
-        <!-- </div> -->
 
   </div>
 </template>
 
 <script>
 import ShowUrl from "~/components/shared/ShowUrl";
+import { required, minLength, email } from 'vuelidate/lib/validators'
 import { mapActions, mapState, mapGetters } from "vuex";
 import SelectInputSession from "~/components/shared/Input/SelectInputSession";
 export default {
 
+
+
     components: {
         ShowUrl,
-        SelectInputSession
+        SelectInputSession,
     },
+
+
 
     data() {
-    return {
 
-        query: "",
-        originalRows: [],
-        rows: this.studentsList,
-        tableHead: ["Roll No.", "Group", "Name", "Registration No.", "Session", "Gender", "Class", "Fourth Subject"],
-        mainContents: {
-            folderName: "students",
-            compName: "students-list",
-            topicName: "Students List",
-        },
-        widthStyle: false,
-        student: {
-            session: ""
+        return {
+
+            rows: this.studentsList,
+            columns: [
+                {
+                    
+                    label: "Roll",
+                    field: 'roll_number',
+                    type: 'number'
+                },
+                {
+                    label: "Group",
+                    field: "group",
+                },
+                {
+                    label: "Name",
+                    field: "first_name",
+                },
+                {
+                    label: "Registration No.",
+                    field: "reg_number",
+                    type: 'number'
+                },
+                {
+                    label: "Session",
+                    field: "session"
+                },
+                {
+                    label: "Gender",
+                    field: "gender"
+                },
+                {
+                    label: "Class",
+                    field: "class"
+                },
+                {
+                    label: "Fourth Subject",
+                    field: "forth_subject_name"
+                }
+            ],
+            tableHead: ["Roll No.", "Group", "Name", "Registration No.", "Session", "Gender", "Class", "Fourth Subject"],
+            mainContents: {
+                folderName: "students",
+                compName: "students-list",
+                topicName: "Students List",
+            },
+            widthStyle: false,
+            student: {
+                session: ""
+            }
         }
-      }
     },
+
+    validations: {
+
+        student: {
+            session: {
+                required
+            }
+        }
+    },
+
+
+
 
     computed: {
         ...mapState(["session","studentsList"]),
+        ...mapGetters(["is","isError"]),
 
         tableSizeSmall(){
             if (this.studentsList && this.studentsList.length) {
@@ -138,11 +150,8 @@ export default {
             }
         },
 
-        rowsTable(){
-            return this.studentsList;
-        },
-
         sessionList() {
+
             let obj = {};
             obj.name = "Session";
             obj.options = [];
@@ -156,8 +165,11 @@ export default {
                 });
             }
             return obj;
-            },
+        },
     },
+
+
+
 
     methods: {
         ...mapActions(["getSession","getStudentsList"]),
@@ -168,43 +180,17 @@ export default {
         },
 
         async uploadInfo() {
-            await this.getStudentsList(this.student);
-            console.log(this.studentsList);
+            this.$v.$touch();
+            
+            if (this.$v.student.session.$anyError == false) {
+                await this.getStudentsList(this.student);
+            }
         },
 
-        search() {
-            var results = [];
-            var searchData = this.studentsList;
-            if(this.query == ""){
-                this.rows = this.rowsTable;
-            }
-
-            else {
-                for (var i=0; i<searchData.length; i++) {
-                    var sparam = this.query.toLowerCase();
-                    for(var key in searchData[i])  {
-                        if (searchData[i].hasOwnProperty(key)) {
-                            var value = searchData[i][key];
-                            if(typeof value =="string" && value.toLowerCase().indexOf(sparam) >=0){
-                                results.push(searchData[i]);
-                            }
-                        }
-                    }
-                }
-                this.rows = results;
-            }
-        }
     },
-
-    watch : {
-         query () {
-             this.search();
-         }
-     },
 
     async mounted() {
         await this.getSession();
-        this.rows = this.studentsList;
     },
 
   }

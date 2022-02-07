@@ -1,33 +1,69 @@
 <template>
     
-    <div class=" bg-color-body">
+    <div class="">
         <ShowUrl :content="mainContents"/>
-        <div class="px-6 py-6 bg-color-whiteTwo m-6">
+        <div class="px-6 py-6 bg-color-whiteTwo m-6 box-shadow-dashboard">
 
             <!-- ...................File Upload ............................... -->
+            <form ref="formFile" @submit.prevent="uploadSubjectFile">
+            <div class="max-w-md bg-white rounded-lg overflow-hidden box-shadow md:max-w-lg">
+                <div class="md:flex">
+                    <div class="w-full">
+                        <div class="p-4 border-b-2"> 
+                            <span class="text-gray-700 text-xs font-bold uppercase tracking-wide">Add files</span> 
+                        </div>
+                        <div class="p-3">
 
-            <div class="flex w-full h-96 my-16 items-center justify-center bg-color-gray">
-                <label class="w-full h-full justify-center flex flex-col items-center px-4 py-6 bg-white text-cyan-500 rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer  hover:text-blue">
-                    <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-                    </svg>
-                    <span class="mt-2 text-base leading-normal">Select a file</span>
-                    <input type='file' class="block pl-20 pt-5 cursor-pointer" id="inputFile" @change="handleFileUpload" />
-                </label>
+                            <div class="mb-2"> 
+                                <div class="relative h-40 rounded-lg border-dashed border-2 border-gray-200 bg-white flex justify-center items-center hover:cursor-pointer my-6">
+                                    <div class="absolute">
+                                        <div class="flex flex-col items-center "> 
+                                            <i class="fa fa-cloud-upload fa-3x text-gray-200"></i> 
+                                            <span class="block text-gray-400 font-normal">Attach you files here</span> 
+                                            <span class="block text-gray-400 font-normal">or</span> 
+                                            <span class="block text-blue-400 font-normal">Browse files</span> 
+                                        </div>
+                                    </div> 
+                                    
+
+                                    <input type="file" class="h-full w-full opacity-0" ref="fileUpload" id="inputFile" @change="handleFileUpload">
+
+                                </div>
+                                <div class="flex justify-between items-center text-gray-400"> 
+                                    <span class="font success">{{ fileName }}</span>
+                                    <span class="flex items-center ">
+                                        <i class="fa fa-lock mr-1"></i> secure
+                                    </span> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div v-if="fileUploadSuccess" class="pb-6 flex justify-center">
-                <h1 class="font ">File uploaded successfully!</h1>
+            <!-- document.getElementById('inputFile').click() -->
+
+            <span v-if="fileRequired" class="error">*File is required</span>
+
+            <span class="success" v-if=" !fileRequired && subjectFileUploadResponse && subjectFileUploadResponse.message">{{ subjectFileUploadResponse.message }}</span>
+
+            <div v-if="isError('subjectFileUpload')  && isError('subjectFileUpload').has_error" class="pt-3">
+                <h1 class="font text-red-600"> {{ isError('subjectFileUpload').error }} </h1>
             </div>
 
-            <!-- <div v-if="isError('studentsFileUpload')  && isError('studentsFileUpload').has_error" class="pb-6 flex justify-center">
-                <h1 class="font text-red-600"> {{ isError('studentsFileUpload').error }} </h1>
-            </div> -->
             
-            <div class="flex items-center justify-start gap-x-4 pb-20">
-                <button class="bg-color-black color-white flex items-center gap-x-6 px-4 py-2 font border-radius-button" @click="uploadSubjectFile">Upload Files</button>
-            </div>
+                <div class="flex items-center justify-start gap-x-4 py-8 relative" >
+                    <button
+                        class="btn block rounded-lg font relative"
+                        :disabled="is('subjectFileUpload')"
+                        >
+                        Upload Files
+                        <span :class="{'load loading': is('subjectFileUpload') }"></span>
+                    </button>
+                </div>     
+            </form>    
             
+           
         </div>   
     </div>
 </template>
@@ -36,7 +72,7 @@
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex'
 import ShowUrl from '~/components/shared/ShowUrl'
-import FileUpload from '~/components/dashboard/FileUpload'
+
 export default {
 
         components: {
@@ -45,7 +81,8 @@ export default {
 
         data() {
             return {
-                
+                hasFile: false,
+                fileRequired: false,
                 mainContents: {
                     folderName: "upload-Student-file",
                     compName: "upload-subject-information",
@@ -53,48 +90,69 @@ export default {
                 },
 
                 uploadedSubjectFile: "",
-                fileUploadSuccess: false
+                fileName: "",
+                fileMain: null,
+                formData: {}
             }
         },
 
         computed: {
             ...mapState(["subjectFileUploadResponse"]),
-            //   ...mapGetters(["isError"])
+            ...mapGetters(["is", "isError"]),
         },
 
         methods: {
             ...mapActions(["subjectFileUpload"]),
 
-            handleFileUpload( event ){
+            inputButton() {
+                const input = document.getElementById('inputFile');
+                
+                    console.log(input.value);
+                
+            },
 
+            handleFileUpload(event){
+                console.log('hello')
+                    this.hasFile = true;
+                    if (this.hasFile) this.fileRequired = false
+                    else this.fileRequired = true
                     
                     let file = event.target.files[0];
-                    console.log("xxxxxxxxxxxx",file);
-                    let formData = new FormData();
-                    formData.append('file', file);
-                    this.uploadedSubjectFile = formData;
-                    for(var pair of formData.entries()) {
-                        console.log(pair[0]+ ', '+ pair[1]); 
+                    if (file) {
+                        this.fileName = file.name;
                     }
-                    
-                        
+
+                    this.formData = new FormData();
+                    this.formData.append('file', file);
+                   
+                   
+                       
                 },
 
                 async uploadSubjectFile() {
-                    this.subjectFileUpload(this.uploadedSubjectFile);
-                    var oldInput = document.getElementById("inputFile"); 
-                    var newInput = document.createElement("input"); 
+                    
+                    
+                    // if (this.hasFile) this.fileRequired = false
+                    // else this.fileRequired = true
+                    // if (this.fileRequired) return
 
-                    newInput.type = "file"; 
-                    newInput.id = oldInput.id; 
-                    newInput.className = oldInput.className; 
-                    newInput.style.cssText = oldInput.style.cssText; 
-                    oldInput.parentNode.replaceChild(newInput, oldInput); 
-                    console.log(this.uploadedStudentFile);
-                    if (this.uploadedSubjectFile) {
-                        this.fileUploadSuccess = true;
+                    // this.hasFile = true;
+                    if (this.hasFile) this.fileRequired = false
+                    else this.fileRequired = true
+                    if (this.fileRequired) return
+                    
+                   
+                    if (!this.formData.get('file')) {
+                        this.fileRequired = true
+                        return
                     }
-                
+
+                    await this.subjectFileUpload(this.formData);
+                    this.formData = new FormData();
+                   
+                    
+                    this.fileName = null
+
             },
         },
 

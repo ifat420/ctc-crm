@@ -1,7 +1,7 @@
 <template>
-    <div class=" bg-color-body">
+    <div class="">
         <ShowUrl :content="mainContents"/>
-        <div class="px-6 py-6 bg-color-whiteTwo m-6">
+        <div class="px-6 py-6 bg-color-whiteTwo m-6 box-shadow-dashboard sm:rounded-lg">
             <form
                 class="w-full flex flex-col"
                 @submit.prevent="uploadPublishInfo"
@@ -60,22 +60,17 @@
                     
                 </div>
 
+                <div v-if="isError('postPublishResult')  && isError('postPublishResult').has_error" class="pt-3">
+                    <h1 class="font text-red-600"> {{ isError('postPublishResult').error }} </h1>
+                </div>
+
                 <div class="flex items-center justify-start gap-x-4 pt-4">
                     <button
-                    class="
-                        bg-color-black
-                        color-white
-                        flex
-                        items-center
-                        gap-x-6
-                        px-4
-                        py-2
-                        font
-                        border-radius-button
-                    "
-                    
+                    class="btn block rounded-lg font relative"
+                    :disabled="is('postPublishResult')"
                     >
                     Publish Result
+                    <span :class="{'load loading': is('postPublishResult') }"></span>
                     </button>
                 </div>
             </form>
@@ -83,41 +78,23 @@
         
         <!-- ............................... Table ............................... -->
 
-        <div class="flex my-8 justify-center items-center bg-white mx-6">
+        <div class=" my-8  bg-white mx-6" v-if="publishedResultResponse && publishedResultResponse.length &&  isError('postPublishResult').has_error == false">
             <div class="p-6 sm:shadow-xm">
-                <table class="bg-color-white flex items-center sm:flex-col flex-no wrap sm:table-row sm:rounded-none mb-2 sm:mb-0">
-                    <thead  class="text-black">
-                        <tr class="bg-teal-400 flex flex-col flex-no wrap sm:table-row sm:rounded-none mb-2 sm:mb-0" v-for="(table,index) in tableSizeSmall" :key="index">
-                            <th class="p-3 text-left border td-height" v-for="(head,index) in tableHead" :key="index">
-                                {{ head }}
-                            </th>
-                        </tr>
-                    </thead>
-
-
-
-                    <tbody class="flex-1 sm:flex-none" v-if="publishedResultResponse && publishedResultResponse.length">
-                        <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0 border">
-                            <td class="border-grey-light border hover:bg-gray-100 p-3 td-height" >
-                                {{ publishedTable.ID }}
-                            </td>
-                            <td class="border-grey-light border hover:bg-gray-100 p-3 td-height" >
-                                {{ publishedTable.UpdatedAt }}
-                                
-                            </td>
-                            
-                            <td class="border-grey-light border hover:bg-gray-100 p-3 td-height">
-                                {{ publishedTable.group }}
-                            </td>
-                            <td  class="border-grey-light border hover:bg-gray-100 p-3 td-height">
-                                {{ publishedTable.exam_name  }}
-                            </td>
-                            <td class="border-grey-light border hover:bg-gray-100 p-3 td-height">
-                                {{ publishedTable.session }}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div > 
+                    <vue-good-table
+                    :columns="columns"
+                    :rows="publishedResultResponse" 
+                    :search-options="{
+                        enabled: true
+                    }"
+                    :pagination-options="{
+                        enabled: true,
+                        perPage: 5,
+                        mode: 'pages'
+                    }"
+                    >
+                    </vue-good-table>
+                </div> 
             </div>
         </div>
 
@@ -145,6 +122,30 @@ export default {
   data() {
       return {
           tableHead: ["ID", "Last Updated", "Group", "Exam Name", "Session"],
+          columns: [
+                {
+                    
+                    label: "ID",
+                    field: 'ID',
+                    type: 'number'
+                },
+                {
+                    label: "Published Date",
+                    field: "UpdatedAt",
+                },
+                {
+                    label: "Group",
+                    field: "group",
+                },
+                {
+                    label: "Exam Name",
+                    field: "exam_name",
+                },
+                {
+                    label: "Session",
+                    field: "session"
+                }
+            ],
           mainContents: {
               folderName: "",
               compName: "publish-result",
@@ -190,20 +191,13 @@ export default {
 
   computed: {
       ...mapState(["session", "group", "publishResultResponse","publishedResultResponse"]),
+      ...mapGetters(["is","isError"]),
 
       publishedTable() {
           console.log(this.publishedResultresponse);
-          return this.publishedResultResponse[0];
+          return this.publishedResultResponse;
 
       },
-
-      tableSizeSmall(){
-        if (this.publishedResultResponse && this.publishedResultResponse.length) {
-            return this.publishedResultResponse.length;
-      }
-    },
-
-
 
     sessionList() {
       let obj = {};
@@ -256,6 +250,7 @@ export default {
         this.$v.$touch();
         if (this.$v.student.session.$anyError == false && this.$v.student.group.$anyError == false && this.$v.student.exam_name.$anyError == false) {
                 await this.postPublishResult(this.student);
+                await this.getPublishedResult();
             }
         
         
@@ -266,7 +261,7 @@ export default {
     //   await this.$nextTick()
       this.getSession();
       this.getGroup();
-      this.getPublishedResult();
+    //   this.getPublishedResult();
      
       
   }
@@ -280,7 +275,7 @@ export default {
     }
 
     .width-main {
-        width: 250px;
+        width: 350px;
         max-width: 100%;
     }
 
@@ -300,35 +295,4 @@ export default {
 //   .noBorder{
 //   border: 0;
 // }
-
-html,
-  body {
-    height: 100%;
-  }
-
-  @media (min-width: 640px) {
-    table {
-      display: inline-table !important;
-    }
-
-    thead tr:not(:first-child) {
-      display: none;
-    }
-  }
-
-//   td:not(:last-child) {
-//     border-bottom: 1px;
-//   }
-
-  .td-height {
-    height: 50px;
-  }
-
-  th:not(:last-child) {
-    border-bottom: 0;
-  }
-
-  tr {
-    border: 0;
-  }
 </style>

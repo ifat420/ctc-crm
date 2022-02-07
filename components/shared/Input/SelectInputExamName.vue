@@ -65,7 +65,7 @@ export default {
     }
 
     .width-main {
-        width: 250px;
+        width: 350px;
         max-width: 100%;
     }
 
