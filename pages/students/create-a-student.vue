@@ -25,20 +25,23 @@
                         </div>
                     </div>
                     <div class="sm:grid sm:grid-cols-2 gap-x-10 py-4 inputText-border">
-                        <div>
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
-                                Father Name
-                            </label>
-                            <input v-model="student.father_name" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Father Name" >
-                            
+                        <div class="pb-4 sm:pb-0">
+                            <div>
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                                    Father Name
+                                </label>
+                                <input v-model="student.father_name" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Father Name" >
+                                
+                            </div>
                         </div>
-                        <div>
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
-                                Mother Name
-                            </label>
-                            <input v-model="student.mohter_name" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Mother Name" >  
+                        <div class="pb-4 sm:pb-0">
+                            <div>
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                                    Mother Name
+                                </label>
+                                <input v-model="student.mohter_name" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Mother Name" >  
+                            </div>
                         </div>
-                        
                     </div>
                     <div class="sm:grid sm:grid-cols-2 gap-x-10 py-4 inputText-border">
                         <div class="pb-4 sm:pb-0">

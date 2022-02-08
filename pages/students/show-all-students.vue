@@ -5,21 +5,17 @@
             <div> 
                 <vue-good-table
                 :columns="columns"
-                :rows="this.getAllStudentResponse.rows" 
+                :rows="getAllStudentResponse.rows" 
                 :search-options="{
                     enabled: true
                 }"
-                :pagination-options="{
-                    enabled: true,
-                    perPage: 5,
-                    mode: 'pages'
-                }"
                 >
+
                 <template slot="table-row" slot-scope="props">
                     <span v-if="props.column.field == 'name'">
-                        <span style="text-transform: capitalize;">{{props.row.first_name}} {{props.row.last_name}}</span>
+                        <span style="text-transform: capitalize;" :title="fullName(props.row)">{{ fullName(props.row) | truncate(10) }}</span>
                     </span>
-                    <!-- <span v-else>{{props.formattedRow[props.column.field]}}</span> -->
+
                     <span v-if="props.column.field == 'UpdatedAt'">
                         <span style="text-transform: capitalize;">{{ $moment(props.row.UpdatedAt).format('MMMM Do YYYY, h:mm:ss a') }}</span>
                     </span>
@@ -28,6 +24,16 @@
                 </template>
 
                 </vue-good-table>
+
+                <paginate
+                    :page-count= "totalPages"
+                    :click-handler="changePageNum"
+                    v-model="page"
+                    :prev-text="'Prev'"
+                    :next-text="'Next'"
+                    :container-class="'pagination'"
+                    :page-class="'page-item'">
+                </paginate>
             </div> 
         </div>
     </div>
@@ -40,6 +46,7 @@ export default {
 
     data() {
         return {
+            
             columns: [
                 {
                     label: "ID",
@@ -50,7 +57,8 @@ export default {
                     
                     label: "Roll",
                     field: 'roll_number',
-                    type: 'number'
+                    type: 'number',
+                    width: '50px'
                 },
                 {
                     label: "Group",
@@ -63,7 +71,8 @@ export default {
                 {
                     label: "Registration No.",
                     field: "reg_number",
-                    type: 'number'
+                    type: 'number',
+                    width: '100px'
                 },
                 {
                     label: "Session",
@@ -91,19 +100,59 @@ export default {
                 }
                 
             ],
+            page: 1,
+            limit: 20,
         }
     },
 
     computed: {
         ...mapState(["getAllStudentResponse"]),
+
+        computedLimit() {
+            console.log(this.getAllStudentResponse.limit);
+            return this.getAllStudentResponse.limit;
+        },
+
+        computedPage() {
+            console.log(this.getAllStudentResponse.page);
+            return this.getAllStudentResponse.page;
+        },
+
+        totalPages() {
+            const totalPages = Math.ceil(this.getAllStudentResponse.total_rows / 20);
+            return totalPages;
+        }
     },
 
     methods: {
         ...mapActions(["getAllStudent"]),
+
+        async changePageNum(pageNum) {
+            try {
+                this.page = parseInt(pageNum);
+                await this.getAllStudent({ page: pageNum, limit: this.limit });
+                this.$router.push({ path: '/students/show-all-students', query: { page: pageNum } })
+            } catch (error) {
+                console.log('error :>> ', error);
+            }
+
+        },
+
+        fullName(data) {
+            return `${data.first_name} ${data.last_name}`
+        }
     },
 
     async mounted() {
-        await this.getAllStudent();
+        if(this.$route && this.$route.query && this.$route.query.page) {
+            this.page = parseInt(this.$route.query.page);
+            await this.getAllStudent({ page: this.$route.query.page, limit: this.limit });
+        }else {
+            await this.getAllStudent({ page: this.page, limit: this.limit });
+        }
+        
+        this.computedLimit;
+        this.computedPage;
     }
 }
 </script>

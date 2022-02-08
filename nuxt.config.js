@@ -29,7 +29,8 @@ export default {
     
     { src: '~plugins/paginate.js', ssr: false },
     { src: '~/plugins/vuelidate', ssr: true },
-    { src: '~/plugins/vue-good-table', ssr: false }
+    { src: '~/plugins/vue-good-table', ssr: false },
+    { src: '~/plugins/truncate' }
     
   ],
 

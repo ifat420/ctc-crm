@@ -16,7 +16,12 @@ export const state = () => ({
     exams: [],
     class: [],
     aStudent: [],
-    getAllStudentResponse: []
+    aSubject: [],
+    aExam:[],
+    getAllStudentResponse: [],
+    getAllSubjectResponse: [],
+    getAllExamsResponse: [],
+    sidebar: false
 })
 
 export const getters = {
@@ -37,10 +42,19 @@ export const getters = {
         return payload => {
             return state.error[payload];
         };
+    },
+
+    sidebarStatus(state) {
+        return state.sidebar;
     }
 }
 
 export const mutations = {
+
+    SET_SIDEBAR(state, payload) {
+        state.sidebar = payload;
+    },
+
     START_LOADING(state, payload) {
         var obj = {};
         obj[payload] = true;
@@ -107,7 +121,23 @@ export const mutations = {
     },
 
     SET_GET_ALL_STUDENT(state, payload) {
-        state.getAllStudentResponse = payload
+        state.getAllStudentResponse = payload;
+    },
+
+    SET_GET_ALL_SUBJECT(state, payload) {
+        state.getAllSubjectResponse = payload;
+    },
+
+    SET_POST_A_SUBJECT(state, payload) {
+        state.aSubject = payload;
+    },
+
+    SET_POST_A_EXAM(state, payload) {
+        state.aExam = payload;
+    },
+
+    SET_GET_ALL_EXAMS(state, payload) {
+        state.getAllExamsResponse = payload;
     },
 
     SET_SESSION(state, payload) {
@@ -133,6 +163,15 @@ export const mutations = {
 }
 
 export const actions = {
+
+    openSidebar({ commit }) {
+        commit("SET_SIDEBAR", true);
+    },
+
+    closeSidebar({ commit }) {
+        commit("SET_SIDEBAR", false);
+    },
+
     start({ commit }, payload) {
         commit("START_LOADING", payload);
     },
@@ -523,7 +562,7 @@ export const actions = {
 
         try {
             dispatch('start', id);
-            let response = await this.$axios.$get('/student');
+            let response = await this.$axios.$get('/student', {params: payload});
             console.log("response get all student info inside store:",response);
             commit('SET_GET_ALL_STUDENT', response);
         } catch (error) {
@@ -534,7 +573,99 @@ export const actions = {
             dispatch("end", id);
             dispatch('setError', obj);
         }
-    }
+    },
+
+    async postCreateSubject({ dispatch,commit }, payload) {
+        const id = "postCreateSubject";
+
+        const obj = {}
+        obj.id = id
+        obj.error = null
+        obj.has_error = false
+
+        try {
+            dispatch('start', id);
+            let response = await this.$axios.$post('/subject', payload);
+            console.log("response post a subject info inside store:", response);
+            commit('SET_POST_A_SUBJECT', response);
+        } catch (error) {
+            obj.has_error = true
+            obj.error = error.response.data.message
+            console.log("ERROR",obj.error);
+        } finally {
+            dispatch("end", id);
+            dispatch('setError', obj);
+        }
+    },
+
+    async getAllSubject({ dispatch,commit }, payload) {
+        const id = "getAllSubject";
+
+        const obj = {}
+        obj.id = id
+        obj.error = null
+        obj.has_error = false
+
+        try {
+            dispatch('start', id);
+            let response = await this.$axios.$get('/subjects', {params: payload});
+            console.log("response get all subject info inside store:",response);
+            commit('SET_GET_ALL_SUBJECT', response);
+        } catch (error) {
+            obj.has_error = true
+            obj.error = error.response.data.message
+            console.log("ERROR",obj.error);
+        } finally {
+            dispatch("end", id);
+            dispatch('setError', obj);
+        }
+    },
+
+    async postCreateExam({ dispatch,commit }, payload) {
+        const id = "postCreateExam";
+
+        const obj = {}
+        obj.id = id
+        obj.error = null
+        obj.has_error = false
+
+        try {
+            dispatch('start', id);
+            let response = await this.$axios.$post('/exam', payload);
+            console.log("response post a exam info inside store:", response);
+            commit('SET_POST_A_EXAM', response);
+        } catch (error) {
+            obj.has_error = true
+            obj.error = error.response.data.message
+            console.log("ERROR",obj.error);
+        } finally {
+            dispatch("end", id);
+            dispatch('setError', obj);
+        }
+    },
+
+    async getAllExams ({ dispatch,commit }, payload) {
+        const id = "getAllExams";
+
+        const obj = {}
+        obj.id = id
+        obj.error = null
+        obj.has_error = false
+
+        try {
+            dispatch('start', id);
+            let response = await this.$axios.$get('/exam', {params: payload});
+            console.log("response get all exams info inside store:",response);
+            commit('SET_GET_ALL_EXAMS', response);
+        } catch (error) {
+            obj.has_error = true
+            obj.error = error.response.data.message
+            console.log("ERROR",obj.error);
+        } finally {
+            dispatch("end", id);
+            dispatch('setError', obj);
+        }
+    },
 
 }
 

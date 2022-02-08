@@ -4,8 +4,8 @@
       <Header/>
     </div>
     <div class="">
-      <Sidebar @mobileView="handleMargin"/>
-      <div class="nuxt-main" :class="{'margin-none': mobileView}">
+      <Sidebar />
+      <div class="md:ml-80 nuxt-main" >
         <Nuxt />
       </div>
     </div>
@@ -29,14 +29,14 @@ export default {
   },
 
   methods: {
-    handleMargin(val) {
-      this.mobileView = val;
-      // console.log("mobileView",this.mobileView);
-    }
+    // handleMargin(val) {
+    //   this.mobileView = val;
+    //   // console.log("mobileView",this.mobileView);
+    // }
   },
 
   mounted() {
-    this.handleMargin();
+    // this.handleMargin();
   }
 
 }
@@ -44,7 +44,7 @@ export default {
 
 <style lang="scss" scoped>
     .nuxt-main {
-      margin-left: 340px;
+      // margin-left: 340px;
       margin-top: 105px;
     }
 

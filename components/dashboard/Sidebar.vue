@@ -1,5 +1,5 @@
 <template>
-    <div class="sidebar sidebar-main box-shadow-dashboard" v-if="!mobileView">
+    <div class="sidebar sidebar-main box-shadow-dashboard duration-500 transition-all -left-80 md:left-0" :class="{ 'ml-80' : sidebarStatus }">
         <div>
             <ul class="flex flex-col gap-y-8 pl-6 pt-12 pb-6 border-bottom">
                 <li v-for="(menu,index) in menus" :key="index">
@@ -29,6 +29,9 @@
 <script>
 import Arrow from '~/components/shared/Arrow'
 import Menu from '~/components/shared/Menu'
+
+import { mapGetters } from 'vuex'
+
 export default {
 
     components: {
@@ -38,8 +41,8 @@ export default {
 
     data(){
         return {
-            mobileView: false,
-            showItems: false,
+            // mobileView: false,
+            // showItems: false,
             menus: [
                 {
                     img: "/dashboard/static.svg",
@@ -85,8 +88,42 @@ export default {
                             url: '/students/students-list'
                         },
                         {
+                            name: "Show All Students",
+                            url: '/students/show-all-students'
+                        },
+                        {
                             name: "Create A Student",
                             url: '/students/create-a-student'
+                        }
+                    ]
+                },
+                {
+                    img: "/dashboard/bookshelf.png",
+                    name: "Subjects",
+                    url: "/",
+                    child: [
+                        {
+                            name: "Show All Subjects",
+                            url: '/subjects/show-all-subjects'
+                        },
+                        {
+                            name: "Create A Subject",
+                            url: '/subjects/create-a-subject'
+                        }
+                    ]
+                },
+                {
+                    img: "/dashboard/marking.png",
+                    name: "Exams",
+                    url: "/",
+                    child: [
+                        {
+                            name: "Show All Exams",
+                            url: '/exams/show-all-exams'
+                        },
+                        {
+                            name: "Create A Exam",
+                            url: '/exams/create-a-exam'
                         }
                     ]
                 },
@@ -114,44 +151,51 @@ export default {
         }
     },
     methods: {
-        handleView(){
-            this.mobileView = window.innerWidth <= 1240;
-            this.$emit("mobileView", this.mobileView);
-            // console.log(this.mobileView, window.innerWidth);
-        },
+        // handleView(){
+        //     this.mobileView = window.innerWidth <= 1240;
+        //     this.$emit("mobileView", this.mobileView);
+        //     // console.log(this.mobileView, window.innerWidth);
+        // },
 
-        logout() {
-            this.$auth.logout();
+        async logout() {
+            await this.$auth.logout();
             // this.$router.push('/login');
         }
 
         
     },
 
+    computed: {
+        ...mapGetters(["sidebarStatus"]),
+    },
+
     mounted() {
-        this.handleView();
-        window.addEventListener('resize',this.handleView);
+        // this.handleView();
+        // window.addEventListener('resize',this.handleView);
         
     }
 }
 </script>
 
 <style lang="scss" scoped>
+    
     // .sidebar {
-    //     height: calc(100vh - 96px);
+    //     left: -340px;
     // }
-
-    .easy {
-        transition: all .5s ease-in-out;
-    }
+    
 
     .sidebar-main {
         position: fixed;
         z-index: 1;
-        width: 340px;
-        height: 100%;
+        width: 320px;
         background-color: #FFFFFF;
         top: 105px;
+        bottom: 0;
+        overflow-y: auto;
+    }
+
+    .margin-left {
+        margin-left: 320px;
     }
 
     
