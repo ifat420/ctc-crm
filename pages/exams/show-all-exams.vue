@@ -16,8 +16,8 @@
                     :page-count= "totalPages"
                     :click-handler="changePageNum"
                     v-model="page"
-                    :prev-text="'Prev'"
-                    :next-text="'Next'"
+                    :prev-text="'<'"
+                    :next-text="'>'"
                     :container-class="'pagination'"
                     :page-class="'page-item'">
                 </paginate>
@@ -106,6 +106,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
 </style>

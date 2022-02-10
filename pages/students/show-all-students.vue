@@ -9,6 +9,7 @@
                 :search-options="{
                     enabled: true
                 }"
+                styleClass="vgt-table bordered"
                 >
 
                 <template slot="table-row" slot-scope="props">
@@ -29,8 +30,8 @@
                     :page-count= "totalPages"
                     :click-handler="changePageNum"
                     v-model="page"
-                    :prev-text="'Prev'"
-                    :next-text="'Next'"
+                    :prev-text="'<'"
+                    :next-text="'>'"
                     :container-class="'pagination'"
                     :page-class="'page-item'">
                 </paginate>
@@ -72,7 +73,7 @@ export default {
                     label: "Registration No.",
                     field: "reg_number",
                     type: 'number',
-                    width: '100px'
+                    // width: '120px'
                 },
                 {
                     label: "Session",
@@ -157,6 +158,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
+    
 </style>

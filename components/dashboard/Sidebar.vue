@@ -3,7 +3,7 @@
         <div>
             <ul class="flex flex-col gap-y-8 pl-6 pt-12 pb-6 border-bottom">
                 <li v-for="(menu,index) in menus" :key="index">
-                    <Menu :showItems="showItems" :menu="menu"/>
+                    <Menu :menu="menu"/>
                 </li>
             </ul>
         </div>
@@ -44,40 +44,23 @@ export default {
             // mobileView: false,
             // showItems: false,
             menus: [
+
                 {
-                    img: "/dashboard/static.svg",
-                    name: "Result Statics",
+                    img: "/dashboard/bookshelf.png",
+                    name: "Subjects",
                     url: "/",
                     child: [
                         {
-                            name: "Subjectwise Statistics",
-                            url: '/show-result/subjectwise-statistics'
+                            name: "Show All Subjects",
+                            url: '/subjects/show-all-subjects'
                         },
                         {
-                            name: "Rollwise Statistics",
-                            url: '/show-result/rollwise-statistics'
+                            name: "Create A Subject",
+                            url: '/subjects/create-a-subject'
                         }
                     ]
                 },
-                {
-                    img: "/dashboard/upload.svg",
-                    name: "Upload Student File",
-                    url: "/",
-                    child: [
-                        {
-                            name: "Upload Subject File",
-                            url: '/upload-student-file/upload-subject-information'
-                        },
-                        {
-                            name: "Upload Student File",
-                            url: '/upload-student-file/upload-student-information'
-                        },
-                        {
-                            name: "Upload Marks Table",
-                            url: '/upload-student-file/upload-student-marks-table'
-                        }
-                    ]
-                },
+
                 {
                     img: "/dashboard/reading.png",
                     name: "Students",
@@ -97,21 +80,23 @@ export default {
                         }
                     ]
                 },
+
                 {
-                    img: "/dashboard/bookshelf.png",
-                    name: "Subjects",
+                    img: "/dashboard/test.png",
+                    name: "Marks",
                     url: "/",
                     child: [
                         {
-                            name: "Show All Subjects",
-                            url: '/subjects/show-all-subjects'
+                            name: "Upload Marks",
+                            url: '/marks/upload-marks'
                         },
                         {
-                            name: "Create A Subject",
-                            url: '/subjects/create-a-subject'
+                            name: "Upload Marks Subjectwise",
+                            url: '/marks/upload-marks-subjectwise'
                         }
                     ]
                 },
+
                 {
                     img: "/dashboard/marking.png",
                     name: "Exams",
@@ -127,6 +112,43 @@ export default {
                         }
                     ]
                 },
+
+                {
+                    img: "/dashboard/static.svg",
+                    name: "Result Statics",
+                    url: "/",
+                    child: [
+                        {
+                            name: "Subjectwise Statistics",
+                            url: '/show-result/subjectwise-statistics'
+                        },
+                        {
+                            name: "Rollwise Statistics",
+                            url: '/show-result/rollwise-statistics'
+                        }
+                    ]
+                },
+
+                {
+                    img: "/dashboard/upload.svg",
+                    name: "Upload Student File",
+                    url: "/",
+                    child: [
+                        {
+                            name: "Upload Subject File",
+                            url: '/upload-student-file/upload-subject-information'
+                        },
+                        {
+                            name: "Upload Student File",
+                            url: '/upload-student-file/upload-student-information'
+                        },
+                        {
+                            name: "Upload Marks Table",
+                            url: '/upload-student-file/upload-student-marks-table'
+                        }
+                    ]
+                },
+                
                 {
                     img: "/dashboard/history.svg",
                     name: "Publish Result",

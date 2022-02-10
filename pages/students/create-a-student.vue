@@ -10,7 +10,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
                                     First Name
                                 </label>
-                                <input @blur="$v.student.first_name.$touch()" v-model="student.first_name" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="First Name" >
+                                <input @blur="$v.student.first_name.$touch()" v-model.trim="student.first_name" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="First Name" >
                             </div>
                             <span v-if="(!$v.student.first_name.required || !$v.student.first_name.alpha) && $v.student.first_name.$dirty" class="error pb-4">*First Name is required</span>
                         </div>
@@ -19,7 +19,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
                                     Last Name
                                 </label>
-                                <input @blur="$v.student.last_name.$touch()" v-model="student.last_name" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Last Name" >
+                                <input @blur="$v.student.last_name.$touch()" v-model.trim="student.last_name" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Last Name" >
                             </div>
                             <span v-if="(!$v.student.last_name.required || !$v.student.last_name.alpha) && $v.student.last_name.$dirty" class="error pb-4">*Last Name is required</span>
                         </div>
@@ -30,7 +30,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
                                     Father Name
                                 </label>
-                                <input v-model="student.father_name" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Father Name" >
+                                <input v-model.trim="student.father_name" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Father Name" >
                                 
                             </div>
                         </div>
@@ -39,7 +39,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
                                     Mother Name
                                 </label>
-                                <input v-model="student.mohter_name" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Mother Name" >  
+                                <input v-model.trim="student.mohter_name" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Mother Name" >  
                             </div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
                                     Roll Number
                                 </label>
-                                <input @blur="$v.student.roll_number.$touch()" v-model="student.roll_number" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Roll Number" >
+                                <input @blur="$v.student.roll_number.$touch()" v-model.trim="student.roll_number" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Roll Number" >
                             </div>
                             <span v-if="!$v.student.roll_number.required && $v.student.roll_number.$dirty" class="error pb-4">*Roll No. is required</span>
                         </div>
@@ -58,7 +58,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
                                     Registration Number
                                 </label>
-                                <input v-model="student.reg_number" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Registration Number" >
+                                <input v-model.trim="student.reg_number" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Registration Number" >
                             </div>
                         </div>
                     </div>   
@@ -84,6 +84,31 @@
                     </div> 
                     <div class="sm:grid sm:grid-cols-2 gap-x-10 py-4 inputText-border">
                         <SelectInputTypeOfStudent :shadowStudent="shadowStudent" :marginBottom="marBottom" :widthStudent="widthStudent" :value="student.type_of_student" @hello="studentTypeChanged" :input="studentType"/>
+                    </div> 
+
+
+                    <div class="flex flex-col gap-y-4 gap-x-10 py-6 inputText-border" >
+                        <div>
+                            <h1 class="text-gray-700 text-lg font-bold font">Required Subjects</h1>
+                        </div>
+                        <div class="flex items-center gap-x-4 flex-wrap">
+                            <div v-for="(required,index) in requiredSubjectResponse" :key="index" >
+                                <div class="shadow-sm p-2">
+                                    <p class="font capitalize ">{{ required }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sm:grid sm:grid-cols-2 gap-x-10 py-4 inputText-border">
+                        <div class="pb-4 sm:pb-0">
+                            <SelectInputSubject :subName="subjectName.nameOne" :shadowStudent="shadowStudent" :marginBottom="marBottom" :widthStudent="widthStudent" :value="twoSubjects.mendatory" :input="fourthSubjectList" @hello="mandatoryChanged"/>
+                            <span v-if="!$v.twoSubjects.mendatory.required && $v.twoSubjects.mendatory.$dirty" class="error pb-4">*Main Subject is required</span>
+                        </div>
+                        <div class="pb-4 sm:pb-0">
+                            <SelectInputSubject :subName="subjectName.nameTwo" :shadowStudent="shadowStudent" :marginBottom="marBottom" :widthStudent="widthStudent" :value="twoSubjects.optional" :input="fourthSubjectList" @hello="optionalChanged"/>
+                            <span v-if="!$v.twoSubjects.optional.required && $v.twoSubjects.optional.$dirty" class="error pb-4">*Optional Subject is required</span>
+                        </div>
                     </div> 
                 </div>
 
@@ -122,6 +147,7 @@ import SelectInputGroup from "~/components/shared/Input/SelectInputGroup";
 import SelectInputClass from "~/components/shared/Input/SelectInputClass";
 import SelectInputGender from "~/components/shared/Input/SelectInputGender";
 import SelectInputTypeOfStudent from "~/components/shared/Input/SelectInputTypeOfStudent";
+import SelectInputSubject from "~/components/shared/Input/SelectInputSubject";
 
 import { mapActions, mapState, mapGetters } from "vuex";
 import { required, minLength, email, alpha } from 'vuelidate/lib/validators'
@@ -133,7 +159,8 @@ export default {
         SelectInputGroup,
         SelectInputClass,
         SelectInputGender,
-        SelectInputTypeOfStudent
+        SelectInputTypeOfStudent,
+        SelectInputSubject
     },
 
     data() {
@@ -170,7 +197,21 @@ export default {
                 last_name: "",
                 father_name: "",
                 mohter_name: "",
-            }
+            },
+
+            subjectName: {
+                nameOne: "Mandatory Subject",
+                nameTwo: "Optional Subject"
+            },
+
+            twoSubjects: {
+                mendatory: "",
+                optional: ""
+            },
+
+            fourthSubjects: "",
+
+            optionalSubjectList: []
         }
     },
 
@@ -200,12 +241,20 @@ export default {
             roll_number: {
                 required
             },
+        },
 
-        }
+        twoSubjects: {
+                mendatory: {
+                    required
+                },
+                optional: {
+                    required
+                }
+        },
     },
 
     computed: {
-        ...mapState(["session","group","class","aStudent", "getAllStudentResponse"]),
+        ...mapState(["session","group","class","aStudent", "getAllStudentResponse","optionalSubjectResponse", "requiredSubjectResponse"]),
         ...mapGetters(["is", "isError"]),
 
         
@@ -252,6 +301,22 @@ export default {
             return obj;
         },
 
+        fourthSubjectList() {
+            let obj = {};
+            obj.name = "Fourth Subject";
+            obj.options = [];
+
+            if (this.optionalSubjectResponse && this.optionalSubjectResponse.length) {
+                this.optionalSubjectResponse.forEach((item) => {
+                let ob = {};
+                ob.name = item;
+                ob.value = item;
+                obj.options.push(ob);
+                });
+            }
+            return obj;
+        },
+
         classList() {
             let obj = {};
             obj.name = "Class";
@@ -270,16 +335,17 @@ export default {
     },
 
     methods: {
-        ...mapActions(["getSession","getGroup", "getClass", "postCreateStudent", "getAllStudent"]),
+        ...mapActions(["getSession","getGroup", "getClass", "postCreateStudent", "getAllStudent", "getOptionalSubject", "getRequiredSubject"]),
 
         sessionChanged(value) {
             console.log(`Session Changed value ${value}`);
             this.student.session = value;
         },
 
-        groupChanged(value) {
+        async groupChanged(value) {
             console.log(`Group Changed value ${value}`);
             this.student.group = value;
+            
         },
 
         classChanged(value) {
@@ -296,27 +362,65 @@ export default {
             this.student.type_of_student = value;
         },
 
+        mandatoryChanged(value) {
+            console.log(`mandatory Changed value ${value}`);
+            this.twoSubjects.mendatory = value;
+            let obj = {};
+            obj.name = value;
+            obj.type = "mandatory";
+            this.optionalSubjectList.push(obj);
+        },
+
+        optionalChanged(value) {
+            console.log(`optional Changed value ${value}`);
+            this.twoSubjects.optional = value;
+            let obj = {};
+            obj.name = value;
+            obj.type = "optional";
+            this.optionalSubjectList.push(obj);
+        },
+
         async uploadAStudent() {
             this.$v.$touch();
             console.log("STUDENT",this.$v.student);
-            if (this.$v.student.$anyError == false )
+            console.log("STUDENT",this.$v.twoSubjects);
+            console.log("Jhamela",this.optionalSubjectList);
+            if (this.$v.student.$anyError == false && this.$v.twoSubjects.$anyError == false)
                 {
-                    await this.postCreateStudent(this.student);
+                    await this.postCreateStudent({ student_info: this.student, optional_subjects: this.optionalSubjectList});
                     console.log("UPLOADED");
                     this.$router.push("/students/show-all-students");
                 }
 
-            this.student.session = "",
-            this.student.class = "",
-            this.student.group = "",
-            this.student.gender = "",
-            this.student.roll_number = "",
-            this.student.reg_number = "",
-            this.student.first_name = "",
-            this.student.last_name = "",
-            this.student.father_name = "",
-            this.student.mohter_name = "",
-            this.student.type_of_student = ""
+            // this.student.session = "",
+            // this.student.class = "",
+            // this.student.group = "",
+            // this.student.gender = "",
+            // this.student.roll_number = "",
+            // this.student.reg_number = "",
+            // this.student.first_name = "",
+            // this.student.last_name = "",
+            // this.student.father_name = "",
+            // this.student.mohter_name = "",
+            // this.student.type_of_student = "",
+            // this.twoSubjects.mendatory = ""
+            // this.twoSubjects.optional = ""
+        }
+    },
+
+    
+    watch: {
+        'student.group': async function (val) {
+            console.log("watching",val);
+            if(val){
+                await this.getOptionalSubject({ group: val });
+                await this.getRequiredSubject({ group: val });
+            }
+
+        },
+
+        'twoSubjects.mendatory': function (val) {
+            console.log("mendatory",val);
         }
     },
 
@@ -324,6 +428,7 @@ export default {
         this.getSession();
         this.getGroup();
         this.getClass();
+        
     }
 }
 </script>

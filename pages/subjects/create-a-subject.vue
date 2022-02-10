@@ -7,45 +7,45 @@
                     <div class="sm:grid sm:grid-cols-2 gap-x-10 py-4 inputText-border">
                         <div class="pb-4 sm:pb-0">
                             <div class="">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="subject-code">
                                     Subject Code
                                 </label>
-                                <input @blur="$v.subject.code.$touch()" v-model="subject.code" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Subject Code" >
+                                <input id="subject-code" @blur="$v.subject.code.$touch()" v-model.trim="subject.code" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Subject Code" >
                             </div>
                             <span v-if="!$v.subject.code.required && $v.subject.code.$dirty" class="error pb-4">*Subject code is required</span>
                         </div>
                         <div class="pb-4 sm:pb-0">
                             <div class="">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="subject-name">
                                     Subject Name
                                 </label>
-                                <input @blur="$v.subject.name.$touch()" v-model="subject.name" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Subject Name" >
+                                <input id="subject-name" @blur="$v.subject.name.$touch()" v-model.trim="subject.name" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Subject Name" >
                             </div>
                             <span v-if="!$v.subject.name.required && $v.subject.name.$dirty" class="error pb-4">*Subject Name is required</span>
                         </div>
                     </div>
                     <div class="sm:grid sm:grid-cols-2 gap-x-10 py-4 inputText-border">
-                        
+
                         <div class="pb-4 sm:pb-0">
                             <div>
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
-                                    Mcq Full Marks
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="cq">
+                                    Cq Full Marks
                                 </label>
-                                <input @blur="$v.subject.mcq_full_mark.$touch()" v-model="subject.mcq_full_mark" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Mcq Full Marks" >
+                                <input id="cq" @blur="$v.subject.cq_full_mark.$touch()" v-model.number="subject.cq_full_mark" class="w-full py-3 px-3 inputText focus:outline-none font" type="number" placeholder="Cq Full Marks" >
                                 
                             </div>
-                            <span v-if="!$v.subject.mcq_full_mark.required && $v.subject.mcq_full_mark.$dirty" class="error pb-4">*MCQ Marks is required</span>
+                            <span v-if="!$v.subject.cq_full_mark.required && $v.subject.cq_full_mark.$dirty" class="error pb-4">*CQ Marks is required</span>
                         </div>
 
                         <div class="pb-4 sm:pb-0">
                             <div>
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
-                                    Cq Full Marks
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="mcq">
+                                    Mcq Full Marks
                                 </label>
-                                <input @blur="$v.subject.cq_full_mark.$touch()" v-model="subject.cq_full_mark" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Cq Full Marks" >
+                                <input id="mcq" @blur="$v.subject.mcq_full_mark.$touch()" v-model.number="subject.mcq_full_mark" class="w-full py-3 px-3 inputText focus:outline-none font" type="number" placeholder="Mcq Full Marks" >
                                 
                             </div>
-                            <span v-if="!$v.subject.cq_full_mark.required && $v.subject.cq_full_mark.$dirty" class="error pb-4">*CQ Marks is required</span>
+                            <span v-if="!$v.subject.mcq_full_mark.required && $v.subject.mcq_full_mark.$dirty" class="error pb-4">*MCQ Marks is required</span>
                         </div>
                         
                     </div>
@@ -53,10 +53,10 @@
                     <div class="sm:grid sm:grid-cols-2 gap-x-10 py-4 inputText-border">
                         <div class="pb-4 sm:pb-0">
                             <div>
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="practical">
                                     Practical Full Marks
                                 </label>
-                                <input @blur="$v.subject.practical_full_mark.$touch()" v-model="subject.practical_full_mark" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Cq Full Marks" >
+                                <input id="practical" @blur="$v.subject.practical_full_mark.$touch()" v-model.number="subject.practical_full_mark" class="w-full py-3 px-3 inputText focus:outline-none font" type="number" placeholder="Practical Full Marks" >
                                 
                             </div>
                             <span v-if="!$v.subject.practical_full_mark.required && $v.subject.practical_full_mark.$dirty" class="error pb-4">*Practical Marks is required</span>
@@ -64,10 +64,10 @@
 
                         <div class="pb-4 sm:pb-0">
                             <div>
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="main-name">
                                     Main Name
                                 </label>
-                                <input @blur="$v.subject.main_name.$touch()" v-model="subject.main_name" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Main Name" >
+                                <input id="main-name" @blur="$v.subject.main_name.$touch()" v-model.trim="subject.main_name" class="w-full py-3 px-3 inputText focus:outline-none font" type="text" placeholder="Main Name" >
                                 
                             </div>
                             <span v-if="!$v.subject.main_name.required && $v.subject.main_name.$dirty" class="error pb-4">*Main Name is required</span>
@@ -142,16 +142,16 @@ export default {
             multiPart: {
                 name: "Multipart",
                 options: [
-                    { name: "Yes", value: "true"},
-                    { name: "No", value: "false"},
+                    { name: "Yes", value: true},
+                    { name: "No", value: false},
                 ]
             },
 
             optional: {
                 name: "Optional",
                 options: [
-                    { name: "Yes", value: "true"},
-                    { name: "No", value: "false"},
+                    { name: "Yes", value: true},
+                    { name: "No", value: false},
                 ]
             },
 
@@ -159,7 +159,7 @@ export default {
                 name: "Subject Type",
                 options: [
                     { name: "Mandatory for all", value: "mandatory-for-all"},
-                    { name: "Mandatory for sciece", value: "mandatory-for-sciece"},
+                    { name: "Mandatory for science", value: "mandatory-for-science"},
                     { name: "Mandatory for arts", value: "mandatory-for-arts"},
                     { name: "Mandatory for commerce", value: "mandatory-for-commerce"},
                     { name: "Optional for all", value: "optional-for-all"},
@@ -170,13 +170,13 @@ export default {
             subject: {
                 code: "",
                 name: "",
-                mcq_full_mark: "",
-                cq_full_mark: "",
-                practical_full_mark: "",
-                has_multipart: "",
+                mcq_full_mark: 0,
+                cq_full_mark: 0,
+                practical_full_mark: 0,
+                has_multipart: false,
                 main_name: "",
                 subject_type: "",
-                can_be_optional: ""
+                can_be_optional: false
             }
         }
     },
@@ -240,24 +240,25 @@ export default {
 
         async uploadASubject() {
             this.$v.$touch();
-            console.log("SUBJECT",this.$v.subject);
+            console.log(this.subject);
             if (this.$v.subject.$anyError == false )
                 {
                     await this.postCreateSubject(this.subject);
                     this.hasSuccess = true;
                     console.log("UPLOADED");
-                    this.$router.push("/subjects/show-all-subjects");
+                    
                 }
             this.hasSuccess = false;
-            this.subject.code = "",
-            this.subject.name = "",
-            this.subject.mcq_full_mark = "",
-            this.subject.cq_full_mark = "",
-            this.subject.practical_full_mark = "",
-            this.subject.has_multipart = "",
-            this.subject.main_name = "",
-            this.subject.subject_type = "",
-            this.subject.can_be_optional = ""
+
+            // this.subject.code = "",
+            // this.subject.name = "",
+            // this.subject.mcq_full_mark = 0,
+            // this.subject.cq_full_mark = 0,
+            // this.subject.practical_full_mark = 0,
+            // this.subject.has_multipart = false,
+            // this.subject.main_name = "",
+            // this.subject.subject_type = "",
+            // this.subject.can_be_optional = false
         }
     },
 

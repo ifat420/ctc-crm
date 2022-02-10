@@ -36,7 +36,7 @@ export default {
         Arrow
     },
 
-    props: ["showItems", "menu"],
+    props: ["menu"],
 
     data() {
         return {

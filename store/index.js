@@ -21,7 +21,12 @@ export const state = () => ({
     getAllStudentResponse: [],
     getAllSubjectResponse: [],
     getAllExamsResponse: [],
-    sidebar: false
+    sidebar: false,
+    optionalSubjectResponse: [],
+    requiredSubjectResponse: [],
+    marksResponse: [],
+    createSubjectResponse: [],
+    marksOnSubjectResponse: []
 })
 
 export const getters = {
@@ -159,6 +164,26 @@ export const mutations = {
     CLEAR_RESULT(state) {
         state.result = {};
     },
+
+    SET_GET_OPTIONAL_SUBJECT(state, payload) {
+        state.optionalSubjectResponse = payload;
+    },
+
+    SET_GET_REQUIRED_SUBJECT(state, payload) {
+        state.requiredSubjectResponse = payload;
+    },
+    
+    SET_CREATE_MARKS_RESPONSE (state, payload) {
+        state.marksResponse = payload
+    },
+
+    SET_CREATE_SUBJECTS_RESPONSE(state, payload) {
+        state.createSubjectResponse = payload
+    },
+
+    SET_CREATE_MARKS_ON_SUBJECT_RESPONSE(state, payload) {
+        state.marksOnSubjectResponse = payload;
+    }
 
 }
 
@@ -586,8 +611,8 @@ export const actions = {
         try {
             dispatch('start', id);
             let response = await this.$axios.$post('/subject', payload);
-            console.log("response post a subject info inside store:", response);
             commit('SET_POST_A_SUBJECT', response);
+            this.$router.push("/subjects/show-all-subjects");
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
@@ -657,6 +682,121 @@ export const actions = {
             let response = await this.$axios.$get('/exam', {params: payload});
             console.log("response get all exams info inside store:",response);
             commit('SET_GET_ALL_EXAMS', response);
+        } catch (error) {
+            obj.has_error = true
+            obj.error = error.response.data.message
+            console.log("ERROR",obj.error);
+        } finally {
+            dispatch("end", id);
+            dispatch('setError', obj);
+        }
+    },
+
+    async getOptionalSubject ({ dispatch,commit }, payload) {
+        const id = "getOptionalSubject";
+
+        const obj = {}
+        obj.id = id
+        obj.error = null
+        obj.has_error = false
+
+        try {
+            dispatch('start', id);
+            let response = await this.$axios.$post('/subject-optional', payload);
+            console.log("response get optional subjects inside store:",response);
+            commit('SET_GET_OPTIONAL_SUBJECT', response);
+        } catch (error) {
+            obj.has_error = true
+            obj.error = error.response.data.message
+            console.log("ERROR",obj.error);
+        } finally {
+            dispatch("end", id);
+            dispatch('setError', obj);
+        }
+    },
+
+    async getRequiredSubject ({ dispatch,commit }, payload) {
+        const id = "getRequiredSubject";
+
+        const obj = {}
+        obj.id = id
+        obj.error = null
+        obj.has_error = false
+
+        try {
+            dispatch('start', id);
+            let response = await this.$axios.$post('/subject-required', payload);
+            console.log("response get required subjects inside store:",response);
+            commit('SET_GET_REQUIRED_SUBJECT', response);
+        } catch (error) {
+            obj.has_error = true
+            obj.error = error.response.data.message
+            console.log("ERROR",obj.error);
+        } finally {
+            dispatch("end", id);
+            dispatch('setError', obj);
+        }
+    },
+
+    async createMarks ({ dispatch,commit }, payload) {
+        const id = "createMarks";
+
+        const obj = {}
+        obj.id = id
+        obj.error = null
+        obj.has_error = false
+
+        try {
+            dispatch('start', id);
+            let response = await this.$axios.$post('/marktable-list', payload);
+            console.log("response get required subjects inside store:",response);
+            commit('SET_CREATE_MARKS_RESPONSE', response);
+        } catch (error) {
+            obj.has_error = true
+            obj.error = error.response.data.message
+            console.log("ERROR",obj.error);
+        } finally {
+            dispatch("end", id);
+            dispatch('setError', obj);
+        }
+    },
+
+    async createSubjects ({ dispatch,commit }, payload) {
+        const id = "createSubjects";
+
+        const obj = {}
+        obj.id = id
+        obj.error = null
+        obj.has_error = false
+
+        try {
+            dispatch('start', id);
+            let response = await this.$axios.$post('/marktable-list-subject', payload);
+            console.log("response all subjects inside store:",response);
+            commit('SET_CREATE_SUBJECTS_RESPONSE', response);
+        } catch (error) {
+            obj.has_error = true
+            obj.error = error.response.data.message
+            console.log("ERROR",obj.error);
+        } finally {
+            dispatch("end", id);
+            dispatch('setError', obj);
+        }
+    },
+
+    async createMarksOnSubject ({ dispatch,commit }, payload) {
+        const id = "createMarksOnSubject";
+
+        const obj = {}
+        obj.id = id
+        obj.error = null
+        obj.has_error = false
+
+        try {
+            dispatch('start', id);
+            let response = await this.$axios.$post('/marktable-list', payload);
+            console.log("response get required subjects inside store:",response);
+            commit('SET_CREATE_MARKS_ON_SUBJECT_RESPONSE', response);
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message

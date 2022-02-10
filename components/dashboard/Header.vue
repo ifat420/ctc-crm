@@ -22,7 +22,7 @@ import LogoMomin from "~/components/shared/LogoMomin"
 import Hamburger from "~/components/shared/Hamburger"
 import IconClose from "~/components/shared/IconClose"
 import ButtonDashboard from "~/components/dashboard/ButtonDashboard"
-import MenuDrawer from "~/components/dashboard/MenuDrawer"
+
 
 import { mapGetters,mapActions} from 'vuex'
 
@@ -30,7 +30,6 @@ export default {
 
     components: {
         LogoMomin,
-        MenuDrawer,
         ButtonDashboard,
         Hamburger,
         IconClose
