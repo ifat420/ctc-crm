@@ -3,7 +3,9 @@
         <div>
             <ul class="flex flex-col gap-y-8 pl-6 pt-12 pb-6 border-bottom">
                 <li v-for="(menu,index) in menus" :key="index">
-                    <Menu :menu="menu"/>
+                    <div class="" @click="activeMenu = index">
+                        <Menu :menu="menu" :index="index" :activeMenu="activeMenu" />
+                    </div>
                 </li>
             </ul>
         </div>
@@ -11,13 +13,13 @@
             <ul class="flex flex-col gap-y-8 p-6">
                 <li>
                     <a href="" class="flex items-center gap-x-6">
-                        <img class="icon-width" src="/dashboard/settings.svg" alt="">
+                        <img class="menu-img" src="/dashboard/settings.svg" alt="">
                         <p class="font">Settings</p>
                     </a>
                 </li>
                 <li @click="logout">
                     <a href="" class="flex items-center gap-x-6">
-                        <img class="icon-width" src="/dashboard/logout.svg" alt="">
+                        <img class="menu-img" src="/dashboard/logout.svg" alt="">
                         <p class="font">Logout</p>
                     </a>
                 </li>
@@ -43,7 +45,14 @@ export default {
         return {
             // mobileView: false,
             // showItems: false,
+            activeMenu: null,
             menus: [
+                {
+                    img: "/dashboard/history.svg",
+                    name: "Dashboard",
+                    url: "/",
+                    child: []
+                },
 
                 {
                     img: "/dashboard/bookshelf.png",
@@ -57,6 +66,10 @@ export default {
                         {
                             name: "Create A Subject",
                             url: '/subjects/create-a-subject'
+                        },
+                        {
+                            name: "Upload Subject File",
+                            url: '/subjects/upload-subject-file'
                         }
                     ]
                 },
@@ -77,6 +90,10 @@ export default {
                         {
                             name: "Create A Student",
                             url: '/students/create-a-student'
+                        },
+                        {
+                            name: "Upload Student File",
+                            url: '/students/upload-student-file'
                         }
                     ]
                 },
@@ -93,6 +110,10 @@ export default {
                         {
                             name: "Upload Marks Subjectwise",
                             url: '/marks/upload-marks-subjectwise'
+                        },
+                        {
+                            name: "Upload Marks File",
+                            url: '/marks/upload-marks-file'
                         }
                     ]
                 },
@@ -115,46 +136,46 @@ export default {
 
                 {
                     img: "/dashboard/static.svg",
-                    name: "Result Statics",
+                    name: "Result",
                     url: "/",
                     child: [
                         {
-                            name: "Subjectwise Statistics",
-                            url: '/show-result/subjectwise-statistics'
+                            name: "Result Overview",
+                            url: '/show-result/result-overview'
                         },
                         {
-                            name: "Rollwise Statistics",
-                            url: '/show-result/rollwise-statistics'
+                            name: "Result Details",
+                            url: "/show-result/result-details"
                         }
                     ]
                 },
 
-                {
-                    img: "/dashboard/upload.svg",
-                    name: "Upload Student File",
-                    url: "/",
-                    child: [
-                        {
-                            name: "Upload Subject File",
-                            url: '/upload-student-file/upload-subject-information'
-                        },
-                        {
-                            name: "Upload Student File",
-                            url: '/upload-student-file/upload-student-information'
-                        },
-                        {
-                            name: "Upload Marks Table",
-                            url: '/upload-student-file/upload-student-marks-table'
-                        }
-                    ]
-                },
+                // {
+                //     img: "/dashboard/upload.svg",
+                //     name: "Upload Student File",
+                //     url: "/",
+                //     child: [
+                //         {
+                //             name: "Upload Subject File",
+                //             url: '/upload-student-file/upload-subject-information'
+                //         },
+                //         {
+                //             name: "Upload Student File",
+                //             url: '/upload-student-file/upload-student-information'
+                //         },
+                //         {
+                //             name: "Upload Marks Table",
+                //             url: '/upload-student-file/upload-student-marks-table'
+                //         }
+                //     ]
+                // },
                 
-                {
-                    img: "/dashboard/history.svg",
-                    name: "Publish Result",
-                    url: "/publish-result",
-                    child: []
-                },
+                // {
+                //     img: "/dashboard/history.svg",
+                //     name: "Publish Result",
+                //     url: "/publish-result",
+                //     child: []
+                // },
                 {
                     img: "/dashboard/history.svg",
                     name: "File Upload History",
@@ -162,12 +183,12 @@ export default {
                     child: []
                 },
 
-                {
-                    img: "/dashboard/search.svg",
-                    name: "Search Result",
-                    url: "/search-result/search-result",
-                    child: []
-                }
+                // {
+                //     img: "/dashboard/search.svg",
+                //     name: "Search Result",
+                //     url: "/search-result/search-result",
+                //     child: []
+                // }
 
             ]
         }
@@ -178,6 +199,10 @@ export default {
         //     this.$emit("mobileView", this.mobileView);
         //     // console.log(this.mobileView, window.innerWidth);
         // },
+
+        changeActive(index) {
+            console.log('index :>> ', index);
+        },
 
         async logout() {
             await this.$auth.logout();
@@ -214,6 +239,16 @@ export default {
         top: 105px;
         bottom: 0;
         overflow-y: auto;
+    }
+
+    .sidebar-main::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .sidebar-main {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
     }
 
     .margin-left {

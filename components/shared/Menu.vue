@@ -1,7 +1,7 @@
 <template>
     <div class="zero flex justify-start gap-y-4 flex-col relative">
         <div class="first flex items-center cursor-pointer main" @click="showDropdown">
-            <nuxt-link v-if="menu.child.length <= 0" :to="menu.url" class="flex items-center gap-x-6 w-full" :class="{ activate: menu.child.length <= 0}">
+            <nuxt-link v-if="menu.child.length <= 0" :to="menu.url" class="flex items-center gap-x-6 w-full" :class="{ activate: menu.child.length <= 0 }" >
                 <img class="menu-img" :src="menu.img" alt="">
                 <p class="font menu-color">{{ menu.name }}</p>
             </nuxt-link>
@@ -15,7 +15,7 @@
         </div>
        
         <div class="drop hidden"  :class="{ show: showItem }" v-for="(child,index) in menu.child" :key="index">
-            <nuxt-link :to="child.url" class="block activate">
+            <nuxt-link :to="child.url" class="block activate" :class="{'active': activeMenu == index}" >
                 <div class="inline-block margin-left">
                     
                         <p class="font">{{ child.name }}</p>
@@ -36,11 +36,12 @@ export default {
         Arrow
     },
 
-    props: ["menu"],
+    props: ["menu", "index"],
 
     data() {
         return {
-            showItem: false
+            showItem: false,
+            activeMenu: null,
         }
     },
 
@@ -48,6 +49,9 @@ export default {
         showDropdown(e) {
             this.showItem = !this.showItem;
         },
+        changeActive(i) {
+            console.log('i :>> ', i);
+        }
 
         // handleLink(event) {
         //     console.log("Event",event);
@@ -83,6 +87,17 @@ export default {
 
             
         // }
+    },
+
+    mounted() {
+        console.log('this.$route :>> ', this.$route);
+        if(this.menu && (this.menu.child || []).length) {
+            let childIndex = this.menu.child.findIndex((item) => {
+                return item.url == this.$route.fullPath
+            })
+
+            console.log('childIndex :>> ', childIndex);
+        }
     }
 }
 </script>

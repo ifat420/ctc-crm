@@ -1,5 +1,6 @@
 <template>
   <div>
+        <ShowUrl :content="mainContents"/>
         <div>
             <form @submit.prevent="uploadAExam">
 
@@ -43,7 +44,7 @@
                         class="btn block rounded-lg font relative"
                         :disabled="is('postCreateExam')"
                         >
-                        Upload Files
+                        Submit
                         <span :class="{'load loading': is('postCreateExam') }"></span>
                     </button>
                 </div>
@@ -57,6 +58,7 @@
 <script>
 import SelectInputExamName from '~/components/shared/Input/SelectInputExamName'
 import SelectInputSession from '~/components/shared/Input/SelectInputSession'
+import ShowUrl from '~/components/shared/ShowUrl'
 
 import { mapActions, mapState, mapGetters } from "vuex";
 import { required, minLength, email, alpha } from 'vuelidate/lib/validators'
@@ -64,11 +66,17 @@ export default {
 
     components: {
         SelectInputExamName,
-        SelectInputSession
+        SelectInputSession,
+        ShowUrl
     },
 
     data() {
         return {
+            mainContents: {
+                folderName: "exams",
+                compName: "create-a-exam",
+                topicName: "Create A Exam"
+            },
             hasSuccess: false,
             widthStudent: true,
             shadowStudent: true,

@@ -81,10 +81,6 @@ body {
     border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
 }
 
-.icon-width {
-    width: 14px;
-    height: 14px;
-}
 
 
 .pagination {
@@ -131,8 +127,8 @@ body {
 }
 
 .menu-img {
-    width: 14px;
-    height: 14px;
+    width: 18px;
+    height: 18px;
 }
 
 .btn {
@@ -271,6 +267,14 @@ table.vgt-table {
 
 .vgt-table th.sortable button {
     display: none;
+}
+
+.vgt-table.bordered .padding-small {
+    @apply px-8;
+}
+
+.vgt-table.bordered tbody .padding-small {
+    @apply px-8;
 }
 
 .vgt-table.bordered tbody td {

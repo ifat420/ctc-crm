@@ -1,5 +1,6 @@
 <template>
   <div>
+      <ShowUrl :content="mainContents"/>
         <div>
             <form @submit.prevent="uploadASubject">
 
@@ -107,7 +108,7 @@
                         class="btn block rounded-lg font relative"
                         :disabled="is('postCreateSubject')"
                         >
-                        Upload Files
+                        Create Subject
                         <span :class="{'load loading': is('postCreateSubject') }"></span>
                     </button>
                 </div>
@@ -122,6 +123,7 @@
 import SelectInputMultiPart from '~/components/shared/Input/SelectInputMultiPart'
 import SelectInputSubjectType from '~/components/shared/Input/SelectInputSubjectType'
 import SelectInputOptional from '~/components/shared/Input/SelectInputOptional'
+import ShowUrl from '~/components/shared/ShowUrl'
 
 import { mapActions, mapState, mapGetters } from "vuex";
 import { required, minLength, email, alpha } from 'vuelidate/lib/validators'
@@ -130,7 +132,8 @@ export default {
     components: {
         SelectInputMultiPart,
         SelectInputSubjectType,
-        SelectInputOptional
+        SelectInputOptional,
+        ShowUrl
     },
 
     data() {
@@ -139,6 +142,11 @@ export default {
             widthStudent: true,
             shadowStudent: true,
             marBottom: true,
+            mainContents: {
+                folderName: "subjects",
+                compName: "create-a-subject",
+                topicName: "Create A Subject"
+            },
             multiPart: {
                 name: "Multipart",
                 options: [

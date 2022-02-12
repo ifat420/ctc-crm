@@ -42,9 +42,9 @@
 
             <span v-if="fileRequired" class="error">*File is required</span>
 
-            <div v-if="!fileRequired && studentsFileUploadResponse && studentsFileUploadResponse.message" class="pt-3">
+            <!-- <div v-if="!fileRequired && studentsFileUploadResponse && studentsFileUploadResponse.message" class="pt-3">
                 <h1 class="font success">{{studentsFileUploadResponse.message}}</h1>
-            </div>
+            </div> -->
 
             <div v-if="isError('studentsFileUpload')  && isError('studentsFileUpload').has_error" class="pt-3">
                 <h1 class="font text-red-600"> {{ isError('studentsFileUpload').error }} </h1>
@@ -78,7 +78,7 @@ export default {
             hasFile: false,
             fileRequired: false,
             mainContents: {
-                folderName: "Students",
+                folderName: "students",
                 compName: "upload-student-information",
                 topicName: "Upload Student Information"
             },
@@ -127,6 +127,9 @@ export default {
         }
 
         await this.studentsFileUpload(this.formData);
+        if (this.studentsFileUploadResponse && this.studentsFileUploadResponse.message) {
+            this.$successToast(this.studentsFileUploadResponse.message);
+        }
         this.formData = new FormData();
                    
                     

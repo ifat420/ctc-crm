@@ -30,7 +30,8 @@ export default {
     { src: '~plugins/paginate.js', ssr: false },
     { src: '~/plugins/vuelidate', ssr: true },
     { src: '~/plugins/vue-good-table', ssr: false },
-    { src: '~/plugins/truncate' }
+    { src: '~/plugins/truncate' },
+    { src: '~/plugins/vue-toast' }
     
   ],
 
@@ -60,8 +61,22 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    '@nuxtjs/toast',
   ],
+
+//   toast: {
+//     position: 'bottom-left',
+//     // register: [ // Register custom toasts
+//     //   {
+//     //     name: 'my-error',
+//     //     message: 'Oops...Something went wrong',
+//     //     options: {
+//     //       type: 'error'
+//     //     }
+//     //   }
+//     // ]
+// },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {

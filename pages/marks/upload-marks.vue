@@ -70,18 +70,29 @@
                                         {{ row.subject_name }}
                                     </td>
                                     <td class="text-sm text-gray-900 font font-medium px-6 py-4 whitespace-nowrap">
+                                        <select 
+                                            class="form-select appearance-none width px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example"
+                                            v-model="row.attendent"
+                                            
+                                        >
+            
+                                            <option value="">Attendent</option>
+                                            <option v-for="(option,index) in options" :key="index" :value="option.value" :selected="index == 1">{{option.name}}</option>
+                                        </select>
+                                    </td>
+                                    <td class="text-sm text-gray-900 font font-medium px-6 py-4 whitespace-nowrap">
                                         <div class="wrapper">
-                                            <input class="font" type="number" v-model.number="row.cq">
+                                            <input class="font" type="number" :min="0" :max="row.cq_full_mark" v-model.number="row.cq">
                                         </div>
                                     </td>
                                     <td class="text-sm text-gray-900 font font-medium px-6 py-4 whitespace-nowrap">
                                         <div v-if="row.mcq_full_mark" class="wrapper">
-                                            <input class="font" type="number" v-model.number="row.mcq">
+                                            <input class="font" type="number" :min="0" :max="row.mcq_full_mark" v-model.number="row.mcq">
                                         </div>
                                     </td>
                                     <td class="text-sm text-gray-900 font font-medium px-6 py-4 whitespace-nowrap" >
                                         <div v-if="row.practical_full_mark" class="wrapper">
-                                            <input class="font" type="number" v-model.number="row.practical">
+                                            <input class="font" type="number" :min="0" :max="row.practical_full_mark" v-model.number="row.practical">
                                         </div>
                                     </td>
                                 </tr> 
@@ -143,12 +154,12 @@ export default {
                 exam_name: ""
             },
 
-            input: { cqNum: "", mcqNum: "", practicalNum: "" }
+            input: { cqNum: "", mcqNum: "", practicalNum: "" },
                  
-                  
-                
-                
-            ,
+            options: [
+                { name: "Present", value: "present"},
+                {name: "Absent", value: "absent"}
+            ],
 
             examName: {
                 name: "Exam Name",
@@ -168,6 +179,10 @@ export default {
                 {
                     name: "Subject Name",
                     value: "subject_name",
+                },
+                {
+                    name: "Attendent",
+                    value: "attendent",
                 },
                 {
                     name: "CQ",
@@ -200,7 +215,7 @@ export default {
     },
 
     computed: {
-        ...mapState(["session", "marksResponse"]),
+        ...mapState(["session", "marksResponse", "markTableUpdateResponse"]),
         ...mapGetters(["is", "isError"]),
 
         sessionList() {
@@ -235,7 +250,7 @@ export default {
     },
 
     methods: {
-        ...mapActions(["getSession", "createMarks"]),
+        ...mapActions(["getSession", "createMarks", "createMarkTableUpdate"]),
 
         examNameChanged(value) {
             console.log(`Exam Changed value ${value}`);
@@ -260,8 +275,17 @@ export default {
             this.marks.session = ""
         },
 
-        submitStudentMarks() {
+        async submitStudentMarks() {
             console.log(this.markData);
+            await this.createMarkTableUpdate(this.markData);
+            if (this.markTableUpdateResponse && this.markTableUpdateResponse.message)
+                {
+                    // this.$toast.success("hello");
+                    this.$successToast(this.markTableUpdateResponse.message);
+                    this.hasSuccess = true;
+                    console.log("mark response inside", this.markTableUpdateResponse);
+                    
+                }
         }
     },
 

@@ -1,5 +1,7 @@
 <template>
-  <div class="mx-8 my-32 rounded-lg bg-white shadow-lg">
+    <div>
+    <ShowUrl :content="mainContents"/>
+  <div class="mx-8 my-8 rounded-lg bg-white shadow-lg">
       <div class="my-8 bg-white mx-6" v-if="getAllExamsResponse.rows && getAllExamsResponse.rows.length">
         <div class="p-6 sm:shadow-xm">
             <div> 
@@ -10,6 +12,32 @@
                     enabled: true
                 }"
                 >
+
+                <template slot="table-row" slot-scope="props">
+
+                    <span v-if="props.column.field == 'exam_name'" class="capitalize">
+                        {{props.row.exam_name.split("-").join(" ")}}
+                    </span>
+
+                    <span v-else-if="props.column.field == 'status' && props.row.status === 'unpublished' ">
+                        <button class="myButton" style="background-color: green; color: white; padding: 7px 10px; border: none; border-radius: 5px;" @click="publishExam(props.row)">
+                            Publish
+                        </button>
+                    </span>
+                    
+                    <span v-else-if="props.column.field == 'view'">
+                        <span v-if="props.row.status === 'published'">
+                            <button class="myButton" style="background-color: green; color: white; padding: 7px 10px; border: none; border-radius: 5px;" @click="viewResult(props.row)">
+                                View
+                            </button>
+                        </span>
+                    </span>
+
+                    <span v-else>
+                        {{props.formattedRow[props.column.field]}}
+                    </span>
+
+                </template>
                 </vue-good-table>
 
                 <paginate
@@ -25,14 +53,25 @@
         </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
+import ShowUrl from '~/components/shared/ShowUrl'
 import { mapActions, mapState, mapGetters } from "vuex";
 export default {
 
+    components: {
+        ShowUrl
+    },
+
     data() {
         return {
+            mainContents: {
+                folderName: "exams",
+                compName: "show-all-exams",
+                topicName: "Show All Exams"
+            },
             
             columns: [
                 {
@@ -45,12 +84,16 @@ export default {
                     field: 'exam_year',
                 },
                 {
+                    label: "Session",
+                    field: "session",
+                },
+                {
                     label: "Status",
                     field: "status",
                 },
                 {
-                    label: "Session",
-                    field: "session",
+                    label: "View",
+                    field: "view"
                 }
             ],
             page: 1,
@@ -59,7 +102,7 @@ export default {
     },
 
     computed: {
-        ...mapState(["getAllExamsResponse"]),
+        ...mapState(["getAllExamsResponse", "createPublishExamResponse"]),
 
         computedLimit() {
             console.log(this.getAllExamsResponse.limit);
@@ -78,7 +121,7 @@ export default {
     },
 
     methods: {
-        ...mapActions(["getAllExams"]),
+        ...mapActions(["getAllExams", "createPublishExam"]),
 
         async changePageNum(pageNum) {
             try {
@@ -90,6 +133,16 @@ export default {
             }
 
         },
+
+        async publishExam(value) {
+            console.log(value);
+            await this.createPublishExam(value);
+
+        },
+
+        async viewResult(value) {
+            this.$router.push({ path: "/show-result/result-overview", query: { session: value.session, exam_name: value.exam_name } });
+        }
     },
 
     async mounted() {

@@ -1,5 +1,6 @@
 <template>
     <div>
+        <ShowUrl :content="mainContents"/>
         <div>
             <form @submit.prevent="uploadAStudent">
 
@@ -125,7 +126,7 @@
                         class="btn block rounded-lg font relative"
                         :disabled="is('postCreateStudent')"
                         >
-                        Upload Files
+                        Create Student
                         <span :class="{'load loading': is('postCreateStudent') }"></span>
                     </button>
                 </div>
@@ -142,6 +143,7 @@
 
 <script>
 import InputText from '~/components/shared/Input/InputText'
+import ShowUrl from '~/components/shared/ShowUrl'
 import SelectInputSession from "~/components/shared/Input/SelectInputSession";
 import SelectInputGroup from "~/components/shared/Input/SelectInputGroup";
 import SelectInputClass from "~/components/shared/Input/SelectInputClass";
@@ -155,6 +157,7 @@ import { required, minLength, email, alpha } from 'vuelidate/lib/validators'
 export default {
     components: {
         InputText,
+        ShowUrl,
         SelectInputSession,
         SelectInputGroup,
         SelectInputClass,
@@ -167,7 +170,11 @@ export default {
         return {
 
             // rows: this.getAllStudentResponse.rows,
-            
+            mainContents: {
+                folderName: "students",
+                compName: "create-a-student",
+                topicName: "Create A Student"
+            },
             widthStudent: true,
             shadowStudent: true,
             marBottom: true,

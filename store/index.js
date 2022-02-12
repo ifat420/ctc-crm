@@ -26,7 +26,10 @@ export const state = () => ({
     requiredSubjectResponse: [],
     marksResponse: [],
     createSubjectResponse: [],
-    marksOnSubjectResponse: []
+    marksOnSubjectResponse: [],
+    markTableUpdateResponse: [],
+    createPublishExamResponse: [],
+    createResultOverviewResponse: []
 })
 
 export const getters = {
@@ -183,6 +186,18 @@ export const mutations = {
 
     SET_CREATE_MARKS_ON_SUBJECT_RESPONSE(state, payload) {
         state.marksOnSubjectResponse = payload;
+    },
+
+    SET_CREATE_MARK_TABLE_UPDATE_RESPONSE(state, payload) {
+        state.markTableUpdateResponse = payload;
+    },
+
+    SET_CREATE_PUBLISH_EXAM_RESPONSE(state, payload) {
+        state.createPublishExamResponse = payload;
+    },
+
+    SET_CREATE_RESULT_OVERVIEW_RESPONSE(state,payload) {
+        state.createResultOverviewResponse = payload;
     }
 
 }
@@ -325,6 +340,7 @@ export const actions = {
     },
 
     async postResult({ dispatch, commit }, payload) {
+
         const id = 'postResult';
         const obj = {}
         obj.id = id
@@ -333,13 +349,13 @@ export const actions = {
 
         try {
             dispatch('start', id);
-            let r = await this.$axios.$post(`/final-result-allpass`, payload);
+            let r = await this.$axios.$get(`/final-result-details`, { params: payload });
             console.log("response", r);
             commit('SET_RESULT', r);
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
-            console.log("students file upload error",obj.error);
+            console.log("students file upload error", obj.error);
         } finally {
             dispatch("end", id);
             dispatch('setError', obj)
@@ -806,6 +822,83 @@ export const actions = {
             dispatch('setError', obj);
         }
     },
+
+    async createMarkTableUpdate ({ dispatch,commit }, payload) {
+        const id = "createMarkTableUpdate";
+
+        const obj = {}
+        obj.id = id
+        obj.error = null
+        obj.has_error = false
+
+        try {
+            dispatch('start', id);
+            let response = await this.$axios.$post('/marktable-update', payload);
+            console.log("response mark table update inside store:",response);
+            commit('SET_CREATE_MARK_TABLE_UPDATE_RESPONSE', response);
+        } catch (error) {
+            obj.has_error = true
+            obj.error = error.response.data.message
+            console.log("ERROR",obj.error);
+        } finally {
+            dispatch("end", id);
+            dispatch('setError', obj);
+        }
+    },
+
+    async createPublishExam ({dispatch, commit}, payload) {
+        const id = "createPublishExam";
+
+        const obj = {}
+        obj.id = id
+        obj.error = null
+        obj.has_error = false
+
+        try {
+            dispatch('start', id);
+            let response = await this.$axios.$post('/publish-result', payload);
+            commit('SET_CREATE_PUBLISH_EXAM_RESPONSE', response);
+            
+            let page = 1;
+            let limit = 20;
+        
+            if (this.$router.currentRoute.query && this.$router.currentRoute.query.page) {
+                page = this.$router.currentRoute.query.page
+            }
+            dispatch("getAllExams", { page, limit})
+        } catch (error) {
+            obj.has_error = true
+            obj.error = error.response.data.message
+            console.log("ERROR",obj.error);
+        } finally {
+            dispatch("end", id);
+            dispatch('setError', obj);
+        }
+    },
+
+    async createResultOverview ({dispatch, commit}, payload) {
+        const id = "createResultOverview";
+
+        const obj = {}
+        obj.id = id
+        obj.error = null
+        obj.has_error = false
+
+        try {
+            dispatch('start', id);
+            let response = await this.$axios.$post('/final-result-overview', payload);
+            commit('SET_CREATE_RESULT_OVERVIEW_RESPONSE', response);
+        } catch (error) {
+            obj.has_error = true
+            obj.error = error.response.data.message
+            console.log("ERROR",obj.error);
+        } finally {
+            dispatch("end", id);
+            dispatch('setError', obj);
+        }
+    }
+
+
 
 }
 

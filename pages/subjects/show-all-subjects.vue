@@ -1,5 +1,7 @@
 <template>
-  <div class="mx-8 my-32 rounded-lg bg-white shadow-lg">
+<div>
+    <ShowUrl :content="mainContents"/>
+    <div class="mx-8 my-8 rounded-lg bg-white shadow-lg">
       <div class="my-8 bg-white mx-6" v-if="getAllSubjectResponse.rows && getAllSubjectResponse.rows.length">
         <div class="p-6 sm:shadow-xm">
             <div> 
@@ -25,14 +27,26 @@
         </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
+import ShowUrl from '~/components/shared/ShowUrl'
 import { mapActions, mapState, mapGetters } from "vuex";
 export default {
 
+    components: {
+        ShowUrl
+    },
+
     data() {
         return {
+
+            mainContents: {
+                folderName: "subjects",
+                compName: "show-all-subjects",
+                topicName: "Show All Subjects"
+            },
             
             columns: [
                 {

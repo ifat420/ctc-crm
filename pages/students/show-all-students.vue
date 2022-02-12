@@ -1,5 +1,7 @@
 <template>
-  <div class="mx-8 my-32 rounded-lg bg-white shadow-lg">
+<div>
+    <ShowUrl :content="mainContents"/>
+  <div class="mx-8 my-8 rounded-lg bg-white shadow-lg">
       <div class="my-8 bg-white mx-6" v-if="getAllStudentResponse.rows && getAllStudentResponse.rows.length">
         <div class="p-6 sm:shadow-xm">
             <div> 
@@ -18,7 +20,7 @@
                     </span>
 
                     <span v-if="props.column.field == 'UpdatedAt'">
-                        <span style="text-transform: capitalize;">{{ $moment(props.row.UpdatedAt).format('MMMM Do YYYY, h:mm:ss a') }}</span>
+                        <span style="text-transform: capitalize;">{{ $moment(props.row.UpdatedAt).format('Do MMM YY, HH:mm') }}</span>
                     </span>
 
                     <span v-else>{{props.formattedRow[props.column.field]}}</span> 
@@ -39,20 +41,32 @@
         </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
+import ShowUrl from '~/components/shared/ShowUrl'
 import { mapActions, mapState, mapGetters } from "vuex";
 export default {
 
+    components: {
+        ShowUrl
+    },
+
     data() {
         return {
-            
+            mainContents: {
+                folderName: "students",
+                compName: "show-all-students",
+                topicName: "Show All Students"
+            },
             columns: [
                 {
                     label: "ID",
                     field: 'ID',
-                    type: 'number'
+                    type: 'number',
+                    tdClass: 'padding-small',
+                    thClass: 'padding-small'
                 },
                 {
                     
@@ -160,5 +174,4 @@ export default {
 
 <style lang="scss">
 
-    
 </style>

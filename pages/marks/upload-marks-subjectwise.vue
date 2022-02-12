@@ -114,6 +114,14 @@
         </div>
     </div>
 
+    <!-- <div v-if="hasSuccess && markTableUpdateResponse && markTableUpdateResponse.message" class="inline-block px-4 py-3 bg-green-500 ml-6 rounded-lg">
+        <h1 class="font text-white">{{ markTableUpdateResponse.message }}</h1>
+    </div> -->
+
+    <div v-if="isError('createMarkTableUpdate')  && isError('createMarkTableUpdate').has_error" class="inline-block px-4 py-3 bg-red-500 ml-6 rounded-lg">
+        <h1 class="font text-white"> {{ isError('createMarkTableUpdate').error }} </h1>
+    </div>
+
     <div class="px-6 py-2" v-if="marksOnSubjectResponse && marksOnSubjectResponse.length">
         <div class="gap-x-4">
             <button
@@ -154,6 +162,7 @@ export default {
 
     data() {
         return {
+            hasSuccess: false,
             widthStudent: true,
             shadowStudent: true,
             marBottom: true,
@@ -235,7 +244,7 @@ export default {
     },
 
     computed: {
-        ...mapState(["session", "group", "marksResponse","createSubjectResponse", "marksOnSubjectResponse"]),
+        ...mapState(["session", "group", "marksResponse","createSubjectResponse", "marksOnSubjectResponse", "markTableUpdateResponse"]),
         ...mapGetters(["is", "isError"]),
 
         sessionList() {
@@ -286,7 +295,7 @@ export default {
     },
 
     methods: {
-        ...mapActions(["getSession", "getGroup", "createSubjects", "createMarks", "createMarksOnSubject"]),
+        ...mapActions(["getSession", "getGroup", "createSubjects", "createMarks", "createMarksOnSubject", "createMarkTableUpdate"]),
 
         examNameChanged(value) {
             console.log(`Exam Changed value ${value}`);
@@ -308,11 +317,28 @@ export default {
             this.marks.subject_name = value;
         },
 
-        submitSubjectMarks() {
+        async submitSubjectMarks() {
             console.log(this.markData);
+            console.log("mark response", this.markTableUpdateResponse);
+            await this.createMarkTableUpdate(this.markData);
+            if (this.markTableUpdateResponse && this.markTableUpdateResponse.message)
+                {
+                    this.$successToast(this.markTableUpdateResponse.message);
+                    console.log('this.markTableUpdateResponse.message :>> ', this.markTableUpdateResponse.message);
+                    this.hasSuccess = true;
+                    // console.log("mark response inside", this.markTableUpdateResponse);
+                    // setTimeout(() => {
+                    //     this.hasSuccess = false;
+                    // },5000)
+                
+                }
+
+            
+
         },
 
         async uploadSubjectMarks() {
+            
             this.$v.$touch();
             if (this.$v.marks.$anyError == false )
                 {
