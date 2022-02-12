@@ -3,7 +3,7 @@
         <div class="flex flex-col self-start sm:self-center gap-y-6 max-w-lg w-full bg-white rounded-xl sm:shadow-lg px-6 py-12 sm:text-left">
             <div class="w-full flex flex-col gap-y-4 items-start sm:items-center px-3">
                 <div class="shrink-0">
-                    <LogoMomin />
+                    <LogoMomin class=" w-24 h-24" />
                 </div>
                 <h1 class="color-black text-xl font-bold antialiased font">Sign in to your account</h1>
             </div>
@@ -22,7 +22,7 @@
                     <nuxt-link to="/resetPassword" class="text-sm color-black underline hidden font sm:block">Forget your password?</nuxt-link>
                 </div>
                 <Button :loading="loading" :buttonContent="buttonContent"/>
-                <span class="error" v-if="isError('loginAction')">{{ isError('loginAction').error }}</span>
+                <span class="error text-center font-light" v-if="isError('loginAction')">{{ isError('loginAction').error }}</span>
                 <nuxt-link to="/resetPassword" class="text-sm text-center color-black underline font sm:hidden">Forget your password?</nuxt-link>
             </form>   
         </div>

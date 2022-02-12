@@ -7,24 +7,14 @@
             <div> 
                 <vue-good-table
                 :columns="columns"
-                :rows="getAllStudentResponse.rows" 
+                :rows="tableData" 
                 :search-options="{
                     enabled: true
                 }"
                 styleClass="vgt-table bordered"
                 >
 
-                <template slot="table-row" slot-scope="props">
-                    <span v-if="props.column.field == 'name'">
-                        <span style="text-transform: capitalize;" :title="fullName(props.row)">{{ fullName(props.row) | truncate(10) }}</span>
-                    </span>
-
-                    <span v-if="props.column.field == 'UpdatedAt'">
-                        <span style="text-transform: capitalize;">{{ $moment(props.row.UpdatedAt).format('Do MMM YY, HH:mm') }}</span>
-                    </span>
-
-                    <span v-else>{{props.formattedRow[props.column.field]}}</span> 
-                </template>
+                
 
                 </vue-good-table>
 
@@ -61,19 +51,13 @@ export default {
                 topicName: "Show All Students"
             },
             columns: [
-                {
-                    label: "ID",
-                    field: 'ID',
-                    type: 'number',
-                    tdClass: 'padding-small',
-                    thClass: 'padding-small'
-                },
+                
                 {
                     
                     label: "Roll",
-                    field: 'roll_number',
+                    field: 'roll',
                     type: 'number',
-                    width: '50px'
+                    
                 },
                 {
                     label: "Group",
@@ -82,12 +66,6 @@ export default {
                 {
                     label: "Name",
                     field: "name",
-                },
-                {
-                    label: "Registration No.",
-                    field: "reg_number",
-                    type: 'number',
-                    // width: '120px'
                 },
                 {
                     label: "Session",
@@ -100,14 +78,6 @@ export default {
                 {
                     label: "Class",
                     field: "class"
-                },
-                {
-                    label: "Last Update",
-                    field: "UpdatedAt"
-                },
-                {
-                    label: "Father Name",
-                    field: "father_name"
                 },
                 {
                     label: "Student Type",
@@ -136,6 +106,24 @@ export default {
         totalPages() {
             const totalPages = Math.ceil(this.getAllStudentResponse.total_rows / 20);
             return totalPages;
+        },
+
+        tableData() {
+            let arr = [];
+            let data = this.getAllStudentResponse.rows
+            if (data && data.length) {
+                data.map(item => {
+                    let obj = {}
+                    obj.roll = item.roll_number
+                    obj.group = this.capitalizeFirstLetter(item.group)
+                    obj.name = this.capitalizeFirstLetter(item.first_name) + " " + this.capitalizeFirstLetter(item.last_name)
+                    obj.session = item.session
+                    obj.gender = this.capitalizeFirstLetter(item.gender)
+                    obj.class = item.class.toUpperCase()
+                    obj.type_of_student = this.capitalizeFirstLetter(item.type_of_student) 
+                    arr.push(obj)
+                })
+            } return arr
         }
     },
 
@@ -155,6 +143,10 @@ export default {
 
         fullName(data) {
             return `${data.first_name} ${data.last_name}`
+        },
+
+        capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
         }
     },
 

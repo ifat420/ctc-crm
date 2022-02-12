@@ -2,12 +2,12 @@
 <div>
     <ShowUrl :content="mainContents"/>
     <div class="mx-8 my-8 rounded-lg bg-white shadow-lg">
-      <div class="my-8 bg-white mx-6" v-if="getAllSubjectResponse.rows && getAllSubjectResponse.rows.length">
+      <div class="my-8 bg-white mx-6" v-if="tableData && tableData.length">
         <div class="p-6 sm:shadow-xm">
             <div> 
                 <vue-good-table
                 :columns="columns"
-                :rows="getAllSubjectResponse.rows" 
+                :rows="tableData" 
                 :search-options="{
                     enabled: true
                 }"
@@ -60,31 +60,19 @@ export default {
                     field: 'name',
                 },
                 {
-                    label: "MCQ",
-                    field: "mcq_full_mark",
-                },
-                {
-                    label: "CQ",
+                    label: "CQ Full Mark",
                     field: "cq_full_mark",
                 },
                 {
-                    label: "Practical",
+                    label: "MCQ Full Mark",
+                    field: "mcq_full_mark",
+                },
+                {
+                    label: "Practical Full Mark",
                     field: "practical_full_mark"
                 },
                 {
-                    label: "Multipart",
-                    field: "has_multipart"
-                },
-                {
-                    label: "Subject Main Name",
-                    field: "main_name"
-                },
-                {
-                    label: "Subject Type",
-                    field: "subject_type"
-                },
-                {
-                    label: "Optional",
+                    label: "Can Be Optional",
                     field: "can_be_optional"
                 }
             ],
@@ -109,6 +97,24 @@ export default {
         totalPages() {
             const totalPages = Math.ceil(this.getAllSubjectResponse.total_rows / 20);
             return totalPages;
+        },
+        
+        tableData() {
+            let arr = [];
+            let data = this.getAllSubjectResponse.rows
+            if (data && data.length) {
+                data.map(item => {
+                    let obj = {}
+                    obj.code = item.code
+                    obj.name = this.capitalizeFirstLetter(item.name)
+                    obj.cq_full_mark = item.cq_full_mark
+                    obj.mcq_full_mark = item.mcq_full_mark
+                    obj.practical_full_mark = item.practical_full_mark
+                    obj.can_be_optional = item.can_be_optional ? 'Yes' : 'No'
+
+                    arr.push(obj)
+                })
+            } return arr
         }
     },
 
@@ -125,6 +131,9 @@ export default {
             }
 
         },
+        capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
     },
 
     async mounted() {

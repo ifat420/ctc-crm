@@ -66,7 +66,7 @@
                                     <td class="text-sm text-gray-900 font font-medium px-6 py-4 whitespace-nowrap">
                                         {{ row.roll_number }}
                                     </td>
-                                    <td class="text-sm text-gray-900 font font-medium px-6 py-4 whitespace-nowrap">
+                                    <td class="text-sm text-gray-900 font font-medium px-6 py-4 whitespace-nowrap capitalize">
                                         {{ row.subject_name }}
                                     </td>
                                     <td class="text-sm text-gray-900 font font-medium px-6 py-4 whitespace-nowrap">

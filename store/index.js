@@ -628,6 +628,15 @@ export const actions = {
             dispatch('start', id);
             let response = await this.$axios.$post('/subject', payload);
             commit('SET_POST_A_SUBJECT', response);
+
+            let page = 1;
+            let limit = 20;
+        
+            if (this.$router.currentRoute.query && this.$router.currentRoute.query.page) {
+                page = this.$router.currentRoute.query.page
+            }
+
+            dispatch("getAllSubject", {page, limit })
             this.$router.push("/subjects/show-all-subjects");
         } catch (error) {
             obj.has_error = true
@@ -650,8 +659,8 @@ export const actions = {
         try {
             dispatch('start', id);
             let response = await this.$axios.$get('/subjects', {params: payload});
-            console.log("response get all subject info inside store:",response);
             commit('SET_GET_ALL_SUBJECT', response);
+
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message

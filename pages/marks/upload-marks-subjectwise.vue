@@ -76,7 +76,7 @@
                                     <td class="text-sm text-gray-900 font font-medium px-6 py-4 whitespace-nowrap">
                                         {{ row.roll_number }}
                                     </td>
-                                    <td class="text-sm text-gray-900 font font-medium px-6 py-4 whitespace-nowrap">
+                                    <td class="text-sm text-gray-900 font font-medium px-6 py-4 whitespace-nowrap capitalize">
                                         {{ row.subject_name }}
                                     </td>
                                     <td class="text-sm text-gray-900 font font-medium px-6 py-4 whitespace-nowrap">
@@ -182,10 +182,10 @@ export default {
             examName: {
                 name: "Exam Name",
                 options: [
-                    { name: "test", value: "test"},
-                    { name: "pre-test", value: "pre-test"},
-                    { name: "half-yearly", value: "half-yearly"},
-                    { name: "year-final", value: "year-final"},
+                    { name: "Test", value: "test"},
+                    { name: "Pre Test", value: "pre-test"},
+                    { name: "Half Yearly", value: "half-yearly"},
+                    { name: "Year Final", value: "year-final"},
                 ]
             },
 
@@ -346,11 +346,7 @@ export default {
                     this.hasSuccess = true;
                     console.log("UPLOADED");
                 }
-            this.hasSuccess = false;
-            this.marks.exam_name = "",
-            this.marks.session = "",
-            this.marks.group = "",
-            this.marks.subject_name = ""
+            this.$v.marks.$reset()
         }
     },
 

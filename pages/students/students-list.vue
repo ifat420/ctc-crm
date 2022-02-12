@@ -34,12 +34,12 @@
     
 
 
-    <div class="my-8 bg-white mx-6" v-if="studentsList && studentsList.length">
+    <div class="my-8 bg-white mx-6" v-if="tableData && tableData.length">
         <div class="p-6 sm:shadow-xm">
             <div> 
                 <vue-good-table
                 :columns="columns"
-                :rows="studentsList" 
+                :rows="tableData" 
                 :search-options="{
                     enabled: true
                 }"
@@ -72,13 +72,11 @@ export default {
     data() {
 
         return {
-
-            rows: this.studentsList,
             columns: [
                 {
                     
                     label: "Roll",
-                    field: 'roll_number',
+                    field: 'roll',
                     type: 'number'
                 },
                 {
@@ -87,12 +85,7 @@ export default {
                 },
                 {
                     label: "Name",
-                    field: "first_name",
-                },
-                {
-                    label: "Registration No.",
-                    field: "reg_number",
-                    type: 'number'
+                    field: "name",
                 },
                 {
                     label: "Session",
@@ -105,10 +98,6 @@ export default {
                 {
                     label: "Class",
                     field: "class"
-                },
-                {
-                    label: "Fourth Subject",
-                    field: "forth_subject_name"
                 }
             ],
             tableHead: ["Roll No.", "Group", "Name", "Registration No.", "Session", "Gender", "Class", "Fourth Subject"],
@@ -125,7 +114,6 @@ export default {
     },
 
     validations: {
-
         student: {
             session: {
                 required
@@ -147,7 +135,6 @@ export default {
         },
 
         sessionList() {
-
             let obj = {};
             obj.name = "Session";
             obj.options = [];
@@ -162,6 +149,23 @@ export default {
             }
             return obj;
         },
+
+        tableData() {
+            let arr = [];
+            let data = this.studentsList
+            if (data && data.length) {
+                data.map(item => {
+                    let obj = {}
+                    obj.roll = item.roll_number
+                    obj.group = this.capitalizeFirstLetter(item.group)
+                    obj.name = this.capitalizeFirstLetter(item.first_name) + " " + this.capitalizeFirstLetter(item.last_name)
+                    obj.session = item.session
+                    obj.gender = this.capitalizeFirstLetter(item.gender)
+                    obj.class = item.class.toUpperCase()
+                    arr.push(obj)
+                })
+            } return arr
+        }
     },
 
 
@@ -182,6 +186,10 @@ export default {
                 await this.getStudentsList(this.student);
             }
         },
+
+        capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
 
     },
 
