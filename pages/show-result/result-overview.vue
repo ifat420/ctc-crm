@@ -45,10 +45,9 @@
         </div>
 
 
-
         <div class="w-full p-8 box-shadow-dashboard bg-color-whiteTwo" v-if="createResultOverviewResponse && createResultOverviewResponse.all_pass">
             
-            <h3 class="font color-black text-xl font-bold antialiased">Students who passed all exams</h3>
+            <h3 class="font color-black text-xl font-bold antialiased mb-4">Students who passed all exams</h3>
             <div>
               <div class="grid grid-cols-8 gap-6 p-6 box-shadow-dashboard" v-if="createResultOverviewResponse && createResultOverviewResponse.all_pass && createResultOverviewResponse.all_pass.length">
                 <template>
@@ -62,7 +61,7 @@
         </div>
 
         <div class="w-full p-8 box-shadow-dashboard bg-color-whiteTwo" v-if="createResultOverviewResponse && createResultOverviewResponse.all_fail">
-            <h3 class="font color-black text-xl font-bold antialiased">Students who failed</h3>
+            <h3 class="font color-black text-xl font-bold antialiased mb-4">Students who failed</h3>
             <div>
               <div class="flex flex-wrap flex-1 gap-6 p-6 box-shadow-dashboard"  v-if="createResultOverviewResponse && createResultOverviewResponse.all_fail && createResultOverviewResponse.all_fail.length ">
                 <template>
@@ -77,27 +76,18 @@
 
           <div class="w-full p-8 box-shadow-dashboard bg-color-whiteTwo" v-if="createResultOverviewResponse && createResultOverviewResponse.top_five">
             <h3 class="font color-black text-xl font-bold antialiased">Top Five Students</h3>
-            <div class="mx-8 my-32 rounded-lg bg-white shadow-lg" v-if="createResultOverviewResponse && createResultOverviewResponse.top_five && createResultOverviewResponse.top_five.length">
+            <div class=" my-8 rounded-lg bg-white shadow-lg" v-if="createResultOverviewResponse && createResultOverviewResponse.top_five && createResultOverviewResponse.top_five.length">
               <div class="my-8 bg-white mx-6" >
                 <div class="p-6 sm:shadow-xm">
                     <div> 
                         <vue-good-table
                         :columns="columns"
-                        :rows="createResultOverviewResponse.top_five.rows" 
+                        :rows="computedFive" 
                         :search-options="{
                             enabled: true
                         }"
                         styleClass="vgt-table bordered"
                         >
-
-                        <template slot="table-row" slot-scope="props">
-                            <span v-if="props.column.field == 'name'">
-                                <span style="text-transform: capitalize;" :title="fullName(props.row)">{{ fullName(props.row) | truncate(10) }}</span>
-                            </span>
-
-                            <span v-else>{{props.formattedRow[props.column.field]}}</span> 
-                        </template>
-
                         </vue-good-table>
                     </div> 
                 </div>
@@ -199,6 +189,22 @@ export default {
             })
         } return obj
     },
+
+    computedFive() {
+      let arr = []
+      let data = this.createResultOverviewResponse.top_five;
+      if (data && data.length) {
+          data.map(item => {
+            let obj = {}
+            obj.roll_number = item.roll_number
+            obj.name = this.capitalizeFirstLetter(item.first_name)+ ' ' + this.capitalizeFirstLetter(item.last_name)
+            obj.total_mark = item.total_mark
+            obj.grade_point = item.grade_point
+            arr.push(obj)
+          })
+      } return arr
+    }
+    
   },
 
 
@@ -213,6 +219,10 @@ export default {
     sessionChanged(value) {
         console.log(`Session Changed value ${value}`);
         this.exam.session = value;
+    },
+
+    capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
     },
 
     async uploadAExam() {

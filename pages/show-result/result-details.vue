@@ -39,15 +39,15 @@
       </div>
     </div>
 
-    <div class=" flex flex-col">
+    <div class=" flex flex-col"  v-if="result.rows && result.rows.length && showButton">
       <div class="-my-2 sm:-mx-6 lg:-mx-8 p-8">
         <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
           <div
             class="shadow overflow-hidden p-8 bg-color-whiteTwo sm:rounded-lg"
           >
-            <div class="flex justify-between pb-10">
-              <h4 class="pb-4 font">Search Result</h4>
-              <div class="flex gap-x-4" v-if="showButton">
+            <!-- <div class="flex justify-between pb-10"> -->
+              <!-- <h4 class="pb-4 font">Search Result</h4> -->
+              <!-- <div class="flex gap-x-4" v-if="showButton">
                 <button
                   class="
                     btn
@@ -76,27 +76,32 @@
                 >
                   Print
                 </button>
-              </div>
-            </div>
+              </div> -->
+            <!-- </div> -->
             
             
 
-            <div class="mx-8 my-8 rounded-lg bg-white shadow-lg" v-if="result.rows && result.rows.length">
+            <div class="mx-8 my-8 rounded-lg bg-white shadow-lg">
               <div class="my-8 bg-white mx-6" >
                 <div class="p-6 sm:shadow-xm">
                     <div> 
                         <vue-good-table
                         :columns="columns"
-                        :rows="result.rows" 
+                        :rows="computedResult" 
                         :search-options="{
                             enabled: true
                         }"
                         >
 
                         <template slot="table-row" slot-scope="props">
-                          <span v-if="props.column.field == 'name'">
-                              <span style="text-transform: capitalize;" :title="fullName(props.row)">{{ fullName(props.row) | truncate(10) }}</span>
-                          </span>
+
+                          <span v-if="props.column.field == 'view'">
+                            
+                                <button class="myButton" style="background-color: green; color: white; padding: 7px 10px; border: none; border-radius: 5px;" @click="viewResult(props.row)">
+                                    Details
+                                </button>
+                           
+                        </span>
 
                           <span v-else>{{props.formattedRow[props.column.field]}}</span> 
                       </template>
@@ -152,6 +157,7 @@ export default {
             
             label: "Name",
             field: 'name',
+            width: '100px'
         },
         {
             label: "Roll Number",
@@ -172,6 +178,10 @@ export default {
         {
             label: "Failed Subjects",
             field: "fail_subjects"
+        },
+        {
+            label: "View",
+            field: "view"
         }
       ],
       page: 1,
@@ -265,12 +275,36 @@ export default {
           obj.options.push(ob)
         })
       } return obj
+    },
+
+    computedResult() {
+      let arr = [];
+      let data = this.result.rows;
+      if (data && data.length) {
+          data.map(item => {
+            let obj = {}
+            obj.roll_number = item.roll_number
+            obj.name = this.capitalizeFirstLetter(item.first_name)+ ' ' + this.capitalizeFirstLetter(item.last_name)
+            obj.total_mark = item.total_mark
+            obj.grade_point = item.grade_point
+            obj.grade = item.grade
+            obj.fail_subjects = item.fail_subjects
+            obj.view = item.view
+            obj.exam_id = item.exam_id
+
+            arr.push(obj)
+          })
+      } return arr
     }
 
   },
 
   methods: {
     ...mapActions(["getSession","getGroup","getClass","postResult"]),
+
+    capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    },
 
     goToPage() {
       console.log("Working");
@@ -290,6 +324,10 @@ export default {
     examNameChanged(value) {
         console.log(`Exam Changed value ${value}`);
         this.student.exam_name = value;
+    },
+
+    async viewResult(value) {
+        this.$router.push({ path: "/show-result/single-student-result", query: { roll_number: value.roll_number, exam_id: value.exam_id } });
     },
 
     async fetchData(pageNum) {
@@ -331,6 +369,8 @@ export default {
       this.resultData.length=0;
       this.showButton = false;
       this.startLoading = false;
+      // this.computedResult = []
+      this.$router.push('/show-result/result-details');
     },
 
     async changePageNum(pageNum) {

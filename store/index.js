@@ -29,7 +29,8 @@ export const state = () => ({
     marksOnSubjectResponse: [],
     markTableUpdateResponse: [],
     createPublishExamResponse: [],
-    createResultOverviewResponse: []
+    createResultOverviewResponse: [],
+    getSingleStudentResult: []
 })
 
 export const getters = {
@@ -198,6 +199,10 @@ export const mutations = {
 
     SET_CREATE_RESULT_OVERVIEW_RESPONSE(state,payload) {
         state.createResultOverviewResponse = payload;
+    },
+
+    SET_GET_SINGLE_RESULT__RESPONSE(state, payload) {
+        state.getSingleStudentResult = payload;
     }
 
 }
@@ -897,6 +902,30 @@ export const actions = {
             dispatch('start', id);
             let response = await this.$axios.$post('/final-result-overview', payload);
             commit('SET_CREATE_RESULT_OVERVIEW_RESPONSE', response);
+        } catch (error) {
+            obj.has_error = true
+            obj.error = error.response.data.message
+            console.log("ERROR",obj.error);
+        } finally {
+            dispatch("end", id);
+            dispatch('setError', obj);
+        }
+    },
+
+    async singleStudentResult({dispatch, commit}, payload) {
+        const id = "singleStudentResult";
+
+        const obj = {}
+        obj.id = id
+        obj.error = null
+        obj.has_error = false
+
+        try {
+            console.log('payload :>> ', payload);
+            dispatch('start', id);
+            let response = await this.$axios.$get('/final-result-details-item', {params: payload});
+
+            commit('SET_GET_SINGLE_RESULT__RESPONSE', response);
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
