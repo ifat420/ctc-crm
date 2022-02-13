@@ -48,58 +48,20 @@ export default {
     methods: {
         showDropdown(e) {
             this.showItem = !this.showItem;
-        },
-        changeActive(i) {
-            console.log('i :>> ', i);
         }
-
-        // handleLink(event) {
-        //     console.log("Event",event);
-
-        //     console.log("hello",event.path);
-        //     const path = event.path;
-        //     let gotyou = document.querySelectorAll('.gotyou');
-        //     if ( gotyou.length) {
-        //         console.log("xxxxx",gotyou[0].classList);
-        //         let list = gotyou[0].classList;
-        //        list.splice(3,1);
-        //     }
-
-
-        //     // const pathLength = event.path.length;
-        //     const pathLength = 8;
-        //     console.log(pathLength);
-
-        //     for (let i = 0; i< pathLength; i++) {
-                
-        //             for (let j =0; j< pathLength; j++) {
-        //                 if (path[j].className.includes('zero') && path[i].className.includes('nuxt-link-exact-active')) {
-        //                     console.log("this element",path[i].className);
-        //                     console.log("this element",path[i].childNodes[0].childNodes[0].childNodes[2]);
-        //                     const item = path[j].childNodes[0].childNodes[0].childNodes[2].classList;
-        //                     item.add('gotyou');
-        //                 }
-        //             }
-                    
-                
-                   
-        //     }
-
-            
-        // }
     },
 
     mounted() {
-        console.log('this.$route :>> ', this.$route);
-        if(this.menu && (this.menu.child || []).length) {
-            let childIndex = this.menu.child.findIndex((item) => {
-                return item.url == this.$route.fullPath
-            })
+        // console.log('this.$route :>> ', this.$route);
+        // if(this.menu && (this.menu.child || []).length) {
+        //     let childIndex = this.menu.child.findIndex((item) => {
+        //         return item.url == this.$route.fullPath
+        //     })
 
-            console.log('childIndex :>> ', childIndex);
+            // console.log('childIndex :>> ', childIndex);
         }
     }
-}
+
 </script>
 
 <style lang="scss" scoped>

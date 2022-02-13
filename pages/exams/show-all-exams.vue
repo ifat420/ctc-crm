@@ -105,12 +105,12 @@ export default {
         ...mapState(["getAllExamsResponse", "createPublishExamResponse"]),
 
         computedLimit() {
-            console.log(this.getAllExamsResponse.limit);
+            // console.log(this.getAllExamsResponse.limit);
             return this.getAllExamsResponse.limit;
         },
 
         computedPage() {
-            console.log(this.getAllExamsResponse.page);
+            // console.log(this.getAllExamsResponse.page);
             return this.getAllExamsResponse.page;
         },
 

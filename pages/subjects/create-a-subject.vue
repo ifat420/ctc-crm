@@ -409,17 +409,17 @@ export default {
     ...mapActions(["postCreateSubject"]),
 
     multiPartChanged(value) {
-      console.log(`Multipart Changed value ${value}`);
+      // console.log(`Multipart Changed value ${value}`);
       this.subject.has_multipart = value;
     },
 
     subjectChanged(value) {
-      console.log(`Subject Type Changed value ${value}`);
+      // console.log(`Subject Type Changed value ${value}`);
       this.subject.subject_type = value;
     },
 
     optionalChanged(value) {
-      console.log(`Optional Changed value ${value}`);
+      // console.log(`Optional Changed value ${value}`);
       this.subject.can_be_optional = value;
     },
 
@@ -429,7 +429,7 @@ export default {
       if (this.$v.subject.$anyError == false) {
         await this.postCreateSubject(this.subject);
         this.hasSuccess = true;
-        console.log("UPLOADED");
+        // console.log("UPLOADED");
       }
       this.hasSuccess = false;
     },

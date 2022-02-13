@@ -209,7 +209,7 @@ export default {
     // },
 
     changeActive(index) {
-      console.log("index :>> ", index);
+      // console.log("index :>> ", index);
     },
 
     async logout() {

@@ -85,12 +85,12 @@ export default {
         ...mapState(["getAllSubjectResponse"]),
 
         computedLimit() {
-            console.log(this.getAllSubjectResponse.limit);
+            // console.log(this.getAllSubjectResponse.limit);
             return this.getAllSubjectResponse.limit;
         },
 
         computedPage() {
-            console.log(this.getAllSubjectResponse.page);
+            // console.log(this.getAllSubjectResponse.page);
             return this.getAllSubjectResponse.page;
         },
 

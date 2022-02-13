@@ -242,7 +242,11 @@ export default {
   async mounted() {
     await this.getSession();
     console.log(this.$route.query);
-    await this.createResultOverview(this.$route.query);
+    if(this.$route.query && this.$route.query.session && this.$route.query.exam_name) {
+      await this.createResultOverview(this.$route.query);
+    }
+    
+   
   }
 }
 </script>

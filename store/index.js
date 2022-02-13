@@ -899,6 +899,7 @@ export const actions = {
         obj.has_error = false
 
         try {
+            console.log('payload :>> ', payload);
             dispatch('start', id);
             let response = await this.$axios.$post('/final-result-overview', payload);
             commit('SET_CREATE_RESULT_OVERVIEW_RESPONSE', response);

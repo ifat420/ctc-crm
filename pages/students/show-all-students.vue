@@ -94,12 +94,12 @@ export default {
         ...mapState(["getAllStudentResponse"]),
 
         computedLimit() {
-            console.log(this.getAllStudentResponse.limit);
+            // console.log(this.getAllStudentResponse.limit);
             return this.getAllStudentResponse.limit;
         },
 
         computedPage() {
-            console.log(this.getAllStudentResponse.page);
+            // console.log(this.getAllStudentResponse.page);
             return this.getAllStudentResponse.page;
         },
 
