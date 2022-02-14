@@ -86,7 +86,7 @@
                         :search-options="{
                             enabled: true
                         }"
-                        styleClass="vgt-table bordered"
+                        styleClass="vgt-table condensed">
                         >
                         </vue-good-table>
                     </div> 

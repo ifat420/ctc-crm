@@ -11,9 +11,18 @@
                 :search-options="{
                     enabled: true
                 }"
-                styleClass="vgt-table bordered"
+                styleClass="vgt-table condensed">
                 >
-
+                <template slot="table-row" slot-scope="props">
+                    <span v-if="props.column.field == 'edit'">
+                        <button class="myButton">
+                                Edit
+                        </button>
+                    </span>
+                    <span v-else>
+                        {{props.formattedRow[props.column.field]}}
+                    </span>
+                </template>
                 
 
                 </vue-good-table>
@@ -82,6 +91,10 @@ export default {
                 {
                     label: "Student Type",
                     field: "type_of_student"
+                },
+                {
+                    label: "Edit",
+                    field: "edit"
                 }
                 
             ],

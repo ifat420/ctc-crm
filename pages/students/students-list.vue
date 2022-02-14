@@ -6,9 +6,9 @@
         <form
         class="w-full flex flex-col"
         >
-            <div class="flex flex-wrap justify-between gap-6 items-center">
+            <div class="sm:grid sm:grid-cols-2 gap-x-10 py-4 inputText-border">
                 <div>
-                    <SelectInputSession :value="student.session" :input="sessionList" @hello="sessionChanged"/>
+                    <SelectInputSession :shadowStudent="shadowStudent" :marginBottom="marBottom" :widthStudent="widthStudent" :value="student.session" :input="sessionList" @hello="sessionChanged"/>
                     <span v-if="!$v.student.session.required && $v.student.session.$dirty" class="error">*Session is required</span>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                 :search-options="{
                     enabled: true
                 }"
-                styleClass="vgt-table bordered"
+                styleClass="vgt-table condensed">
                 >
                 </vue-good-table>
             </div> 
@@ -72,6 +72,9 @@ export default {
     data() {
 
         return {
+            widthStudent: true,
+            shadowStudent: true,
+            marBottom: true,
             columns: [
                 {
                     

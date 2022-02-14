@@ -11,6 +11,7 @@
                 :search-options="{
                     enabled: true
                 }"
+                styleClass="vgt-table condensed">
                 >
 
                 <template slot="table-row" slot-scope="props">
@@ -20,14 +21,14 @@
                     </span>
 
                     <span v-else-if="props.column.field == 'status' && props.row.status === 'unpublished' ">
-                        <button class="myButton" style="background-color: green; color: white; padding: 7px 10px; border: none; border-radius: 5px;" @click="publishExam(props.row)">
+                        <button class="myButton" @click="publishExam(props.row)">
                             Publish
                         </button>
                     </span>
                     
                     <span v-else-if="props.column.field == 'view'">
                         <span v-if="props.row.status === 'published'">
-                            <button class="myButton" style="background-color: green; color: white; padding: 7px 10px; border: none; border-radius: 5px;" @click="viewResult(props.row)">
+                            <button class="myButton" @click="viewResult(props.row)">
                                 View
                             </button>
                         </span>
@@ -117,7 +118,8 @@ export default {
         totalPages() {
             const totalPages = Math.ceil(this.getAllExamsResponse.total_rows / 20);
             return totalPages;
-        }
+        },
+
     },
 
     methods: {

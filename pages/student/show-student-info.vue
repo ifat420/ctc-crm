@@ -1,5 +1,5 @@
 <template>
-  <div class="flex my-8 justify-center items-center bg-white">
+  <div class="sm:flex my-8 justify-center items-center bg-white">
     <div class="shadow-lg">
       <div class="flex flex-col items-center justify-center gap-y-6">
         <div class="flex flex-col justify-center gap-y-4">
@@ -32,7 +32,7 @@
             </div>
             <div class="grid grid-cols-2 p-2 bg-color-info mb-2 capitalize">
               <p class="font">Exam Type</p>
-              <p class="font">{{ studentExamName }}</p>
+              <p class="font">{{ singleStudentInfo.student_info.type_of_student }}</p>
             </div>
             <div class="grid grid-cols-2 p-2 bg-color-info mb-2">
               <p class="font">Session</p>
@@ -56,11 +56,11 @@
             </div>
             <div class="grid grid-cols-2 p-2 bg-color-info mb-2">
               <p class="font">Mother's Name</p>
-              <p class="font" v-if="singleStudentInfo.student_info.mohter_name">{{ singleStudentInfo.student_info.mohter_name }}</p>
+              <p class="font" v-if="singleStudentInfo.student_info.mother_name">{{ singleStudentInfo.student_info.mother_name }}</p>
             </div>
             <div class="grid grid-cols-2 p-2 bg-color-info mb-2">
               <p class="font">Class</p>
-              <p class="font" v-if="singleStudentInfo.student_info.class">{{ singleStudentInfo.student_info.class }}</p>
+              <p class="font" v-if="singleStudentInfo.student_info.class">{{ singleStudentInfo.student_info.class.toUpperCase() }}</p>
             </div>
             <div class="grid grid-cols-2 p-2 bg-color-info mb-2">
               <p class="font">Fourth Subject</p>
@@ -74,7 +74,7 @@
       <!-- ..................................................................................... Table .................................................................... -->
 
   
-      <div class="p-6 sm:shadow-xm">
+      <!-- <div class="p-6 sm:shadow-xm">
         <table class="w-full flex flex-row flex-no-wrap sm:bg-white sm:py-4 rounded-lg overflow-hidden  my-5">
               <thead  class="text-black">
                 <tr class="bg-teal-400 flex flex-col flex-no wrap sm:table-row sm:rounded-none mb-2 sm:mb-0" v-for="(table,index) in tableSizeSmall" :key="index">
@@ -148,10 +148,22 @@
                 
               </tbody>
             </table>
+      </div> -->
+
+      <div class="p-6 sm:shadow-xm" v-if="singleStudentInfo && singleStudentInfo.mark_table && singleStudentInfo.mark_table.length"> 
+        <vue-good-table
+        :columns="columns"
+        :rows="fullTable" 
+        :search-options="{
+            enabled: true
+        }"
+        styleClass="vgt-table condensed">
+        >
+        </vue-good-table>
+      </div> 
+      <div v-else class="py-4">
+        <p > No Result found </p>
       </div>
-
-
-      
 
     </div>
   </div>
@@ -169,12 +181,65 @@ export default {
 
   data() {
     return {
-      tableHead: ["Subject Code", "Subjects", "Full Marks", "Creative" , "MCQ", "Practical", "Total", "LG", "GP"]
+      columns: [
+        {
+            label: "Subject",
+            field: 'name',
+        },
+        {
+            label: "CQ Marks",
+            field: "cq",
+            type: 'number',
+        },
+        {
+            label: "MCQ Marks",
+            field: "mcq",
+            type: 'number',
+        },
+        {
+            label: "Practical Marks",
+            field: "practical",
+            type: 'number',
+        },
+        {
+            label: "Total Marks",
+            field: "total_mark",
+            type: 'number'
+        },
+        {
+          label: "Grade Point",
+          field: "grade_point",
+          type: 'number'
+        },  
+        {
+          label: "Grade",
+          field: "grade",
+          type: 'number'
+        }, 
+      ],
     }
   },
 
   computed: {
     ...mapState(["singleStudentInfo"]),
+
+    fullTable() {
+      let arr = []
+      let data = this.singleStudentInfo.mark_table;
+      if (data && data.length) {
+          data.map(item => {
+            let obj = {}
+            obj.cq = item.cq
+            obj.name = item.name
+            obj.mcq = item.mcq
+            obj.practical = item.practical
+            obj.total_mark = item.total_mark
+            obj.grade_point = item.grade_point
+            obj.grade = item.grade
+            arr.push(obj)
+          })
+      } return arr
+    },
 
     tableSizeSmall(){
       if (this.singleStudentInfo.mark_table && this.singleStudentInfo.mark_table.length) {

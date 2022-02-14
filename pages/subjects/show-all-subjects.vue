@@ -11,6 +11,7 @@
                 :search-options="{
                     enabled: true
                 }"
+                styleClass="vgt-table condensed">
                 >
                 </vue-good-table>
 

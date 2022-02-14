@@ -87,11 +87,7 @@
                     :search-options="{
                         enabled: true
                     }"
-                    :pagination-options="{
-                        enabled: true,
-                        perPage: 5,
-                        mode: 'pages'
-                    }"
+                    styleClass="vgt-table condensed">
                     >
                     </vue-good-table>
                 </div> 

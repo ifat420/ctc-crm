@@ -10,31 +10,32 @@
 
             <form class="w-full flex flex-col" @submit.prevent="showSingleStudentData">
 
-                <div class="flex flex-wrap justify-between items-center gap-y-2">
+                <div class="flex flex-wrap justify-between items-center gap-y-4 pb-4">
                    
-                      <SelectInputSession :widthStyle="widthStyle" :value="student.session" :input="sessionList" @hello="sessionChanged"/>
+                      <SelectInputSession :shadowStudent="shadowStudent" :marginBottom="marBottom" :widthStudent="widthStudent" :widthStyle="widthStyle" :value="student.session" :input="sessionList" @hello="sessionChanged"/>
                       <span v-if="!$v.student.session.required && $v.student.session.$dirty" class="error pb-3">*Session is required</span>
                     
 
                     
-                      <SelectInputExamName :widthStyle="widthStyle" :value="student.exam_name" :input="examsList" @hello="examChanged"/>
+                      <SelectInputExamName :shadowStudent="shadowStudent" :marginBottom="marBottom" :widthStudent="widthStudent" :widthStyle="widthStyle" :value="student.exam_name" :input="examName" @hello="examChanged"/>
                       <span v-if="!$v.student.exam_name.required && $v.student.exam_name.$dirty" class="error pb-3">*Exam Name is required</span>
                     
                     
                    
-                      <SelectInputGroup :widthStyle="widthStyle" :value="student.group" :input="groupList" @hello="groupChanged"/>
+                      <SelectInputGroup :shadowStudent="shadowStudent" :marginBottom="marBottom" :widthStudent="widthStudent" :widthStyle="widthStyle" :value="student.group" :input="groupList" @hello="groupChanged"/>
                       <span v-if="!$v.student.group.required && $v.student.group.$dirty" class="error pb-3">*Group is required</span>
-                   
+
+                      <div class="">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                            Roll No.
+                        </label>
+                        <input class="sm:shadow-sm w-full py-3 px-3 rounded focus:outline-none font box-shadow" type="text" placeholder="Roll Number" v-model="student.roll_number">
+                      </div>
+                      <span v-if="!$v.student.roll_number.required && $v.student.roll_number.$dirty" class="error pb-3">*Roll Number is required</span>
 
                 </div>
 
-                <div class="pb-4">
-                  <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
-                      Roll No.
-                  </label>
-                  <input class="sm:shadow-sm w-full py-3 px-3 rounded focus:outline-none font box-shadow" type="text" placeholder="Roll Number" v-model="student.roll_number">
-                </div>
-                <span v-if="!$v.student.roll_number.required && $v.student.roll_number.$dirty" class="error pb-3">*Roll Number is required</span>
+                
                 
                 <button
                   class="btn px-4 block rounded-lg py-4 font relative"
@@ -72,12 +73,24 @@ export default {
      data() {
 
         return {
-
+            widthStudent: true,
+            shadowStudent: true,
+            marBottom: true,
             student: {
               session : "",
               exam_name: "",
               roll_number: "",
               group: ""
+            },
+
+            examName: {
+                name: "Exam Name",
+                options: [
+                    { name: "test", value: "test"},
+                    { name: "pre-test", value: "pre-test"},
+                    { name: "half-yearly", value: "half-yearly"},
+                    { name: "year-final", value: "year-final"},
+                ]
             },
 
             widthStyle: true
@@ -121,22 +134,6 @@ export default {
               obj.options.push(ob)
             })
           } return obj
-        },
-
-      examsList() {
-          let obj = {}
-          obj.name = "Exam Name"
-          obj.options = []
-
-          if (this.exams && this.exams.length) {
-            this.exams.forEach(item => {
-              let ob = {}
-              ob.name = item;
-              ob.value = item;
-              obj.options.push(ob);
-            })  
-          }
-          return obj;
         },
 
       groupList() {
@@ -190,7 +187,6 @@ export default {
 
     mounted() {
       this.getSession();
-      this.getExams();
       this.getGroup();
       this.postStudentInformation();
     }
