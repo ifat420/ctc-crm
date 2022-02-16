@@ -78,7 +78,7 @@ export default {
                 }
             ],
             page: 1,
-            limit: 20,
+            limit: 12,
         }
     },
 
@@ -110,7 +110,7 @@ export default {
                     obj.name = this.capitalizeFirstLetter(item.name)
                     obj.cq_full_mark = item.cq_full_mark
                     obj.mcq_full_mark = item.mcq_full_mark
-                    obj.practical_full_mark = item.practical_full_mark
+                    obj.practical_full_mark = item.practical_full_mark == 0 ? 'No Practical' : item.practical_full_mark
                     obj.can_be_optional = item.can_be_optional ? 'Yes' : 'No'
 
                     arr.push(obj)
