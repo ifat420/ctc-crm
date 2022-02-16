@@ -5,7 +5,7 @@
       class="px-6 py-6 bg-color-whiteTwo m-6 box-shadow-dashboard sm:rounded-lg"
     >
       <!-- ................... Select Option ................................. -->
-        <form action="" @submit.prevent="uploadMarks">
+        <div>
         
             <div class="sm:grid sm:grid-cols-2 gap-x-10 py-4 inputText-border">
                 <div class="pb-4 sm:pb-0">
@@ -36,6 +36,7 @@
                 <button
                     class="btn block rounded-lg font relative"
                     :disabled="is('createMarks')"
+                    @click.prevent="uploadMarks"
                 >
                     Submit
                     <span :class="{ 'load loading': is('createMarks') }"></span>
@@ -45,7 +46,7 @@
                 </div>
             </div>
 
-        </form>
+        </div>
     </div>
 
     <div class="px-6 py-6 bg-color-whiteTwo m-6 box-shadow-dashboard sm:rounded-lg" v-if="marksResponse && marksResponse.length">
