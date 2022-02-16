@@ -423,7 +423,7 @@ export const actions = {
 
         try {
             dispatch('start',id);
-            let response = await this.$axios.$post(`/subject-sheet`,payload);
+            let response = await this.$axios.$post(`/subjects-sheet`,payload);
             console.log("subject file response",response);
             commit('SET_SUBJECT_FILE_UPLOAD_INFORMATION',response);
         } catch (error) {
@@ -631,7 +631,7 @@ export const actions = {
 
         try {
             dispatch('start', id);
-            let response = await this.$axios.$post('/subject', payload);
+            let response = await this.$axios.$post('/subjects', payload);
             commit('SET_POST_A_SUBJECT', response);
 
             let page = 1;
@@ -732,7 +732,7 @@ export const actions = {
 
         try {
             dispatch('start', id);
-            let response = await this.$axios.$post('/subject-optional', payload);
+            let response = await this.$axios.$post('/subjects-optional', payload);
             console.log("response get optional subjects inside store:",response);
             commit('SET_GET_OPTIONAL_SUBJECT', response);
         } catch (error) {
@@ -755,7 +755,7 @@ export const actions = {
 
         try {
             dispatch('start', id);
-            let response = await this.$axios.$post('/subject-required', payload);
+            let response = await this.$axios.$post('/subjects-required', payload);
             console.log("response get required subjects inside store:",response);
             commit('SET_GET_REQUIRED_SUBJECT', response);
         } catch (error) {
