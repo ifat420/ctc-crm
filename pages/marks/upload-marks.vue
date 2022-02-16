@@ -272,8 +272,6 @@ export default {
                     console.log("UPLOADED");
                 }
             this.hasSuccess = false;
-            this.marks.exam_name = "",
-            this.marks.session = ""
         },
 
         async submitStudentMarks() {
