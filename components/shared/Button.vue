@@ -1,11 +1,20 @@
 <template>
-  <button class="bg-color-black color-white block w-full rounded-lg py-3 font" :class="{width: buttonSize}">{{ buttonContent }}</button>
+  <button class="btn block w-full rounded-lg py-4 font relative" :disabled="is(loading)" :class="{'width': buttonSize}">
+    
+    {{ buttonContent }}
+    <span :class="{'load loading': is(loading) }"></span>
+  </button>
 </template>
 
 <script>
+import { mapActions, mapState, mapGetters } from 'vuex'
 export default {
 
-  props: ["buttonContent", "buttonSize"],
+  props: ["buttonContent", "buttonSize", "loading"],
+
+  computed:{
+       ...mapGetters(["is"])
+    },
 
 }
 </script>
@@ -14,4 +23,6 @@ export default {
     .width {
       width: 180px;
     }
+
+    
 </style>

@@ -9,7 +9,7 @@ export default {
     props: [ "type" , "placeholder" , "content" ],
     data() {
       return {
-        property: this.content
+        property: ""
       }
     },
     methods: {
