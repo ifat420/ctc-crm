@@ -1,0 +1,28 @@
+<template>
+  <svg
+    width="20"
+    height="15"
+    viewBox="0 0 20 15"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M1 1.2002H18.6309"
+      stroke="black"
+      stroke-width="1.54997"
+      stroke-linecap="square"
+    />
+    <path
+      d="M1 7.40024H18.6309"
+      stroke="black"
+      stroke-width="1.54997"
+      stroke-linecap="square"
+    />
+    <path
+      d="M1 13.6001H18.6309"
+      stroke="black"
+      stroke-width="1.54997"
+      stroke-linecap="square"
+    />
+  </svg>
+</template>

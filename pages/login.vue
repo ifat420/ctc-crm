@@ -1,116 +1,218 @@
 <template>
-    <div class="flex h-screen justify-center items-center bg-white" v-if="$v">
-        <div class="flex flex-col self-start sm:self-center gap-y-6 max-w-lg w-full bg-white rounded-xl sm:shadow-lg px-6 py-12 sm:text-left">
-            <div class="w-full flex flex-col gap-y-4 items-start sm:items-center px-3">
-                <div class="shrink-0">
-                    <LogoMomin class=" w-24 h-24" />
-                </div>
-                <h1 class="color-black text-xl font-bold antialiased font">Sign in to your account</h1>
-            </div>
-            <form class="w-full flex flex-col gap-y-6" action="" @submit.prevent="login">
-
-                <input @blur="$v.user.email.$touch()" class="sm:shadow-sm w-full py-3 px-3 rounded focus:outline-none font box-shadow" type="email" placeholder="Enter Email" v-model="user.email">
-                <span v-if="!$v.user.email.required && $v.user.email.$dirty" class="error">*Email is required</span>
-                <span v-if="!$v.user.email.email && $v.user.email.$dirty" class="error">*Valid Email is required</span>
-
-                <input @blur="$v.user.password.$touch()" class="sm:shadow-sm w-full py-3 px-3 rounded focus:outline-none font box-shadow" type="password" placeholder="Enter Password" v-model="user.password">
-                <span v-if="!$v.user.password.required && $v.user.password.$dirty" class="error">*Password is required</span>
-                <span v-if="!$v.user.password.minLength && $v.user.password.$dirty" class="error">*password shoul be at least 6 char long</span>
-
-                <div class="flex items-center justify-between">
-                    <InputCheckbox />
-                    <nuxt-link to="/resetPassword" class="text-sm color-black underline hidden font sm:block">Forget your password?</nuxt-link>
-                </div>
-                <Button :loading="loading" :buttonContent="buttonContent"/>
-                <span class="error text-center font-light" v-if="isError('loginAction')">{{ isError('loginAction').error }}</span>
-                <nuxt-link to="/resetPassword" class="text-sm text-center color-black underline font sm:hidden">Forget your password?</nuxt-link>
-            </form>   
+  <div class="flex h-screen justify-center items-center bg-white">
+    <div
+      class="
+        max-w-lg
+        w-full
+        bg-white
+        rounded-xl
+        sm:shadow-lg
+        px-6
+        py-12
+        sm:text-left
+      "
+    >
+      <div
+        class="w-full flex flex-col gap-y-4 items-center px-3"
+      >
+        <div class="shrink-0">
+          <LogoMomin class="w-24 h-24" />
         </div>
+        <h1 class="color-black text-xl antialiased mb-10">
+          Sign in to your account
+        </h1>
+      </div>
+      <div
+        class="w-full"
+      >
+        <div class="mb-5">
+          <input
+            @blur="$v.user.email.$touch()"
+            type="email"
+            placeholder="Enter Email"
+            v-model="user.email"
+            class="
+              appearance-none
+              block
+              w-full
+              px-4
+              py-3
+              rounded-md
+              shadow-gbtn
+              placeholder-gray-400
+              focus:outline-none focus:ring-primary focus:border-primary
+              sm:text-lg
+            "
+            :class="{
+              'border border-red-500':
+                $v.user.email.$dirty && $v.user.email.$invalid,
+            }"
+          />
+          <p
+            v-if="!$v.user.email.required && $v.user.email.$dirty"
+            class="text-red-500 text-xs mt-2"
+          >
+            Email is required.
+          </p>
+          <p
+            v-if="!$v.user.email.email && $v.user.email.$dirty"
+            class="text-red-500 text-xs mt-2"
+          >
+            Email is not vaild.
+          </p>
+        </div>
+
+        <div class="mb-5">
+          <input
+            @blur="$v.user.password.$touch()"
+            type="password"
+            placeholder="Enter Password"
+            v-model="user.password"
+            class="
+              appearance-none
+              block
+              w-full
+              px-4
+              py-3
+              rounded-md
+              shadow-gbtn
+              placeholder-gray-400
+              focus:outline-none focus:ring-primary focus:border-primary
+              sm:text-lg
+            "
+            :class="{
+              'border border-red-500':
+                $v.user.password.$dirty && $v.user.password.$invalid,
+            }"
+          />
+          <p
+            v-if="!$v.user.password.required && $v.user.password.$dirty"
+            class="text-red-500 text-xs mt-2"
+            >*Password is required</p
+          >
+          <p
+            v-if="!$v.user.password.minLength && $v.user.password.$dirty"
+            class="text-red-500 text-xs mt-2"
+            >*password shoul be at least 6 char long</p
+          >
+        </div>
+
+        <div class="mb-5">
+          <nuxt-link
+            to="/resetPassword"
+            class="text-sm color-black underline font block"
+            >Forget your password?</nuxt-link
+          >
+        </div>
+        
+        <button
+              @click.prevent="login"
+              class="
+                w-full
+                inline-flex
+                justify-center
+                items-center
+                py-3
+                px-4
+                border border-transparent
+                rounded-md
+                shadow-sm
+                font-medium
+                text-white
+                bg-primary
+                focus:outline-none
+                focus:ring-2
+                focus:ring-offset-2
+                focus:ring-indigo-500
+              "
+            >
+              <IconSpinAnimation v-if="is('loginAction')" />
+              <span>Sign in</span>
+            </button>
+
+        <p
+          class="error font-light text-center mt-2"
+          v-if="isError('loginAction')"
+          >{{ isError("loginAction").error }}</p
+        >
+        
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
-import { required, minLength, email } from 'vuelidate/lib/validators'
-import { mapActions, mapState, mapGetters } from 'vuex'
-import LogoMomin from '~/components/shared/LogoMomin'
-import InputField from '~/components/shared/InputField'
-import InputCheckbox from '~/components/shared/InputCheckbox'
-import Button from '~/components/shared/Button'
+import { required, minLength, email } from "vuelidate/lib/validators";
+import { mapActions, mapState, mapGetters } from "vuex";
+import LogoMomin from "~/components/shared/LogoMomin";
+import InputField from "~/components/shared/InputField";
+import InputCheckbox from "~/components/shared/InputCheckbox";
+import IconSpinAnimation from "~/components/SpinAnimaiton";
 
 export default {
+  layout: "others",
+  middleware: "authenticated",
 
-    layout: 'others',
-    middleware: 'authenticated',
+  components: {
+    LogoMomin,
+    InputField,
+    InputCheckbox,
+    IconSpinAnimation
+  },
 
-    
-    components: {
-        LogoMomin,
-        InputField,
-        Button,
-        InputCheckbox
+  data() {
+    return {
+      buttonContent: "Sign in",
+      user: {
+        email: "",
+        password: "",
+      },
+
+      error: null,
+      loading: "loginAction",
+    };
+  },
+
+  validations: {
+    user: {
+      email: {
+        required,
+        email,
+      },
+      password: {
+        required,
+        minLength: minLength(6),
+      },
+    },
+  },
+
+  computed: {
+    ...mapGetters(["is", "isError"]),
+  },
+
+  methods: {
+    ...mapActions(["loginAction"]),
+
+    updatedText(content) {
+      this.user.email = content;
     },
 
-    
-
-    data() {
-
-        return {
-
-            buttonContent: "Sign in",
-            user: {
-                email: '',
-                password: '',
-            },
-
-            error : null,
-            loading: "loginAction"
-        }
+    updatedPassword(content) {
+      this.user.password = content;
     },
 
-    validations: {
-        user: {
-            email: {
-                required, 
-                email
-            },
-            password: {
-                required, 
-                minLength: minLength(6)
-            }
-        }
+    async login() {
+      this.$v.$touch();
+      if (!this.$v.user.$invalid) {
+        console.log(this.user)
+        await this.loginAction(this.user);
+      }
     },
+  },
 
-    computed:{
-       ...mapGetters(["is", "isError"])
-
-    },
-
-    methods: {
-
-        ...mapActions(["loginAction"]),
-
-        updatedText(content) {
-            this.user.email = content;
-        },
-
-        updatedPassword(content) {
-            this.user.password = content;
-        },
-
-        async login() {
-            this.$v.$touch();
-            if (!this.$v.user.password.minLength == false && this.$v.user.email.$anyError == false){
-                await this.loginAction(this.user);
-            }
-        }
-    },
-
-    mounted() {
-        
-    }
-}
+  mounted() {},
+};
 </script>
 
 <style lang="scss" scoped>
-    
 </style>
