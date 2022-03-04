@@ -106,11 +106,11 @@ export default {
         childs: [
           {
             name: "List",
-            url: "/subjects/show-all-subjects",
+            url: "/subjects",
           },
           {
             name: "Create",
-            url: "/subjects/create-a-subject",
+            url: "/subjects/create",
           },
           {
             name: "Upload File",

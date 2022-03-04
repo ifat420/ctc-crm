@@ -19,7 +19,7 @@ export const state = () => ({
     aSubject: [],
     aExam:[],
     getAllStudentResponse: [],
-    getAllSubjectResponse: [],
+    getAllSubjectResponse: {},
     getAllExamsResponse: [],
     sidebar: false,
     optionalSubjectResponse: [],

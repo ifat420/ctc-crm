@@ -1,11 +1,11 @@
 <template>
-  <div >
+  <div>
     <div class="header-main">
       <Header/>
     </div>
-    <div class="">
+    <div class=" pb-20">
       <Sidebar />
-      <div class="md:ml-80 nuxt-main" >
+      <div class="md:ml-64 nuxt-main px-8" >
         <Nuxt />
       </div>
     </div>
