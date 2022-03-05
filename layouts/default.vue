@@ -1,11 +1,11 @@
 <template>
-  <div >
+  <div>
     <div class="header-main">
       <Header/>
     </div>
-    <div class="">
+    <div class=" pb-20">
       <Sidebar />
-      <div class="md:ml-80 nuxt-main" >
+      <div class="md:ml-64 nuxt-main px-8" >
         <Nuxt />
       </div>
     </div>
@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import Header from '~/components/dashboard/Header'
-import Sidebar from '~/components/dashboard/Sidebar'
+import Header from '~/components/layout/Header'
+import Sidebar from '~/components/layout/Sidebar'
 export default {
   middleware: ['auth'],
   components: {

@@ -19,7 +19,7 @@ export const state = () => ({
     aSubject: [],
     aExam:[],
     getAllStudentResponse: [],
-    getAllSubjectResponse: [],
+    getAllSubjectResponse: {},
     getAllExamsResponse: [],
     sidebar: false,
     optionalSubjectResponse: [],
@@ -471,10 +471,7 @@ export const actions = {
             await this.$auth.loginWith('local', {
                 data: payload
             });
-            // this.$router.push('/');
-            
         } catch (error) {
-            console.log(error.response)
             obj.has_error = true
             obj.error = error.response.data.message
             console.log(obj.error);
