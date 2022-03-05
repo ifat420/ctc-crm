@@ -4,7 +4,7 @@
       :columns="columns"
       styleClass="vgt-table condensed"
       :rows="tableData"
-      :search-options="{ enabled: true, placeholder: 'Search Subject...' }"
+      :search-options="{ enabled: false, placeholder: 'Search Subject...' }"
     >
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'edit'">

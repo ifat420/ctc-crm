@@ -38,8 +38,10 @@ export default {
     ...mapState(["getAllSubjectResponse"]),
 
     totalPages() {
-      const totalPages = Math.ceil(this.getAllSubjectResponse.total_rows / 20);
-      return totalPages;
+      let totalPage = 1;
+      if (this.getAllSubjectResponse && this.getAllSubjectResponse.total_pages) {
+        totalPage = this.getAllSubjectResponse.total_pages
+      } return totalPage;
     },
   },
 
@@ -49,22 +51,7 @@ export default {
     fetchData() {
       this.getAllSubject({page: this.page, limit: this.limit })
     }
-  },
-
-  // async mounted() {
-  //   if (this.$route && this.$route.query && this.$route.query.page) {
-  //     this.page = parseInt(this.$route.query.page);
-  //     await this.getAllSubject({
-  //       page: this.$route.query.page,
-  //       limit: this.limit,
-  //     });
-  //   } else {
-  //     await this.getAllSubject({ page: this.page, limit: this.limit });
-  //   }
-
-  //   this.computedLimit;
-  //   this.computedPage;
-  // },
+  }
 };
 </script>
 
