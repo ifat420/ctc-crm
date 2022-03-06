@@ -1,183 +1,145 @@
 <template>
   <div>
-    <h2 class="text-3xl font-medium">Show All Exams</h2>
-    <div class="">
-      <div
-        class="my-8 bg-white"
-        v-if="getAllExamsResponse.rows && getAllExamsResponse.rows.length"
-      >
-        <div class="sm:shadow-xm">
-          <div>
-            <vue-good-table
-              :columns="columns"
-              :rows="getAllExamsResponse.rows"
-              :search-options="{
-                enabled: false,
-              }"
-              styleClass="vgt-table condensed"
+
+    <div class="flex flex-col lg:flex-row lg:justify-between mt-12">
+      <h2 class="text-xl font-medium">Show All Exams</h2>
+      <div class="flex flex-col lg:flex-row">
+        <div class="relative lg:my-0 my-6 mr-0 lg:mr-5">
+          <select
+            v-model="selectedSession"
+            @change="onDropdownChange"
+            class="
+              form-select
+              appearance-none
+              block
+              shadow-gbtn
+              text-left
+              py-4
+              text-base
+              font-normal
+              text-gray-700
+              bg-white bg-clip-padding bg-no-repeat
+              w-full
+              lg:w-60
+              px-4
+              rounded-xl
+              m-0
+              focus:outline-none
+              hover:cursor-pointer
+            "
+            aria-label="Default select example"
+          >
+            <option
+              v-for="(item, index) in getSessions"
+              :key="index"
+              :value="item.value"
             >
-              >
-
-              <template slot="table-row" slot-scope="props">
-                <span
-                  v-if="props.column.field == 'exam_name'"
-                  class="capitalize"
-                >
-                  {{ props.row.exam_name.split("-").join(" ") }}
-                </span>
-
-                <span
-                  v-else-if="
-                    props.column.field == 'status' &&
-                    props.row.status === 'unpublished'
-                  "
-                >
-                  <button class="myButton" @click="publishExam(props.row)">
-                    Publish
-                  </button>
-                </span>
-
-                <span v-else-if="props.column.field == 'view'">
-                  <span v-if="props.row.status === 'published'">
-                    <button class="myButton" @click="viewResult(props.row)">
-                      View
-                    </button>
-                  </span>
-                </span>
-
-                <span v-else>
-                  {{ props.formattedRow[props.column.field] }}
-                </span>
-              </template>
-            </vue-good-table>
-
-            <paginate
-              :page-count="totalPages"
-              :click-handler="changePageNum"
-              v-model="page"
-              :prev-text="'<'"
-              :next-text="'>'"
-              :container-class="'pagination'"
-              :page-class="'page-item'"
+              {{ item.name }}
+            </option>
+          </select>
+          <DownArrow class="absolute w-auto h-auto top-6 right-4" />
+        </div>
+        <div class="relative lg:my-0 my-6">
+          <select
+            v-model="selectedExam"
+            @change="onDropdownChange"
+            class="
+              form-select
+              appearance-none
+              block
+              shadow-gbtn
+              text-left
+              py-4
+              text-base
+              font-normal
+              text-gray-700
+              bg-white bg-clip-padding bg-no-repeat
+              w-full
+              lg:w-60
+              px-4
+              rounded-xl
+              m-0
+              focus:outline-none
+              hover:cursor-pointer
+            "
+            aria-label="Default select example"
+          >
+            <option
+              v-for="(item, index) in getExams"
+              :key="index"
+              :value="item.value"
             >
-            </paginate>
-          </div>
+              {{ item.name }}
+            </option>
+          </select>
+          <DownArrow class="absolute w-auto h-auto top-6 right-4" />
         </div>
       </div>
     </div>
-    <ExamTable :tableData="getAllExamsResponse" />
+    <ExamTable :exams="getAllExamsResponse" />
+    <paginate
+      :page-count="totalPages"
+      v-model="page"
+      :click-handler="onPageChnage"
+      :prev-text="prev"
+      :next-text="next"
+      :container-class="'pagination'">
+    </paginate>
   </div>
 </template>
 
 <script>
 import ShowUrl from "~/components/shared/ShowUrl";
-import ExamTable from '~/components/tables/ExamTable';
-import DownArrow from '~/components/Icons/DownArrow';
+import ExamTable from "~/components/tables/ExamTable";
+import DownArrow from "~/components/Icons/DownArrow";
+import Pagination from '~/mixins/pagination';
 
 import { mapActions, mapState, mapGetters } from "vuex";
 
-
 export default {
+  mixins: [Pagination],
   components: {
     ShowUrl,
     ExamTable,
-    DownArrow
-
+    DownArrow,
   },
 
   data() {
     return {
+      selectedExam: "all",
+      selectedSession: "all",
       mainContents: {
         folderName: "exams",
         compName: "show-all-exams",
         topicName: "Show All Exams",
       },
-
-      columns: [
-        {
-          label: "Exam Name",
-          field: "exam_name",
-        },
-        {
-          label: "Exam Year",
-          field: "exam_year",
-        },
-        {
-          label: "Session",
-          field: "session",
-        },
-        {
-          label: "Status",
-          field: "status",
-        },
-        {
-          label: "View",
-          field: "view",
-        },
-      ],
-      page: 1,
-      limit: 20,
     };
   },
 
   computed: {
     ...mapState(["getAllExamsResponse", "createPublishExamResponse"]),
-
-    computedLimit() {
-      // console.log(this.getAllExamsResponse.limit);
-      return this.getAllExamsResponse.limit;
-    },
-
-    computedPage() {
-      // console.log(this.getAllExamsResponse.page);
-      return this.getAllExamsResponse.page;
-    },
-
+    ...mapGetters(["getSessions"]),
+    ...mapGetters("other", ["getExams"]),
     totalPages() {
-      const totalPages = Math.ceil(this.getAllExamsResponse.total_rows / 20);
-      return totalPages;
-    },
+      let totalPage = 1;
+      if (this.getAllExamsResponse && this.getAllExamsResponse.total_pages) {
+        totalPage = this.getAllExamsResponse.total_pages
+      } return totalPage;
+    }
   },
 
   methods: {
-    ...mapActions(["getAllExams", "createPublishExam"]),
-
-    async changePageNum(pageNum) {
-      try {
-        this.page = parseInt(pageNum);
-        await this.getAllExams({ page: pageNum, limit: this.limit });
-        this.$router.push({ path: "/exams/list", query: { page: pageNum } });
-      } catch (error) {
-        console.log("error :>> ", error);
-      }
+    ...mapActions(["getAllExams", "getSession"]),
+    fetchData() {
+      this.getAllExams({page: this.page, limit: this.limit, session: this.selectedSession, exam_name: this.selectedExam })
     },
-
-    async publishExam(value) {
-      console.log(value);
-      await this.createPublishExam(value);
-    },
-
-    async viewResult(value) {
-      this.$router.push({
-        path: "/show-result/list",
-        query: { session: value.session, exam_name: value.exam_name },
-      });
-    },
+    onDropdownChange() {
+      this.fetchData()
+    }
   },
 
   async mounted() {
-    if (this.$route && this.$route.query && this.$route.query.page) {
-      this.page = parseInt(this.$route.query.page);
-      await this.getAllExams({
-        page: this.$route.query.page,
-        limit: this.limit,
-      });
-    } else {
-      await this.getAllExams({ page: this.page, limit: this.limit });
-    }
-
-    this.computedLimit;
-    this.computedPage;
+    this.getSession()
   },
 };
 </script>

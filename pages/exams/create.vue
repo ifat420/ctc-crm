@@ -6,7 +6,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 mb-10">
                 <div>
                     <label for="session" class="text-sm"> Session </label>
-                    <div class="flex flex-col lg:flex-row">
+                    <div class="flex flex-col ">
                         <div class="relative">
                         <select
                             v-model="exam.session"
@@ -50,7 +50,7 @@
 
                 <div>
                     <label for="exam_name" class="text-sm"> Exam Name </label>
-                    <div class="flex flex-col lg:flex-row">
+                    <div class="flex flex-col ">
                     <div class="relative">
                     <select
                         v-model="exam.exam_name"
@@ -97,7 +97,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 mb-10">
                 <div>
 <label for="exam_year" class="text-sm"> Exam Year </label>
-<div class="flex flex-col lg:flex-row">
+<div class="flex flex-col ">
 <div class="relative">
 <select
     v-model="exam.exam_year"

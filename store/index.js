@@ -20,7 +20,7 @@ export const state = () => ({
     aExam:[],
     getAllStudentResponse: {},
     getAllSubjectResponse: {},
-    getAllExamsResponse: [],
+    getAllExamsResponse: {},
     sidebar: false,
     optionalSubjectResponse: [],
     requiredSubjectResponse: [],
@@ -437,10 +437,11 @@ export const actions = {
             let response = await this.$axios.$post(`/subjects-sheet`,payload);
             console.log("subject file response",response);
             commit('SET_SUBJECT_FILE_UPLOAD_INFORMATION',response);
+            this.$router.push("/subjects")
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
-            console.log("subject file upload error",obj.error);
+            this.$errorToast(error.response.data.message);
         } finally {
             dispatch("end", id);
             dispatch('setError', obj)
@@ -596,6 +597,7 @@ export const actions = {
             let response = await this.$axios.$post(`/student`, payload);
             console.log("response student info inside store:",response);
             commit('SET_POST_A_STUDENT', response);
+            this.$router.push("/students")
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message

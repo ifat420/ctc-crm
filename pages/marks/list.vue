@@ -126,7 +126,7 @@
     
 
     <div class="px-6 py-6 bg-color-whiteTwo m-6 box-shadow-dashboard sm:rounded-lg" v-if="marksResponse && marksResponse.length">
-        <div class="flex flex-col"">
+        <div class="flex flex-col">
             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                     <div class="overflow-x-auto rounded-lg">
