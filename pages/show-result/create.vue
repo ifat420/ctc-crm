@@ -1,41 +1,169 @@
 <template>
   <div>
     <div class="">
-      <ShowUrl :content="mainContents" />
-      <div class="px-6 py-6 bg-color-whiteTwo mt-6 ml-6 mr-6 box-shadow-dashboard sm:rounded-lg">
+      <h2 class="text-3xl font-medium">Create Resultt</h2>
+      <div class="">
         
   
-        <div class="p-10">  
-            <div class="sm:grid sm:grid-cols-2 gap-x-10 py-4 inputText-border">
-                <div class="pb-4 sm:pb-0">
-                    <SelectInputExamName :shadowStudent="shadowStudent" :marginBottom="marBottom" :widthStudent="widthStudent" :value="student.exam_name" :input="examName" @hello="examNameChanged"/>
-                    <span v-if="!$v.student.exam_name.required && $v.student.exam_name.$dirty" class="error pb-4">*Exam Name is required</span>
+        <div class="mt-6">
+          
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 mb-10">
+      <div>
+    <label for="session" class="text-sm"> Session </label>
+    <div class="flex flex-col lg:flex-row">
+        <div class="relative">
+        <select
+            v-model="student.session"
+            @blur="$v.student.session.$touch()"
+            class="
+            appearance-none
+            block
+            w-full
+            px-4
+            py-3
+            mt-4
+            rounded-md
+            shadow-gbtn
+            placeholder-gray-400
+            focus:outline-none focus:ring-primary focus:border-primary
+            text-sm
+            hover:cursor-pointer
+            "
+            aria-label="Default select example"
+
+            :class="{
+        'border border-red-500':
+            $v.student.session.$dirty &&
+            $v.student.session.$invalid,
+        }"
+        >
+        <option value="">Select Session</option>
+            <option v-for="(item, index) in sessionList.options" :key="index" :value="item.value">{{ item.name }}</option>
+            
+        </select>
+        <DownArrow class="absolute w-auto h-auto top-9 right-4" />
+        </div>
+    </div>
+    <p
+        v-if="!$v.student.session.required && $v.student.session.$dirty"
+        class="text-red-500 text-xs mt-2"
+    >
+        Session is required.
+    </p>
+      </div>
+
+      <div>
+    <label for="exam_name" class="text-sm"> Exam Name </label>
+    <div class="flex flex-col lg:flex-row">
+        <div class="relative">
+        <select
+            v-model="student.exam_name"
+            @blur="$v.student.exam_name.$touch()"
+            class="
+            appearance-none
+            block
+            w-full
+            px-4
+            py-3
+            mt-4
+            rounded-md
+            shadow-gbtn
+            placeholder-gray-400
+            focus:outline-none focus:ring-primary focus:border-primary
+            text-sm
+            hover:cursor-pointer
+            "
+            aria-label="Default select example"
+
+            :class="{
+        'border border-red-500':
+            $v.student.exam_name.$dirty &&
+            $v.student.exam_name.$invalid,
+        }"
+        >
+        <option value="">Select Exam</option>
+            <option v-for="(item, index) in examName.options" :key="index" :value="item.value">{{ item.name }}</option>
+            
+        </select>
+        <DownArrow class="absolute w-auto h-auto top-9 right-4" />
+        </div>
+    </div>
+    <p
+        v-if="!$v.student.exam_name.required && $v.student.exam_name.$dirty"
+        class="text-red-500 text-xs mt-2"
+    >
+        Exam Name is required.
+    </p>
+      </div>
+    
+        
+      </div>
+
+                <div v-if="hasSuccess && aSubject && aSubject.message" class="pb-3 px-10">
+                    <h1 class="font success">{{ aSubject.message }}</h1>
                 </div>
-                <div class="pb-4 sm:pb-0">
-                    <SelectInputSession :shadowStudent="shadowStudent" :marginBottom="marBottom" :widthStudent="widthStudent" :value="student.session" :input="sessionList" @hello="sessionChanged"/>
-                    <span v-if="!$v.student.session.required && $v.student.session.$dirty" class="error pb-4">*Session is required</span>
+
+                <div v-if="isError('postCreateExam')  && isError('postCreateExam').has_error" class="pt-3">
+                    <h1 class="font text-red-600"> {{ isError('postCreateExam').error }} </h1>
                 </div>
-            </div> 
+
+
+
+                <hr class="my-8" />
+
+      <button
+      @click.prevent="showAll"
+      class="
+        inline-flex
+        justify-center
+        items-center
+        py-3
+        px-16
+        border border-transparent
+        rounded-md
+        shadow-sm
+        font-medium
+        text-white
+        bg-primary
+        focus:outline-none
+        focus:ring-2
+        focus:ring-offset-2
+        focus:ring-indigo-500
+      "
+    >
+    <IconSpinAnimation v-if="is('postResult')" />
+      Search
+    </button>
+
+    <button
+      @click.prevent="resetAll"
+      class="
+        inline-flex
+        justify-center
+        items-center
+        py-3
+        px-16
+        border border-transparent
+        rounded-md
+        shadow-sm
+        font-medium
+        text-white
+        bg-primary
+        focus:outline-none
+        focus:ring-2
+        focus:ring-offset-2
+        focus:ring-indigo-500
+      "
+    >
+    <!-- <IconSpinAnimation v-if="is('postResult')" /> -->
+      Reset
+    </button>
+
+            
+
         </div>
 
-        <div class="flex items-center justify-start gap-x-4 px-10">
-          <button
-            class="btn block rounded-lg font relative"
-            :disabled="is('postResult')"
-            @click.prevent="showAll"
-          >
-            Search
-            <span :class="{'load loading': is('postResult') }"></span>
-          </button>
-          <button
-            class="btn block rounded-lg font relative"
-            :disabled="startLoading"
-            @click.prevent="resetAll"
-          >
-            Reset
-            <span :class="{'load loading': startLoading }"></span>
-          </button>
-        </div>
+        
       </div>
     </div>
 
@@ -45,39 +173,7 @@
           <div
             class="shadow overflow-hidden p-8 bg-color-whiteTwo sm:rounded-lg"
           >
-            <!-- <div class="flex justify-between pb-10"> -->
-              <!-- <h4 class="pb-4 font">Search Result</h4> -->
-              <!-- <div class="flex gap-x-4" v-if="showButton">
-                <button
-                  class="
-                    btn
-                    flex
-                    items-center
-                    gap-x-6
-                    px-4
-                    py-2
-                    font
-                    border-radius-button
-                  "
-                >
-                  Save
-                </button>
-                <button
-                  class="
-                    btn
-                    flex
-                    items-center
-                    gap-x-6
-                    px-4
-                    py-2
-                    font
-                    border-radius-button
-                  "
-                >
-                  Print
-                </button>
-              </div> -->
-            <!-- </div> -->
+            
             
             
 
@@ -138,16 +234,14 @@
 import { mapActions, mapState, mapGetters } from 'vuex'
 import { required, minLength, email } from 'vuelidate/lib/validators'
 
-import ShowUrl from "~/components/shared/ShowUrl";
-import SelectInputSession from "~/components/shared/Input/SelectInputSession";
-import SelectInputExamName from "~/components/shared/Input/SelectInputExamName";
+import DownArrow from "~/components/Icons/DownArrow";
+import IconSpinAnimation from "~/components/SpinAnimaiton";
 
 
 export default {
   components: {
-    ShowUrl,
-    SelectInputSession,
-    SelectInputExamName
+    DownArrow,
+    IconSpinAnimation
   },
 
   data() {
@@ -345,7 +439,7 @@ export default {
         }
         
         await this.postResult(query)
-        this.$router.push({ path: '/show-result/result-details', query: query })
+        this.$router.push({ path: '/show-result/create', query: query })
       } catch (error) {
         console.log('error :>> ', error);
       }
@@ -371,7 +465,7 @@ export default {
       this.showButton = false;
       this.startLoading = false;
       // this.computedResult = []
-      this.$router.push('/show-result/result-details');
+      this.$router.push('/show-result/create');
     },
 
     async changePageNum(pageNum) {

@@ -1,53 +1,129 @@
 <template>
-  <div class="">
-    <ShowUrl :content="mainContents" />
-    <div
-      class="px-6 py-6 bg-color-whiteTwo m-6 box-shadow-dashboard sm:rounded-lg"
-    >
+  <div>
+    <h2 class="text-3xl font-medium">Upload Marks</h2>
+    <div class="mt-6">
       <!-- ................... Select Option ................................. -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-10"> 
         <div>
-        
-            <div class="sm:grid sm:grid-cols-2 gap-x-10 py-4 inputText-border">
-                <div class="pb-4 sm:pb-0">
-                    <SelectInputSession :shadowStudent="shadowStudent" :marginBottom="marBottom" :widthStudent="widthStudent" :value="marks.session" :input="sessionList" @hello="sessionChanged"/>
-                    <span v-if="!$v.marks.session.required && $v.marks.session.$dirty" class="error pb-4">*Session is required</span>
-                </div>
-                <div class="pb-4 sm:pb-0">
-                    <SelectInputExamName :shadowStudent="shadowStudent" :marginBottom="marBottom" :widthStudent="widthStudent" :value="marks.exam_name" :input="examName" @hello="examNameChanged"/>
-                    <span v-if="!$v.marks.exam_name.required && $v.marks.exam_name.$dirty" class="error pb-4">*Exam Name is required</span>
-                </div>
-            </div> 
-            
-            
+            <label for="session" class="text-sm"> Session </label>
+            <div class="flex flex-col lg:flex-row">
+                <div class="relative">
+                <select
+                    v-model="marks.session"
+                    @blur="$v.marks.session.$touch()"
+                    class="
+                    appearance-none
+                    block
+                    w-full
+                    px-4
+                    py-3
+                    mt-4
+                    rounded-md
+                    shadow-gbtn
+                    placeholder-gray-400
+                    focus:outline-none focus:ring-primary focus:border-primary
+                    text-sm
+                    hover:cursor-pointer
+                    "
+                    aria-label="Default select example"
 
-
-            <div
-            v-if="
-                isError('createMarks') && isError('createMarks').has_error
-            "
-            class="pt-3"
-            >
-                <h1 class="font text-red-600">
-                    {{ isError("createMarks").error }}
-                </h1>
-            </div>
-
-            <div class="flex items-center justify-start gap-x-4 py-8">
-                <button
-                    class="btn block rounded-lg font relative"
-                    :disabled="is('createMarks')"
-                    @click.prevent="uploadMarks"
+                    :class="{
+                'border border-red-500':
+                    $v.marks.session.$dirty &&
+                    $v.marks.session.$invalid,
+                }"
                 >
-                    Submit
-                    <span :class="{ 'load loading': is('createMarks') }"></span>
-                </button>
-                <div>
+                <option value="">Select Session</option>
+                    <option v-for="(item, index) in sessionList.options" :key="index" :value="item.value">{{ item.name }}</option>
                     
+                </select>
+                <DownArrow class="absolute w-auto h-auto top-9 right-4" />
                 </div>
             </div>
+            <p
+                v-if="!$v.marks.session.required && $v.marks.session.$dirty"
+                class="text-red-500 text-xs mt-2"
+            >
+                Session is required.
+            </p>
+        </div>
+
+        <div>
+            <label for="exam_name" class="text-sm"> Exam Name </label>
+            <div class="flex flex-col lg:flex-row">
+                <div class="relative">
+                <select
+                    v-model="marks.exam_name"
+                    @blur="$v.marks.exam_name.$touch()"
+                    class="
+                    appearance-none
+                    block
+                    w-full
+                    px-4
+                    py-3
+                    mt-4
+                    rounded-md
+                    shadow-gbtn
+                    placeholder-gray-400
+                    focus:outline-none focus:ring-primary focus:border-primary
+                    text-sm
+                    hover:cursor-pointer
+                    "
+                    aria-label="Default select example"
+
+                    :class="{
+                'border border-red-500':
+                    $v.marks.exam_name.$dirty &&
+                    $v.marks.exam_name.$invalid,
+                }"
+                >
+                <option value="">Select Exam</option>
+                    <option v-for="(item, index) in examName.options" :key="index" :value="item.value">{{ item.name }}</option>
+                    
+                </select>
+                <DownArrow class="absolute w-auto h-auto top-9 right-4" />
+                </div>
+            </div>
+            <p
+                v-if="!$v.marks.exam_name.required && $v.marks.exam_name.$dirty"
+                class="text-red-500 text-xs mt-2"
+            >
+                Exam Name is required.
+            </p>
+        </div>
 
         </div>
-    </div>
+            <hr class="my-8" />
+
+            <button
+            @click.prevent="uploadMarks"
+            class="
+                inline-flex
+                justify-center
+                items-center
+                py-3
+                px-16
+                border border-transparent
+                rounded-md
+                shadow-sm
+                font-medium
+                text-white
+                bg-primary
+                focus:outline-none
+                focus:ring-2
+                focus:ring-offset-2
+                focus:ring-indigo-500
+            "
+            >
+                <IconSpinAnimation v-if="is('createMarks')" />
+                Submit
+            </button>
+                    
+               
+            
+
+        </div>
+    
 
     <div class="px-6 py-6 bg-color-whiteTwo m-6 box-shadow-dashboard sm:rounded-lg" v-if="marksResponse && marksResponse.length">
         <div class="flex flex-col">
@@ -106,19 +182,31 @@
     </div>
 
     <div class="px-6 py-2" v-if="marksResponse && marksResponse.length">
-        <div class="gap-x-4">
-            <button
-                class="btn block rounded-lg font relative"
-                :disabled="is('createMarks')"
-                @click="submitStudentMarks"
-            >
-                Submit
-                <span :class="{ 'load loading': is('createMarks') }"></span>
-            </button>
-            <div>
-                
-            </div>
-        </div>
+        <hr class="my-8" />
+
+        <button
+        @click.prevent="submitStudentMarks"
+        class="
+            inline-flex
+            justify-center
+            items-center
+            py-3
+            px-16
+            border border-transparent
+            rounded-md
+            shadow-sm
+            font-medium
+            text-white
+            bg-primary
+            focus:outline-none
+            focus:ring-2
+            focus:ring-offset-2
+            focus:ring-indigo-500
+        "
+        >
+            <IconSpinAnimation v-if="is('createMarks')" />
+            Submit
+        </button>
     </div>
 
   </div>
@@ -126,17 +214,16 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
-import { required, minLength, email } from 'vuelidate/lib/validators'
+import { required, minLength, email, alpha } from 'vuelidate/lib/validators'
 
 import ShowUrl from "~/components/shared/ShowUrl";
-import SelectInputSession from "~/components/shared/Input/SelectInputSession";
-import SelectInputExamName from "~/components/shared/Input/SelectInputExamName";
+import DownArrow from "~/components/Icons/DownArrow";
+import IconSpinAnimation from "~/components/SpinAnimaiton";
 
 export default {
     components: {
-        ShowUrl,
-        SelectInputSession,
-        SelectInputExamName,
+        DownArrow,
+        IconSpinAnimation
     },
 
     data() {
@@ -234,20 +321,6 @@ export default {
             } return obj
         },
 
-        // computedMarksResponse() {
-            
-        //     if(this.marksResponse && this.marksResponse.length) {
-        //         for(let i = 0; i< this.marksResponse.length ; i++) {
-        //             let obj = {};
-        //             obj.cqNum = "";
-        //             obj.mcqNum = "";
-        //             obj.practicalNum = "";
-        //             this.input.push(obj);
-        //         }
-        //     }
-
-        //     return this.input;
-        // }
     },
 
     methods: {

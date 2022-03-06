@@ -1,9 +1,9 @@
 <template>
     <div>
-    <ShowUrl :content="mainContents"/>
-  <div class="mx-8 my-8 rounded-lg bg-white shadow-lg">
-      <div class="my-8 bg-white mx-6" v-if="getAllExamsResponse.rows && getAllExamsResponse.rows.length">
-        <div class="p-6 sm:shadow-xm">
+  <h2 class="text-3xl font-medium">Show All Exams</h2>
+  <div class="">
+      <div class="my-8 bg-white" v-if="getAllExamsResponse.rows && getAllExamsResponse.rows.length">
+        <div class=" sm:shadow-xm">
             <div> 
                 <vue-good-table
                 :columns="columns"
@@ -129,7 +129,7 @@ export default {
             try {
                 this.page = parseInt(pageNum);
                 await this.getAllExams({ page: pageNum, limit: this.limit });
-                this.$router.push({ path: '/exams/show-all-exams', query: { page: pageNum } })
+                this.$router.push({ path: '/exams/list', query: { page: pageNum } })
             } catch (error) {
                 console.log('error :>> ', error);
             }
@@ -143,7 +143,7 @@ export default {
         },
 
         async viewResult(value) {
-            this.$router.push({ path: "/show-result/result-overview", query: { session: value.session, exam_name: value.exam_name } });
+            this.$router.push({ path: "/show-result/list", query: { session: value.session, exam_name: value.exam_name } });
         }
     },
 

@@ -1,11 +1,11 @@
 <template>
     <div class="">
-        <ShowUrl :content="mainContents"/>
-        <div class="px-6 py-6 bg-color-whiteTwo m-6 box-shadow-dashboard sm:rounded-lg">
+        <h2 class="text-3xl font-medium">Upload Student Information</h2>
+        
 
             <!-- ...................File Upload ............................... -->
-            <form action="" @submit.prevent="uploadStudentFile">
-            <div class="max-w-md bg-white rounded-lg overflow-hidden box-shadow md:max-w-lg">
+       
+            <div class="max-w-md mt-6 bg-white rounded-lg overflow-hidden box-shadow md:max-w-lg">
                 <div class="md:flex">
                     <div class="w-full">
                         <div class="p-4 border-b-2"> <span class="text-gray-700 text-xs font-bold uppercase tracking-wide">Add files</span> </div>
@@ -39,39 +39,53 @@
                 </div>
             </div>
 
-
             <span v-if="fileRequired" class="error">*File is required</span>
-
-            <!-- <div v-if="!fileRequired && studentsFileUploadResponse && studentsFileUploadResponse.message" class="pt-3">
-                <h1 class="font success">{{studentsFileUploadResponse.message}}</h1>
-            </div> -->
 
             <div v-if="isError('studentsFileUpload')  && isError('studentsFileUpload').has_error" class="pt-3">
                 <h1 class="font text-red-600"> {{ isError('studentsFileUpload').error }} </h1>
             </div>
 
-            <div class="flex items-center justify-start gap-x-4 py-8">
-                <button class="btn block rounded-lg font relative"
-                :disabled="is('studentsFileUpload')"
-                >
-                Upload Files
-                <span :class="{'load loading': is('studentsFileUpload') }"></span>
-                </button>
-                
-            </div>
-            </form>
-        </div>   
+            <hr class="my-8" />
+
+            <button
+            @click.prevent="uploadStudentFile"
+            class="
+                inline-flex
+                justify-center
+                items-center
+                py-3
+                px-16
+                border border-transparent
+                rounded-md
+                shadow-sm
+                font-medium
+                text-white
+                bg-primary
+                focus:outline-none
+                focus:ring-2
+                focus:ring-offset-2
+                focus:ring-indigo-500
+            "
+            >
+            <IconSpinAnimation v-if="is('studentsFileUpload')" />
+             Upload Files
+            </button>
+        
+        
     </div>
 </template>
 
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex'
-import ShowUrl from '~/components/shared/ShowUrl'
+import DownArrow from "~/components/Icons/DownArrow";
+import IconSpinAnimation from "~/components/SpinAnimaiton";
+
 export default {
 
-  components: {
-      ShowUrl
-  },
+    components: {
+        DownArrow,
+        IconSpinAnimation
+    },
 
   data() {
       return {

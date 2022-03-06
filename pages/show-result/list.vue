@@ -1,26 +1,101 @@
 <template>
     <div>
-        <div class="w-full p-8 box-shadow-dashboard bg-color-whiteTwo">
-            <!-- <p class="font pb-4"><span class="color-gray">{{ content.folderName }} /</span> <span class="color-black"></span></p> -->
-            <h3 class="font color-black text-xl font-bold antialiased">Half Yearly Exam Result</h3>
-            <h3 class="font color-black text-md font-medium antialiased">2020-21</h3>
-        </div>
+        <h2 class="text-3xl font-medium">Result List</h2>
         
       <!-- SESSION & EXAM-NAME -->
+      <div class="mt-6">
+          
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 mb-10">
       <div>
-            <form @submit.prevent="uploadAExam">
-                <div class="p-10">  
-                    <div class="sm:grid sm:grid-cols-2 gap-x-10 py-4 inputText-border">
-                        <div class="pb-4 sm:pb-0">
-                            <SelectInputExamName :shadowStudent="shadowStudent" :marginBottom="marBottom" :widthStudent="widthStudent" :value="exam.exam_name" :input="examName" @hello="examNameChanged"/>
-                            <span v-if="!$v.exam.exam_name.required && $v.exam.exam_name.$dirty" class="error pb-4">*Exam Name is required</span>
-                        </div>
-                        <div class="pb-4 sm:pb-0">
-                            <SelectInputSession :shadowStudent="shadowStudent" :marginBottom="marBottom" :widthStudent="widthStudent" :value="exam.session" :input="sessionList" @hello="sessionChanged"/>
-                            <span v-if="!$v.exam.session.required && $v.exam.session.$dirty" class="error pb-4">*Session is required</span>
-                        </div>
-                    </div> 
-                </div>
+    <label for="session" class="text-sm"> Session </label>
+    <div class="flex flex-col lg:flex-row">
+        <div class="relative">
+        <select
+            v-model="exam.session"
+            @blur="$v.exam.session.$touch()"
+            class="
+            appearance-none
+            block
+            w-full
+            px-4
+            py-3
+            mt-4
+            rounded-md
+            shadow-gbtn
+            placeholder-gray-400
+            focus:outline-none focus:ring-primary focus:border-primary
+            text-sm
+            hover:cursor-pointer
+            "
+            aria-label="Default select example"
+
+            :class="{
+        'border border-red-500':
+            $v.exam.session.$dirty &&
+            $v.exam.session.$invalid,
+        }"
+        >
+        <option value="">Select Session</option>
+            <option v-for="(item, index) in sessionList.options" :key="index" :value="item.value">{{ item.name }}</option>
+            
+        </select>
+        <DownArrow class="absolute w-auto h-auto top-9 right-4" />
+        </div>
+    </div>
+    <p
+        v-if="!$v.exam.session.required && $v.exam.session.$dirty"
+        class="text-red-500 text-xs mt-2"
+    >
+        Session is required.
+    </p>
+      </div>
+
+      <div>
+    <label for="exam_name" class="text-sm"> Exam Name </label>
+    <div class="flex flex-col lg:flex-row">
+        <div class="relative">
+        <select
+            v-model="exam.exam_name"
+            @blur="$v.exam.exam_name.$touch()"
+            class="
+            appearance-none
+            block
+            w-full
+            px-4
+            py-3
+            mt-4
+            rounded-md
+            shadow-gbtn
+            placeholder-gray-400
+            focus:outline-none focus:ring-primary focus:border-primary
+            text-sm
+            hover:cursor-pointer
+            "
+            aria-label="Default select example"
+
+            :class="{
+        'border border-red-500':
+            $v.exam.exam_name.$dirty &&
+            $v.exam.exam_name.$invalid,
+        }"
+        >
+        <option value="">Select Exam</option>
+            <option v-for="(item, index) in examName.options" :key="index" :value="item.value">{{ item.name }}</option>
+            
+        </select>
+        <DownArrow class="absolute w-auto h-auto top-9 right-4" />
+        </div>
+    </div>
+    <p
+        v-if="!$v.exam.exam_name.required && $v.exam.exam_name.$dirty"
+        class="text-red-500 text-xs mt-2"
+    >
+        Exam Name is required.
+    </p>
+      </div>
+    
+        
+      </div>
 
                 <div v-if="hasSuccess && aSubject && aSubject.message" class="pb-3 px-10">
                     <h1 class="font success">{{ aSubject.message }}</h1>
@@ -30,24 +105,42 @@
                     <h1 class="font text-red-600"> {{ isError('postCreateExam').error }} </h1>
                 </div>
 
-                <div class="flex items-center justify-start gap-x-4 pb-8 px-10">
-                    <button
-                        class="btn block rounded-lg font relative"
-                        :disabled="is('postCreateExam')"
-                        >
-                        Submit
-                        <span :class="{'load loading': is('postCreateExam') }"></span>
-                    </button>
-                </div>
 
-            </form>
+
+                <hr class="my-8" />
+
+      <button
+      @click.prevent="uploadAExam"
+      class="
+        inline-flex
+        justify-center
+        items-center
+        py-3
+        px-16
+        border border-transparent
+        rounded-md
+        shadow-sm
+        font-medium
+        text-white
+        bg-primary
+        focus:outline-none
+        focus:ring-2
+        focus:ring-offset-2
+        focus:ring-indigo-500
+      "
+    >
+    <IconSpinAnimation v-if="is('postCreateExam')" />
+      Submit
+    </button>
+
+            
 
         </div>
 
 
-        <div class="w-full p-8 box-shadow-dashboard bg-color-whiteTwo" v-if="createResultOverviewResponse && createResultOverviewResponse.all_pass">
+        <div class="w-full mt-8 bg-color-whiteTwo" v-if="createResultOverviewResponse && createResultOverviewResponse.all_pass">
             
-            <h3 class="font color-black text-xl font-bold antialiased mb-4">Students who passed all exams</h3>
+            <h3 class="color-black text-xl font-medium antialiased mb-4">Students who passed all exams</h3>
             <div>
               <div class="grid grid-cols-8 gap-6 p-6 box-shadow-dashboard" v-if="createResultOverviewResponse && createResultOverviewResponse.all_pass && createResultOverviewResponse.all_pass.length">
                 <template>
@@ -60,8 +153,8 @@
             </div>
         </div>
 
-        <div class="w-full p-8 box-shadow-dashboard bg-color-whiteTwo" v-if="createResultOverviewResponse && createResultOverviewResponse.all_fail">
-            <h3 class="font color-black text-xl font-bold antialiased mb-4">Students who failed</h3>
+        <div class="w-full mt-8 bg-color-whiteTwo" v-if="createResultOverviewResponse && createResultOverviewResponse.all_fail">
+            <h3 class="color-black text-xl font-medium antialiased mb-4">Students who failed</h3>
             <div>
               <div class="flex flex-wrap flex-1 gap-6 p-6 box-shadow-dashboard"  v-if="createResultOverviewResponse && createResultOverviewResponse.all_fail && createResultOverviewResponse.all_fail.length ">
                 <template>
@@ -74,11 +167,11 @@
             </div>
         </div>
 
-          <div class="w-full p-8 box-shadow-dashboard bg-color-whiteTwo" v-if="createResultOverviewResponse && createResultOverviewResponse.top_five">
-            <h3 class="font color-black text-xl font-bold antialiased">Top Five Students</h3>
-            <div class=" my-8 rounded-lg bg-white shadow-lg" v-if="createResultOverviewResponse && createResultOverviewResponse.top_five && createResultOverviewResponse.top_five.length">
-              <div class="my-8 bg-white mx-6" >
-                <div class="p-6 sm:shadow-xm">
+          <div class="w-full mt-8 bg-color-whiteTwo" v-if="createResultOverviewResponse && createResultOverviewResponse.top_five">
+            <h3 class="color-black text-xl font-medium antialiased mb-4">Top Five Students</h3>
+            <div class="" v-if="createResultOverviewResponse && createResultOverviewResponse.top_five && createResultOverviewResponse.top_five.length">
+              <div class="my-8 bg-white" >
+                <div class="sm:shadow-xm">
                     <div> 
                         <vue-good-table
                         :columns="columns"
@@ -105,13 +198,13 @@
 import { mapActions, mapState, mapGetters } from 'vuex'
 import { required, minLength, email, alpha } from 'vuelidate/lib/validators'
 
-import SelectInputExamName from '~/components/shared/Input/SelectInputExamName'
-import SelectInputSession from '~/components/shared/Input/SelectInputSession'
+import DownArrow from "~/components/Icons/DownArrow";
+import IconSpinAnimation from "~/components/SpinAnimaiton";
 
 export default {
   components: {
-    SelectInputExamName,
-    SelectInputSession
+    DownArrow,
+    IconSpinAnimation
   },
 
   data() {

@@ -1,35 +1,87 @@
 <template>
   <div class="">
-    <ShowUrl :content="mainContents" />
+    <h2 class="text-3xl font-medium mb-3">Students List</h2>
 
-    <div class="px-6 py-6 bg-color-whiteTwo m-6 box-shadow-dashboard sm:rounded-lg">
-        <form
-        class="w-full flex flex-col"
-        >
-            <div class="sm:grid sm:grid-cols-2 gap-x-10 py-4 inputText-border">
+    <div class="mt-6">
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 mb-10">
                 <div>
-                    <SelectInputSession :shadowStudent="shadowStudent" :marginBottom="marBottom" :widthStudent="widthStudent" :value="student.session" :input="sessionList" @hello="sessionChanged"/>
-                    <span v-if="!$v.student.session.required && $v.student.session.$dirty" class="error">*Session is required</span>
+                    <label for="session" class="text-sm"> Session </label>
+                    <div class="flex flex-col lg:flex-row">
+                        <div class="relative">
+                        <select
+                            v-model="student.session"
+                            @blur="$v.student.session.$touch()"
+                            class="
+                            appearance-none
+                            block
+                            w-full
+                            px-4
+                            py-3
+                            mt-4
+                            rounded-md
+                            shadow-gbtn
+                            placeholder-gray-400
+                            focus:outline-none focus:ring-primary focus:border-primary
+                            text-sm
+                            hover:cursor-pointer
+                            "
+                            aria-label="Default select example"
+
+                            :class="{
+                        'border border-red-500':
+                            $v.student.session.$dirty &&
+                            $v.student.session.$invalid,
+                        }"
+                        >
+                        <option value="">Select Session</option>
+                            <option v-for="(item, index) in sessionList.options" :key="index" :value="item.value">{{ item.name }}</option>
+                            
+                        </select>
+                        <DownArrow class="absolute w-auto h-auto top-9 right-4" />
+                        </div>
+                    </div>
+                    <p
+                        v-if="!$v.student.session.required && $v.student.session.$dirty"
+                        class="text-red-500 text-xs mt-2"
+                    >
+                        Session is required.
+                    </p>
                 </div>
-            </div>
-        </form>
+            </div> 
+        
 
         <div v-if="isError('getStudentsList')  && isError('getStudentsList').has_error" class="pt-3">
             <h1 class="font text-red-600"> {{ isError('getStudentsList').error }} </h1>
         </div>
 
-        <div>
-            <div class="flex items-center justify-start gap-x-4 pb-4 pt-8">
-            <button
-                class="btn block rounded-lg font relative"
-                :disabled="is('getStudentsList')"
-                @click="uploadInfo">
-                Show Students List
-                <span :class="{'load loading': is('getStudentsList') }"></span>
-            </button>
-            </div>
-            
-        </div>
+        
+
+        <hr class="my-8" />
+
+      <button
+      @click.prevent="uploadInfo"
+      class="
+        inline-flex
+        justify-center
+        items-center
+        py-3
+        px-16
+        border border-transparent
+        rounded-md
+        shadow-sm
+        font-medium
+        text-white
+        bg-primary
+        focus:outline-none
+        focus:ring-2
+        focus:ring-offset-2
+        focus:ring-indigo-500
+      "
+    >
+    <IconSpinAnimation v-if="is('getStudentsList')" />
+      Show Students List
+    </button>
     </div>
     
 
@@ -54,17 +106,18 @@
 </template>
 
 <script>
-import ShowUrl from "~/components/shared/ShowUrl";
 import { required, minLength, email } from 'vuelidate/lib/validators'
 import { mapActions, mapState, mapGetters } from "vuex";
-import SelectInputSession from "~/components/shared/Input/SelectInputSession";
+import DownArrow from "~/components/Icons/DownArrow";
+import IconSpinAnimation from "~/components/SpinAnimaiton";
+
 export default {
 
 
 
     components: {
-        ShowUrl,
-        SelectInputSession,
+        DownArrow,
+        IconSpinAnimation
     },
 
 

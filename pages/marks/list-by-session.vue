@@ -1,61 +1,223 @@
 <template>
-  <div class="">
-    <ShowUrl :content="mainContents" />
-    <div
-      class="px-6 py-6 bg-color-whiteTwo m-6 box-shadow-dashboard sm:rounded-lg"
-    >
+  <div>
+    
+    
       <!-- ................... Select Option ................................. -->
-        <form action="" @submit.prevent="uploadSubjectMarks">
         
-            <div class="sm:grid sm:grid-cols-2 gap-x-10 py-4 inputText-border">
-                <div class="pb-4 sm:pb-0">
-                    <SelectInputSession :shadowStudent="shadowStudent" :marginBottom="marBottom" :widthStudent="widthStudent" :value="marks.session" :input="sessionList" @hello="sessionChanged"/>
-                    <span v-if="!$v.marks.session.required && $v.marks.session.$dirty" class="error pb-4">*Session is required</span>
-                </div>
-                <div class="pb-4 sm:pb-0">
-                    <SelectInputExamName :shadowStudent="shadowStudent" :marginBottom="marBottom" :widthStudent="widthStudent" :value="marks.exam_name" :input="examName" @hello="examNameChanged"/>
-                    <span v-if="!$v.marks.exam_name.required && $v.marks.exam_name.$dirty" class="error pb-4">*Exam Name is required</span>
-                </div>
-            </div> 
-            <div class="sm:grid sm:grid-cols-2 gap-x-10 py-4 inputText-border">
-                <div class="pb-4 sm:pb-0">
-                    <SelectInputGroup :shadowStudent="shadowStudent" :marginBottom="marBottom" :widthStudent="widthStudent" :value="marks.group" :input="groupList" @hello="groupChanged"/>
-                    <span v-if="!$v.marks.group.required && $v.marks.group.$dirty" class="error pb-4">*Group is required</span>
-                </div>
-                <div class="pb-4 sm:pb-0">
-                    <SelectInputSubject :subName="'Subjects'" :shadowStudent="shadowStudent" :marginBottom="marBottom" :widthStudent="widthStudent" :value="marks.subject_name" :input="subjectList" @hello="subjectChanged"/>
-                    <span v-if="!$v.marks.subject_name.required && $v.marks.subject_name.$dirty" class="error pb-4">*Subject is required</span>
-                </div>
-            </div> 
-            
-            
+       <h2 class="text-3xl font-medium">Upload Marks Subjectwise</h2>
+
+    <div class="mt-6"> 
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 mb-10">
+        <div>
+      <label for="session" class="text-sm"> Session </label>
+      <div class="flex flex-col lg:flex-row">
+          <div class="relative">
+          <select
+              v-model="marks.session"
+              @blur="$v.marks.session.$touch()"
+              class="
+              appearance-none
+              block
+              w-full
+              px-4
+              py-3
+              mt-4
+              rounded-md
+              shadow-gbtn
+              placeholder-gray-400
+              focus:outline-none focus:ring-primary focus:border-primary
+              text-sm
+              hover:cursor-pointer
+              "
+              aria-label="Default select example"
+
+              :class="{
+          'border border-red-500':
+              $v.marks.session.$dirty &&
+              $v.marks.session.$invalid,
+          }"
+          >
+          <option value="">Select Session</option>
+              <option v-for="(item, index) in sessionList.options" :key="index" :value="item.value">{{ item.name }}</option>
+              
+          </select>
+          <DownArrow class="absolute w-auto h-auto top-9 right-4" />
+          </div>
+      </div>
+      <p
+          v-if="!$v.marks.session.required && $v.marks.session.$dirty"
+          class="text-red-500 text-xs mt-2"
+      >
+          Session is required.
+      </p>
+        </div>
+
+        <div>
+      <label for="exam_name" class="text-sm"> Exam Name </label>
+      <div class="flex flex-col lg:flex-row">
+          <div class="relative">
+          <select
+              v-model="marks.exam_name"
+              @blur="$v.marks.exam_name.$touch()"
+              class="
+              appearance-none
+              block
+              w-full
+              px-4
+              py-3
+              mt-4
+              rounded-md
+              shadow-gbtn
+              placeholder-gray-400
+              focus:outline-none focus:ring-primary focus:border-primary
+              text-sm
+              hover:cursor-pointer
+              "
+              aria-label="Default select example"
+
+              :class="{
+          'border border-red-500':
+              $v.marks.exam_name.$dirty &&
+              $v.marks.exam_name.$invalid,
+          }"
+          >
+          <option value="">Select Exam</option>
+              <option v-for="(item, index) in examName.options" :key="index" :value="item.value">{{ item.name }}</option>
+              
+          </select>
+          <DownArrow class="absolute w-auto h-auto top-9 right-4" />
+          </div>
+      </div>
+      <p
+          v-if="!$v.marks.exam_name.required && $v.marks.exam_name.$dirty"
+          class="text-red-500 text-xs mt-2"
+      >
+          Exam Name is required.
+      </p>
+        </div>
+      </div> 
+
+      <hr class="my-8" />
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
+        <div>
+      <label for="group" class="text-sm"> Group</label>
+      <div class="flex flex-col lg:flex-row">
+          <div class="relative">
+          <select
+              v-model="marks.group"
+              @blur="$v.marks.group.$touch()"
+              class="
+              appearance-none
+              block
+              w-full
+              px-4
+              py-3
+              mt-4
+              rounded-md
+              shadow-gbtn
+              placeholder-gray-400
+              focus:outline-none focus:ring-primary focus:border-primary
+              text-sm
+              hover:cursor-pointer
+              "
+              aria-label="Default select example"
+
+              :class="{
+          'border border-red-500':
+              $v.marks.group.$dirty &&
+              $v.marks.group.$invalid,
+          }"
+          >
+          <option value="">Select Group</option>
+              <option v-for="(item, index) in groupList.options" :key="index" :value="item.value">{{ item.name }}</option>
+              
+          </select>
+          <DownArrow class="absolute w-auto h-auto top-9 right-4" />
+          </div>
+      </div>
+      <p
+          v-if="!$v.marks.group.required && $v.marks.group.$dirty"
+          class="text-red-500 text-xs mt-2"
+      >
+          Group is required.
+      </p>
+        </div>
+
+        <div>
+      <label for="subject_name" class="text-sm"> Subject Name</label>
+      <div class="flex flex-col lg:flex-row">
+          <div class="relative">
+          <select
+              v-model="marks.subject_name"
+              @blur="$v.marks.subject_name.$touch()"
+              class="
+              appearance-none
+              block
+              w-full
+              px-4
+              py-3
+              mt-4
+              rounded-md
+              shadow-gbtn
+              placeholder-gray-400
+              focus:outline-none focus:ring-primary focus:border-primary
+              text-sm
+              hover:cursor-pointer
+              "
+              aria-label="Default select example"
+
+              :class="{
+          'border border-red-500':
+              $v.marks.subject_name.$dirty &&
+              $v.marks.subject_name.$invalid,
+          }"
+          >
+          <option value="">Select Subject Name</option>
+              <option v-for="(item, index) in subjectList.options" :key="index" :value="item.value">{{ item.name }}</option>
+              
+          </select>
+          <DownArrow class="absolute w-auto h-auto top-9 right-4" />
+          </div>
+      </div>
+      <p
+          v-if="!$v.marks.subject_name.required && $v.marks.subject_name.$dirty"
+          class="text-red-500 text-xs mt-2"
+      >
+          Subject Name is required.
+      </p>
+        </div>
+      </div> 
+    
 
 
-            <div
-            v-if="
-                isError('createMarksOnSubject') && isError('createMarksOnSubject').has_error
-            "
-            class="pt-3"
-            >
-                <h1 class="font text-red-600">
-                    {{ isError("createMarksOnSubject").error }}
-                </h1>
-            </div>
 
-            <div class="flex items-center justify-start gap-x-4 py-8">
-                <button
-                    class="btn block rounded-lg font relative"
-                    :disabled="is('createMarksOnSubject')"
-                >
-                    Submit
-                    <span :class="{ 'load loading': is('createMarksOnSubject') }"></span>
-                </button>
-                <div>
-                    
-                </div>
-            </div>
+      <hr class="my-8" />
 
-        </form>
+      <button
+      @click.prevent="uploadSubjectMarks"
+      class="
+          inline-flex
+          justify-center
+          items-center
+          py-3
+          px-16
+          border border-transparent
+          rounded-md
+          shadow-sm
+          font-medium
+          text-white
+          bg-primary
+          focus:outline-none
+          focus:ring-2
+          focus:ring-offset-2
+          focus:ring-indigo-500
+      "
+      >
+          <IconSpinAnimation v-if="is('createMarksOnSubject')" />
+          Submit
+      </button>
+
+       
     </div>
 
     <div class="px-6 py-6 bg-color-whiteTwo m-6 box-shadow-dashboard sm:rounded-lg" v-if="marksOnSubjectResponse && marksOnSubjectResponse.length">
@@ -114,10 +276,6 @@
         </div>
     </div>
 
-    <!-- <div v-if="hasSuccess && markTableUpdateResponse && markTableUpdateResponse.message" class="inline-block px-4 py-3 bg-green-500 ml-6 rounded-lg">
-        <h1 class="font text-white">{{ markTableUpdateResponse.message }}</h1>
-    </div> -->
-
     <div v-if="isError('createMarkTableUpdate')  && isError('createMarkTableUpdate').has_error" class="inline-block px-4 py-3 bg-red-500 ml-6 rounded-lg">
         <h1 class="font text-white"> {{ isError('createMarkTableUpdate').error }} </h1>
     </div>
@@ -144,20 +302,13 @@
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
 import { required, minLength, email } from 'vuelidate/lib/validators'
-
-import ShowUrl from "~/components/shared/ShowUrl";
-import SelectInputSession from "~/components/shared/Input/SelectInputSession";
-import SelectInputExamName from "~/components/shared/Input/SelectInputExamName";
-import SelectInputGroup from "~/components/shared/Input/SelectInputGroup";
-import SelectInputSubject from "~/components/shared/Input/SelectInputSubject";
+import DownArrow from "~/components/Icons/DownArrow";
+import IconSpinAnimation from "~/components/SpinAnimaiton";
 
 export default {
     components: {
-        ShowUrl,
-        SelectInputSession,
-        SelectInputExamName,
-        SelectInputGroup,
-        SelectInputSubject
+        DownArrow,
+        IconSpinAnimation
     },
 
     data() {
@@ -326,14 +477,7 @@ export default {
                     this.$successToast(this.markTableUpdateResponse.message);
                     console.log('this.markTableUpdateResponse.message :>> ', this.markTableUpdateResponse.message);
                     this.hasSuccess = true;
-                    // console.log("mark response inside", this.markTableUpdateResponse);
-                    // setTimeout(() => {
-                    //     this.hasSuccess = false;
-                    // },5000)
-                
-                }
-
-            
+                }    
 
         },
 
@@ -343,9 +487,10 @@ export default {
             if (this.$v.marks.$anyError == false )
                 {
                     await this.createMarksOnSubject({ exam_name: this.marks.exam_name, session: this.marks.session, subject_name: this.marks.subject_name });
-                    this.hasSuccess = true;
+                    this.$successToast(this.markTableUpdateResponse.message);
                     console.log("UPLOADED");
                 }
+            
             this.$v.marks.$reset()
         }
     },

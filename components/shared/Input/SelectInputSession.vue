@@ -2,7 +2,7 @@
     <div :class="{widthStyle : widthStyle}">
       
     
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+            <label class="block text-sm mb-2" for="grid-state">
                 {{ input.name }}
             </label>
             <div class="mb-3 relative width-main" :class="{widthSelect: widthStyle, widthStudent: widthStudent, marginBottom: marginBottom}">

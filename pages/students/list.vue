@@ -1,9 +1,10 @@
 <template>
 <div>
-    <ShowUrl :content="mainContents"/>
-  <div class="mx-8 my-8 rounded-lg bg-white shadow-lg">
-      <div class="my-8 bg-white mx-6" v-if="getAllStudentResponse.rows && getAllStudentResponse.rows.length">
-        <div class="p-6 sm:shadow-xm">
+
+    <h2 class="text-3xl font-medium">Students</h2>
+    
+      <div class="my-8 bg-white" v-if="getAllStudentResponse.rows && getAllStudentResponse.rows.length">
+        <div class="sm:shadow-xm">
             <div> 
                 <vue-good-table
                 :columns="columns"
@@ -39,26 +40,22 @@
             </div> 
         </div>
     </div>
-  </div>
+  
   </div>
 </template>
 
 <script>
-import ShowUrl from '~/components/shared/ShowUrl'
 import { mapActions, mapState, mapGetters } from "vuex";
+
 export default {
 
+    
     components: {
-        ShowUrl
+        
     },
 
     data() {
         return {
-            mainContents: {
-                folderName: "students",
-                compName: "show-all-students",
-                topicName: "Show All Students"
-            },
             columns: [
                 
                 {
@@ -147,7 +144,7 @@ export default {
             try {
                 this.page = parseInt(pageNum);
                 await this.getAllStudent({ page: pageNum, limit: this.limit });
-                this.$router.push({ path: '/students/show-all-students', query: { page: pageNum } })
+                this.$router.push({ path: '/students/list', query: { page: pageNum } })
             } catch (error) {
                 console.log('error :>> ', error);
             }

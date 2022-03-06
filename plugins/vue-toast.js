@@ -10,4 +10,13 @@ export default async(ctx, inject) => {
             duration : 5000
         });
     })
+
+    inject('errorToast', (text) => {
+        console.log('text :>> ', Vue.prototype);
+        Vue.prototype.$toasted.error(text,{ 
+            theme: "toasted-primary", 
+            position: "top-right", 
+            duration : 5000
+        });
+    })
 }

@@ -3,7 +3,7 @@
     <h2 class="text-3xl font-medium">Add New Subject</h2>
 
     <div class="mt-6">
-      <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-10">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
         <div>
           <label for="subject_name" class="text-sm">Subject Name </label>
           <input
@@ -77,7 +77,7 @@
       </div>
       <hr class="my-8" />
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-10">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
         <div>
           <label for="cq_mark" class="text-sm">CQ Full Mark</label>
           <input
@@ -199,7 +199,7 @@
 
       <hr class="my-8" />
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-10">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
         <div>
           <label for="subject_name" class="text-sm">Subject Name </label>
           <input
@@ -274,7 +274,7 @@
 
       <hr class="my-8" />
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-10">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
         <div>
           <label for="subject_main" class="text-sm">Main Name </label>
           <input
@@ -480,11 +480,6 @@ export default {
       widthStudent: true,
       shadowStudent: true,
       marBottom: true,
-      mainContents: {
-        folderName: "subjects",
-        compName: "create-a-subject",
-        topicName: "Create A Subject",
-      },
       multiPart: {
         name: "Multipart",
         options: [

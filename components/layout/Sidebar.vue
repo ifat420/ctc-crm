@@ -13,10 +13,11 @@
       transition-all
       z-10
       overflow-auto
+
     "
     :class="{ 'ml-64': sidebarStatus }"
   >
-    <nav class="pb-4 h-full flex flex-col overflow-auto">
+    <nav class="pb-4 h-full flex flex-col overflow-auto sidebar">
       <div class="pt-2 pb-5">
         <template v-for="(nav, index) in navigations">
           <template v-if="!nav.url">
@@ -125,19 +126,19 @@ export default {
         childs: [
           {
             name: "List",
-            url: "/students/show-all-students",
+            url: "/students/list",
           },
           {
             name: "List By Session",
-            url: "/students/students-list",
+            url: "/students/list-by-session",
           },
           {
             name: "Create",
-            url: "/students/create-a-student",
+            url: "/students/create",
           },
           {
             name: "Upload File",
-            url: "/students/upload-student-file",
+            url: "/students/upload-file",
           },
         ],
       },
@@ -148,15 +149,15 @@ export default {
         childs: [
           {
             name: "List",
-            url: "/marks/upload-marks",
+            url: "/marks/list",
           },
           {
             name: "List By Session",
-            url: "/marks/upload-marks-subjectwise",
+            url: "/marks/list-by-session",
           },
           {
             name: "Create",
-            url: "/marks/upload-marks-file",
+            url: "/marks/create",
           },
         ],
       },
@@ -167,11 +168,11 @@ export default {
         childs: [
           {
             name: "List",
-            url: "/exams/show-all-exams",
+            url: "/exams/list",
           },
           {
             name: "Create",
-            url: "/exams/create-a-exam",
+            url: "/exams/create",
           },
         ],
       },
@@ -182,11 +183,11 @@ export default {
         childs: [
           {
             name: "List",
-            url: "/show-result/result-overview",
+            url: "/show-result/list",
           },
           {
             name: "Create",
-            url: "/show-result/result-details",
+            url: "/show-result/create",
           },
         ],
       },
@@ -219,4 +220,17 @@ export default {
   height: calc(100vh - 64px);
   top: 64px;
 }
+
+.sidebar::-webkit-scrollbar {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.sidebar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 </style>
