@@ -10,7 +10,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 mb-10">
         <div>
       <label for="session" class="text-sm"> Session </label>
-      <div class="flex flex-col lg:flex-row">
+      <div class="flex flex-col">
           <div class="relative">
           <select
               v-model="marks.session"
@@ -54,7 +54,7 @@
 
         <div>
       <label for="exam_name" class="text-sm"> Exam Name </label>
-      <div class="flex flex-col lg:flex-row">
+      <div class="flex flex-col">
           <div class="relative">
           <select
               v-model="marks.exam_name"
@@ -101,7 +101,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
         <div>
       <label for="group" class="text-sm"> Group</label>
-      <div class="flex flex-col lg:flex-row">
+      <div class="flex flex-col">
           <div class="relative">
           <select
               v-model="marks.group"
@@ -145,7 +145,7 @@
 
         <div>
       <label for="subject_name" class="text-sm"> Subject Name</label>
-      <div class="flex flex-col lg:flex-row">
+      <div class="flex flex-col">
           <div class="relative">
           <select
               v-model="marks.subject_name"
@@ -221,7 +221,7 @@
     </div>
 
     <div class="px-6 py-6 bg-color-whiteTwo m-6 box-shadow-dashboard sm:rounded-lg" v-if="marksOnSubjectResponse && marksOnSubjectResponse.length">
-        <div class="flex flex-col">
+        <div class="flex flex-col"">
             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                     <div class="overflow-x-auto rounded-lg">

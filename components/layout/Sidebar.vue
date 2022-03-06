@@ -126,11 +126,7 @@ export default {
         childs: [
           {
             name: "List",
-            url: "/students/list",
-          },
-          {
-            name: "List By Session",
-            url: "/students/list-by-session",
+            url: "/students",
           },
           {
             name: "Create",

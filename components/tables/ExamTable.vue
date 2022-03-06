@@ -8,9 +8,11 @@
     >
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'session'">
-          <nuxt-link :to="`/show-result/result-overview?session=${props.row.session}&exam_name=${props.row.examNameRow}`" style="text-decoration: underline">{{
-            props.row.session
-          }}</nuxt-link>
+          <nuxt-link
+            :to="`/show-result/result-overview?session=${props.row.session}&exam_name=${props.row.examNameRow}`"
+            style="text-decoration: underline"
+            >{{ props.row.session }}</nuxt-link
+          >
         </span>
 
         <span v-else-if="props.column.field == 'downalodData'">
@@ -75,20 +77,20 @@ export default {
       this.arrowRotate = !this.arrowRotate;
     },
 
-    downloadFile(path) {
-
-    },
+    downloadFile(path) {},
 
     capitalizeFirstLetter(value) {
       return value.charAt(0).toUpperCase() + value.slice(1);
     },
 
     formatExamName(examname) {
-      let arr = examname.split("-")
+      let arr = examname.split("-");
       if (arr.length > 1) {
-        return `${this.capitalizeFirstLetter(arr[0])} ${this.capitalizeFirstLetter(arr[1])}`
+        return `${this.capitalizeFirstLetter(
+          arr[0]
+        )} ${this.capitalizeFirstLetter(arr[1])}`;
       }
-      return this.capitalizeFirstLetter(examname)
+      return this.capitalizeFirstLetter(examname);
     },
 
     changeTableData() {
@@ -96,41 +98,51 @@ export default {
       if (!(width > 960)) {
         this.columns = [
           {
+            label: "Exam Name",
+            field: "exam_name",
+            sortable: false,
+          },
+          {
             label: "Session",
             field: "session",
             sortable: false,
           },
           {
-            label: "Exam Name",
-            field: "examName",
+            label: "Status",
+            field: "status",
             sortable: false,
           },
           {
-            label: "Download",
-            field: "downalodData",
+            label: "View",
+            field: "view",
             sortable: false,
           },
         ];
       } else {
         this.columns = [
           {
+            label: "Exam Name",
+            field: "exam_name",
+            sortable: false,
+          },
+          {
+            label: "Exam Year",
+            field: "exam_year",
+            sortable: false,
+          },
+          {
             label: "Session",
             field: "session",
             sortable: false,
           },
           {
-            label: "Exam Name",
-            field: "examName",
+            label: "Status",
+            field: "status",
             sortable: false,
           },
           {
-            label: "Exam Year",
-            field: "examYear",
-            sortable: false,
-          },
-          {
-            label: "Download",
-            field: "downalodData",
+            label: "View",
+            field: "view",
             sortable: false,
           },
         ];

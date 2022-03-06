@@ -1,6 +1,42 @@
 export const state = () => ({
   highlights: [],
-  publishedResults: {}
+  publishedResults: {},
+  exams: [
+    {
+      name: "All Exams",
+      value: "all"
+    },
+    {
+      name: "Half Yearly",
+      value: "half-yearly"
+    },
+    {
+      name: "Year Final",
+      value: "year-final"
+    },
+    {
+      name: "Pre test",
+      value: "pre-test"
+    },
+    {
+      name: "Test",
+      value: "test"
+    },
+  ],
+  groups: [
+    {
+      name: "All Groups",
+      value: "all"
+    },
+    {
+      name: "Science",
+      value: "Science"
+    },
+    {
+      name: "Humanities",
+      value: "humanities"
+    }
+  ]
 })
 
 export const getters = {
@@ -9,6 +45,12 @@ export const getters = {
   },
   getPublishedResult(state) {
     return state.publishedResults
+  },
+  getExams(state) {
+    return state.exams
+  },
+  getGroups(state) {
+    return state.groups
   }
 }
 

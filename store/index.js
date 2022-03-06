@@ -7,7 +7,7 @@ export const state = () => ({
     registrationFailureStatus: {},
     publishResultResponse: [],
     publishedResultResponse: {},
-    studentsList: [],
+    studentsList: {},
     result: {},
     wait: [],
     error: {},
@@ -18,7 +18,7 @@ export const state = () => ({
     aStudent: [],
     aSubject: [],
     aExam:[],
-    getAllStudentResponse: [],
+    getAllStudentResponse: {},
     getAllSubjectResponse: {},
     getAllExamsResponse: [],
     sidebar: false,
@@ -55,6 +55,17 @@ export const getters = {
 
     sidebarStatus(state) {
         return state.sidebar;
+    },
+
+    getSessions(state) {
+        let slist = [
+            {
+                name: "All Session",
+                value: "all"
+            }
+        ]
+        state.session.map(item => slist.push({ name: item, value: item  }))
+        return slist
     }
 }
 

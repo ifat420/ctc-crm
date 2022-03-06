@@ -190,7 +190,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
                     <div>
                         <label for="class" class="text-sm"> Class </label>
-                        <div class="flex flex-col lg:flex-row">
+                        <div class="flex flex-col ">
                             <div class="relative">
                             <select
                                 v-model="student.class"
@@ -233,7 +233,7 @@
                     </div>
                     <div>
                 <label for="session" class="text-sm"> Session </label>
-                <div class="flex flex-col lg:flex-row">
+                <div class="flex flex-col ">
                     <div class="relative">
                     <select
                         v-model="student.session"
@@ -279,7 +279,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
                     <div>
                         <label for="group" class="text-sm"> Group </label>
-                        <div class="flex flex-col lg:flex-row">
+                        <div class="flex flex-col ">
                             <div class="relative">
                             <select
                                 v-model="student.group"
@@ -322,7 +322,7 @@
                     </div>
                     <div>
                 <label for="gender" class="text-sm"> Gender </label>
-                <div class="flex flex-col lg:flex-row">
+                <div class="flex flex-col ">
                     <div class="relative">
                     <select
                         v-model="student.gender"
@@ -368,7 +368,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
                     <div>
                         <label for="type_of_student" class="text-sm"> Student Type </label>
-                        <div class="flex flex-col lg:flex-row">
+                        <div class="flex flex-col ">
                             <div class="relative">
                             <select
                                 v-model="student.type_of_student"
@@ -417,7 +417,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 mt-6">
                     <div>
                         <label for="mendatory" class="text-sm"> Mendatory Subject </label>
-                        <div class="flex flex-col lg:flex-row">
+                        <div class="flex flex-col ">
                             <div class="relative">
                             <select
                                 v-model="twoSubjects.mendatory"
@@ -460,7 +460,7 @@
                     </div>
                     <div>
                 <label for="mendatory" class="text-sm"> Optional Subject </label>
-                <div class="flex flex-col lg:flex-row">
+                <div class="flex flex-col ">
                     <div class="relative">
                     <select
                         v-model="twoSubjects.optional"

@@ -312,7 +312,7 @@
         </div>
         <div>
           <label for="subject_main" class="text-sm">Has Multipart </label>
-          <div class="flex flex-col lg:flex-row">
+          <div class="flex flex-col ">
             <div class="relative">
               <select
                 v-model="subject.has_multipart"
@@ -348,7 +348,7 @@
         </div>
         <div>
           <label for="can_be_optional" class="text-sm"> Can Be Optional </label>
-          <div class="flex flex-col lg:flex-row">
+          <div class="flex flex-col ">
             <div class="relative">
               <select
                 v-model="subject.can_be_optional"
@@ -385,7 +385,7 @@
         </div>
         <div>
           <label for="subject_type" class="text-sm"> Subject Type </label>
-          <div class="flex flex-col lg:flex-row">
+          <div class="flex flex-col ">
             <div class="relative">
               <select
                 v-model="subject.subject_type"
