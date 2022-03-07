@@ -41,9 +41,9 @@
 
             <span v-if="fileRequired" class="error">*File is required</span>
 
-            <div v-if="isError('studentsFileUpload')  && isError('studentsFileUpload').has_error" class="pt-3">
+            <!-- <div v-if="isError('studentsFileUpload')  && isError('studentsFileUpload').has_error" class="pt-3">
                 <h1 class="font text-red-600"> {{ isError('studentsFileUpload').error }} </h1>
-            </div>
+            </div> -->
 
             <hr class="my-8" />
 

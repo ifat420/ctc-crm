@@ -229,7 +229,7 @@
     </div>
 
     <div
-      class="px-6 py-6 bg-color-whiteTwo m-6 box-shadow-dashboard sm:rounded-lg"
+      class="mt-6"
       v-if="markData && markData.length"
     >
       <div class="flex flex-col">
@@ -408,17 +408,33 @@
     </div>
 
     <div class="px-6 py-2" v-if="markData && markData.length">
-      <div class="gap-x-4">
-        <button
-          class="btn block rounded-lg font relative"
-          :disabled="is('createMarksOnSubject')"
-          @click="submitSubjectMarks"
-        >
-          Submit
-          <span :class="{ 'load loading': is('createMarksOnSubject') }"></span>
-        </button>
-        <div></div>
-      </div>
+        <hr class="my-8" />
+
+      <button
+        @click.prevent="submitSubjectMarks"
+        class="
+          inline-flex
+          justify-center
+          items-center
+          py-3
+          px-16
+          border border-transparent
+          rounded-md
+          shadow-sm
+          font-medium
+          text-white
+          bg-primary
+          focus:outline-none
+          focus:ring-2
+          focus:ring-offset-2
+          focus:ring-indigo-500
+        "
+      >
+        <IconSpinAnimation v-if="is('createMarksOnSubject')" />
+        Submit
+      </button>
+      
+     
     </div>
   </div>
 </template>
@@ -629,7 +645,7 @@ export default {
           session: this.marks.session,
           subject_name: this.marks.subject_name,
         });
-        this.$successToast(this.markTableUpdateResponse.message);
+        // this.$successToast(this.markTableUpdateResponse.message);
         console.log("UPLOADED");
       }
 

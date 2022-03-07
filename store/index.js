@@ -371,7 +371,7 @@ export const actions = {
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
-            console.log("students file upload error", obj.error);
+            this.$errorToast(error.response.data.message)
         } finally {
             dispatch("end", id);
             dispatch('setError', obj)
@@ -417,7 +417,7 @@ export const actions = {
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
-            console.log("students file upload error",obj.error);
+            this.$errorToast(error.response.data.message)
         } finally {
             dispatch("end", id);
             dispatch('setError', obj)
@@ -463,6 +463,7 @@ export const actions = {
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
+            this.$errorToast(error.response.data.message)
         } finally {
             dispatch("end", id);
             dispatch('setError', obj);
@@ -654,6 +655,7 @@ export const actions = {
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
+            this.$errorToast(error.response.data.message)
         } finally {
             dispatch("end", id);
             dispatch('setError', obj);
@@ -858,6 +860,7 @@ export const actions = {
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
+            this.$errorToast(error.response.data.message)
         } finally {
             dispatch("end", id);
             dispatch('setError', obj);

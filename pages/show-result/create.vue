@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="">
-      <h2 class="text-3xl font-medium">Create Resultt</h2>
+      <h2 class="text-3xl font-medium">Create Result</h2>
       <div class="">
         <div class="mt-6">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 mb-10">
@@ -83,7 +83,7 @@
                   >
                     <option value="">Select Exam</option>
                     <option
-                      v-for="(item, index) in examName.options"
+                      v-for="(item, index) in examList"
                       :key="index"
                       :value="item.value"
                     >
@@ -349,10 +349,17 @@ export default {
   computed: {
     ...mapState(["session", "group", "class", "result"]),
     ...mapGetters(["is", "isError"]),
+    ...mapGetters("other", ["getExams"]),
 
     computedLimit() {
       console.log(this.result.limit);
       return this.result.limit;
+    },
+
+    examList() {
+      let exm = JSON.parse(JSON.stringify(this.getExams))
+      exm.shift()
+      return exm;
     },
 
     computedPage() {
@@ -408,6 +415,7 @@ export default {
 
   methods: {
     ...mapActions(["getSession", "getGroup", "getClass", "postResult"]),
+   
 
     capitalizeFirstLetter(string) {
       return string.charAt(0).toUpperCase() + string.slice(1);
