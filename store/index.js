@@ -463,7 +463,6 @@ export const actions = {
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
-            console.log("ERROR",obj.error);
         } finally {
             dispatch("end", id);
             dispatch('setError', obj);
@@ -577,7 +576,6 @@ export const actions = {
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
-            console.log("ERROR",obj.error);
         } finally {
             dispatch("end", id);
             dispatch('setError', obj);
@@ -597,11 +595,12 @@ export const actions = {
             let response = await this.$axios.$post(`/student`, payload);
             console.log("response student info inside store:",response);
             commit('SET_POST_A_STUDENT', response);
+            this.$successToast(response.message);
             this.$router.push("/students")
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
-            console.log("ERROR",obj.error);
+            this.$errorToast(error.response.data.message);
         } finally {
             dispatch("end", id);
             dispatch('setError', obj);
@@ -624,7 +623,6 @@ export const actions = {
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
-            console.log("ERROR",obj.error);
         } finally {
             dispatch("end", id);
             dispatch('setError', obj);
@@ -656,7 +654,6 @@ export const actions = {
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
-            console.log("ERROR",obj.error);
         } finally {
             dispatch("end", id);
             dispatch('setError', obj);
@@ -679,7 +676,6 @@ export const actions = {
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
-            console.log("ERROR",obj.error);
         } finally {
             dispatch("end", id);
             dispatch('setError', obj);
@@ -699,10 +695,12 @@ export const actions = {
             let response = await this.$axios.$post('/exam', payload);
             console.log("response post a exam info inside store:", response);
             commit('SET_POST_A_EXAM', response);
+            this.$successToast(response.message);
+            this.$router.push("/exams");
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
-            console.log("ERROR",obj.error);
+            this.$errorToast(error.response.data.message);
         } finally {
             dispatch("end", id);
             dispatch('setError', obj);
@@ -725,7 +723,6 @@ export const actions = {
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
-            console.log("ERROR",obj.error);
         } finally {
             dispatch("end", id);
             dispatch('setError', obj);
@@ -748,7 +745,6 @@ export const actions = {
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
-            console.log("ERROR",obj.error);
         } finally {
             dispatch("end", id);
             dispatch('setError', obj);
@@ -771,7 +767,6 @@ export const actions = {
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
-            console.log("ERROR",obj.error);
         } finally {
             dispatch("end", id);
             dispatch('setError', obj);
@@ -791,10 +786,11 @@ export const actions = {
             let response = await this.$axios.$post('/marktable-list', payload);
             console.log("response get required subjects inside store:",response);
             commit('SET_CREATE_MARKS_RESPONSE', response);
+            this.$successToast(response.message);
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
-            console.log("ERROR",obj.error);
+            this.$errorToast(error.response.data.message);
         } finally {
             dispatch("end", id);
             dispatch('setError', obj);
@@ -817,7 +813,6 @@ export const actions = {
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
-            console.log("ERROR",obj.error);
         } finally {
             dispatch("end", id);
             dispatch('setError', obj);
@@ -840,7 +835,7 @@ export const actions = {
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
-            console.log("ERROR",obj.error);
+            this.$errorToast(error.response.data.message);
         } finally {
             dispatch("end", id);
             dispatch('setError', obj);
@@ -863,7 +858,6 @@ export const actions = {
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
-            console.log("ERROR",obj.error);
         } finally {
             dispatch("end", id);
             dispatch('setError', obj);
@@ -893,7 +887,6 @@ export const actions = {
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
-            console.log("ERROR",obj.error);
         } finally {
             dispatch("end", id);
             dispatch('setError', obj);
@@ -916,7 +909,7 @@ export const actions = {
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
-            console.log("ERROR",obj.error);
+            this.$errorToast(error.response.data.message);
         } finally {
             dispatch("end", id);
             dispatch('setError', obj);
@@ -940,7 +933,6 @@ export const actions = {
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
-            console.log("ERROR",obj.error);
         } finally {
             dispatch("end", id);
             dispatch('setError', obj);

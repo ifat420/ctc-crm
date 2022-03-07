@@ -76,7 +76,8 @@ export default {
     },
 
     downloadFile(path) {
-
+      const url = `http://128.199.165.161:4000/${path}`;
+      window.location.href = url;
     },
 
     capitalizeFirstLetter(value) {

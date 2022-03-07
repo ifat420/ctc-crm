@@ -219,6 +219,7 @@ export default {
 
     deleteWorkDetailsItem() {
       this.createPublishExam(this.deletedItem)
+      this.closeModal()
     },
 
     rotateIcon() {

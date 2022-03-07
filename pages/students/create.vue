@@ -645,20 +645,7 @@
         </div>
       </div>
 
-      <div v-if="aStudent && aStudent.message" class="pb-3 px-10">
-        <h1 class="font success">{{ aStudent.message }}</h1>
-      </div>
-
-      <div
-        v-if="
-          isError('postCreateStudent') && isError('postCreateStudent').has_error
-        "
-        class="pt-3"
-      >
-        <h1 class="font text-red-600">
-          {{ isError("postCreateStudent").error }}
-        </h1>
-      </div>
+     
 
       <hr class="my-8" />
 
@@ -951,24 +938,25 @@ export default {
         this.$v.student.$anyError == false &&
         this.$v.twoSubjects.$anyError == false
       ) {
+        this.optionalSubjectList = []
         if (this.student.group == "humanities") {
           this.optionalSubjectList.push({
             name: this.requiredSubject2,
-            value: "mandatory",
+            type: "mandatory",
           });
           this.optionalSubjectList.push({
             name: this.requiredSubject3,
-            value: "mandatory",
+            type: "mandatory",
           });
         }
 
           this.optionalSubjectList.push({
             name: this.twoSubjects.mendatory,
-            value: "mandatory",
+            type: "mandatory",
           });
           this.optionalSubjectList.push({
             name: this.twoSubjects.optional,
-            value: "optional",
+            type: "optional",
           });
 
 
@@ -976,7 +964,7 @@ export default {
           student_info: this.student,
           optional_subjects: this.optionalSubjectList,
         });
-        console.log("incomsing herore")
+       
         console.log(this.optionalSubjectList);
       }
 
