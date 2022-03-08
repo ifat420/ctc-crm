@@ -1,7 +1,11 @@
 <template>
   <div>
     <h2 class="text-3xl font-medium">Upload Marks</h2>
-    <div class="mt-6">
+    <div v-if="$route.query && $route.query.exam_name && $route.query.session && markData.length" class="flex items-center gap-x-3 mt-2">
+      <h4 class="text-xl font-semibold capitalize">{{$route.query.exam_name}}</h4>
+      <h4 class="text-xl font-semibold capitalize">{{$route.query.session}}</h4>
+    </div>
+    <div class="mt-6" v-if="!markData.length">
       <!-- ................... Select Option ................................. -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
         <div>
@@ -121,12 +125,12 @@
         "
       >
         <IconSpinAnimation v-if="is('createMarks')" />
-        Submit
+        Search
       </button>
     </div>
 
     <div
-      class="px-6 py-6 bg-color-whiteTwo m-6 box-shadow-dashboard sm:rounded-lg"
+      class="mt-6"
       v-if="markData && markData.length"
     >
       <div class="flex flex-col">
@@ -325,6 +329,29 @@
         <IconSpinAnimation v-if="is('createMarks')" />
         Submit
       </button>
+
+      <button
+        @click.prevent="resetAll"
+        class="
+          inline-flex
+          justify-center
+          items-center
+          py-3
+          px-16
+          border border-transparent
+          rounded-md
+          ml-4
+          font-medium
+          text-black
+          shadow-gbtn
+          focus:outline-none
+          focus:ring-2
+          focus:ring-offset-2
+          focus:ring-indigo-500
+        "
+      >
+        Reset
+      </button>
     </div>
   </div>
 </template>
@@ -459,15 +486,22 @@ export default {
       this.marks.session = value;
     },
 
-    async uploadMarks() {
-    this.markData = []
-      this.$v.$touch();
-      if (this.$v.marks.$anyError == false) {
-        await this.createMarks(this.marks);
-        this.hasSuccess = true;
-        console.log("UPLOADED");
+    async fetchData() {
+     
+    
+      if (this.$route.query && this.$route.query.exam_name && this.$route.query.session) {
+        await this.createMarks({
+          exam_name: this.$route.query.exam_name,
+          session: this.$route.query.session
+        });
       }
-      this.hasSuccess = false;
+    },
+
+    async uploadMarks() {
+      this.$router.push({
+        path: "/marks/list",
+        query: this.marks
+      }) 
     },
 
     async submitStudentMarks() {
@@ -483,15 +517,28 @@ export default {
         console.log("mark response inside", this.markTableUpdateResponse);
       }
     },
+
+    resetAll() {
+      this.$router.push("/marks/list")
+      this.marks.session = "";
+      this.marks.exam_name = "";
+      this.markData = [];
+      this.$v.$reset();
+    },
   },
 
   mounted() {
     this.getSession();
+    this.fetchData();
     this.markData = JSON.parse(JSON.stringify(this.marksResponse));
   },
   watch: {
     marksResponse: function (v) {
       this.markData = JSON.parse(JSON.stringify(v));
+    },
+
+    "$route": function(val) {
+      this.fetchData()
     },
   },
 };

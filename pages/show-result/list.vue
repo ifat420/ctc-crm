@@ -325,16 +325,32 @@ export default {
       return string.charAt(0).toUpperCase() + string.slice(1);
     },
 
-    async uploadAExam() {
-      this.$v.$touch();
-      if (this.$v.exam.$anyError == false )
-          {
-            await this.createResultOverview(this.exam);
-            this.hasSuccess = true;
-          }
-      this.hasSuccess = false;
-      this.exam.exam_name = "",
-      this.exam.session = ""
+    async fetchData() {
+     
+    
+      if (this.$route.query && this.$route.query.exam_name && this.$route.query.session) {
+        await this.createResultOverview({
+          exam_name: this.$route.query.exam_name,
+          session: this.$route.query.session
+        });
+      }
+    },
+
+    uploadAExam() {
+      // this.$v.$touch();
+      // if (this.$v.exam.$anyError == false )
+      //     {
+      //       await this.createResultOverview(this.exam);
+      //       this.hasSuccess = true;
+      //     }
+      // this.hasSuccess = false;
+      // this.exam.exam_name = "",
+      // this.exam.session = ""
+
+      this.$router.push({
+        path: "/show-result/list",
+        query: this.exam
+      }) 
     }
   },
 
@@ -345,9 +361,17 @@ export default {
     if(this.$route.query && this.$route.query.session && this.$route.query.exam_name) {
       await this.createResultOverview(this.$route.query);
     }
+
+    this.fetchData();
     
    
-  }
+  },
+
+  watch: {
+    "$route": function(val) {
+      this.fetchData()
+    },
+  },
 }
 </script>
 

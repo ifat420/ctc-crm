@@ -152,7 +152,7 @@ export default {
             url: "/marks/list-by-session",
           },
           {
-            name: "Create",
+            name: "Upload File",
             url: "/marks/create",
           },
         ],
@@ -186,12 +186,7 @@ export default {
             url: "/show-result/result-details",
           },
         ],
-      },
-      {
-        name: "Settings",
-        url: "/agent/settings",
-        icon: "IconSettings",
-      },
+      }
     ],
   }),
 

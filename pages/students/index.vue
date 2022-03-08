@@ -107,13 +107,13 @@ export default {
   data: () => ({
     selectedSession: 'all',
     selectedGroup: 'all'
-
   }),
 
   computed: {
     ...mapState(["getAllStudentResponse"]),
     ...mapGetters(["getSessions"]),
     ...mapGetters("other", ["getGroups"]),
+    
     totalPages() {
       let totalPage = 1;
       if (

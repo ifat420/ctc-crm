@@ -1,16 +1,12 @@
 <template>
     <div>
-        <div class="w-full p-8 box-shadow-dashboard bg-color-whiteTwo">
-            <!-- <p class="font pb-4"><span class="color-gray">{{ content.folderName }} /</span> <span class="color-black"></span></p> -->
-            <h3 class="font color-black text-xl font-bold antialiased">Single Student Result</h3>
-            <h3 class="font color-black text-md font-medium antialiased">2020-21</h3>
+        <div class="">
+            <h2 class="text-3xl font-medium">Single Student Result</h2>
         </div>
-        
-        <div class="w-full p-4 box-shadow-dashboard bg-color-whiteTwo" v-if="getSingleStudentResult && getSingleStudentResult.length">
-            <!-- <h3 class="mx-8 font color-black text-xl font-bold antialiased">Single Student Result</h3> -->
-            <div class="mx-8 rounded-lg bg-white shadow-lg">
-                <div class="my-8 bg-white mx-6" >
-                <div class="p-4 sm:shadow-xm">
+        <div class="mt-6" v-if="getSingleStudentResult && getSingleStudentResult.length">
+            <div class="">
+                <div class="" >
+                <div class="">
                     <div> 
                         <vue-good-table
                         :columns="columns"

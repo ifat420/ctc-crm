@@ -3,8 +3,12 @@
     <!-- ................... Select Option ................................. -->
 
     <h2 class="text-3xl font-medium">Upload Marks Subjectwise</h2>
-
-    <div class="mt-6">
+    <div v-if="$route.query && $route.query.exam_name && $route.query.session && $route.query.subject_name && markData.length" class="flex items-center gap-x-3 mt-2">
+      <h4 class="text-xl font-semibold capitalize">{{$route.query.exam_name}}</h4>
+      <h4 class="text-xl font-semibold capitalize">{{$route.query.session}}</h4>
+      <h4 class="text-xl font-semibold capitalize">{{$route.query.subject_name}}</h4>
+    </div>
+    <div class="mt-6" v-if="!markData.length">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 mb-10">
         <div>
           <label for="session" class="text-sm"> Session </label>
@@ -224,7 +228,7 @@
         "
       >
         <IconSpinAnimation v-if="is('createMarksOnSubject')" />
-        Submit
+        Search
       </button>
     </div>
 
@@ -395,19 +399,7 @@
       </div>
     </div>
 
-    <div
-      v-if="
-        isError('createMarkTableUpdate') &&
-        isError('createMarkTableUpdate').has_error
-      "
-      class="inline-block px-4 py-3 bg-red-500 ml-6 rounded-lg"
-    >
-      <h1 class="font text-white">
-        {{ isError("createMarkTableUpdate").error }}
-      </h1>
-    </div>
-
-    <div class="px-6 py-2" v-if="markData && markData.length">
+    <div class="px-6 py-2" v-if="markData && markData.length && !isError('createMarksOnSubject').error">
         <hr class="my-8" />
 
       <button
@@ -433,6 +425,29 @@
         <IconSpinAnimation v-if="is('createMarksOnSubject')" />
         Submit
       </button>
+
+      <button
+        @click.prevent="resetAll"
+        class="
+          inline-flex
+          justify-center
+          items-center
+          py-3
+          px-16
+          border border-transparent
+          rounded-md
+          ml-4
+          font-medium
+          text-black
+          shadow-gbtn
+          focus:outline-none
+          focus:ring-2
+          focus:ring-offset-2
+          focus:ring-indigo-500
+        "
+      >
+        Reset
+      </button>
       
      
     </div>
@@ -453,6 +468,8 @@ export default {
 
   data() {
     return {
+      showSearch: true,
+      markInputMode: false,
       hasSuccess: false,
       widthStudent: true,
       shadowStudent: true,
@@ -627,36 +644,52 @@ export default {
         this.markTableUpdateResponse &&
         this.markTableUpdateResponse.message
       ) {
-        this.$successToast(this.markTableUpdateResponse.message);
-        console.log(
-          "this.markTableUpdateResponse.message :>> ",
-          this.markTableUpdateResponse.message
-        );
+        
         this.hasSuccess = true;
       }
     },
 
-    async uploadSubjectMarks() {
+    resetAll() {
+      this.$router.push("/marks/list-by-session")
+      this.marks.session = "";
+      this.marks.exam_name = "";
+      this.marks.subject_name = "";
+      this.marks.group = "";
       this.markData = [];
-      this.$v.$touch();
-      if (this.$v.marks.$anyError == false) {
-        await this.createMarksOnSubject({
-          exam_name: this.marks.exam_name,
-          session: this.marks.session,
-          subject_name: this.marks.subject_name,
-        });
-        // this.$successToast(this.markTableUpdateResponse.message);
-        console.log("UPLOADED");
-      }
+      this.$v.$reset();
+    },
 
-    //   this.$v.marks.$reset();
+    async fetchData() {
+     
+    
+      if (this.$route.query && this.$route.query.exam_name && this.$route.query.session && this.$route.query.subject_name) {
+       this.markInputMode = true
+        await this.createMarksOnSubject({
+          exam_name: this.$route.query.exam_name,
+          session: this.$route.query.session,
+          subject_name: this.$route.query.subject_name,
+        });
+      } else {
+          this.markInputMode = false
+       }
+    },
+
+    async uploadSubjectMarks() {
+      this.$router.push({
+        path: "/marks/list-by-session",
+        query: this.marks
+      })
+      
+    
     },
   },
 
   mounted() {
     this.getSession();
     this.getGroup();
+    this.fetchData();
     this.markData = JSON.parse(JSON.stringify(this.marksOnSubjectResponse));
+    console.log('this.$route :>> ', this.$route);
   },
 
   watch: {
@@ -670,6 +703,10 @@ export default {
       if (val) {
         await this.createSubjects({ group: val });
       }
+    },
+
+    "$route": function(val) {
+      this.fetchData()
     },
   },
 };

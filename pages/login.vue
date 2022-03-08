@@ -153,6 +153,8 @@ export default {
   layout: "others",
   middleware: "authenticated",
 
+  auth: 'guest',
+
   components: {
     LogoMomin,
     InputField,

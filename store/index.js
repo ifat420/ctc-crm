@@ -832,7 +832,6 @@ export const actions = {
         try {
             dispatch('start', id);
             let response = await this.$axios.$post('/marktable-list', payload);
-            console.log("response get required subjects inside store:",response);
             commit('SET_CREATE_MARKS_ON_SUBJECT_RESPONSE', response);
         } catch (error) {
             obj.has_error = true
@@ -857,6 +856,7 @@ export const actions = {
             let response = await this.$axios.$post('/marktable-update', payload);
             console.log("response mark table update inside store:",response);
             commit('SET_CREATE_MARK_TABLE_UPDATE_RESPONSE', response);
+            this.$successToast(response.message);
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message

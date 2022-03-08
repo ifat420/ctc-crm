@@ -108,9 +108,12 @@ export default {
           //        refresh: { url: "/api/auth/refresh-token", method: "post" },
           logout: false, //  we don't have an endpoint for our logout in our API and we just remove the token from localstorage
           user: false
-        }
+        },
       }
-    }
+    },
+    redirect: {
+      logout: '/login',
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

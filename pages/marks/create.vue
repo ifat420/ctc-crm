@@ -131,13 +131,13 @@
 
       <span v-if="fileRequired" class="error">*File is required</span>
 
-      <div v-if="!fileRequired && marksFileUploadResponse && marksFileUploadResponse.message" class="pt-3">
+      <!-- <div v-if="!fileRequired && marksFileUploadResponse && marksFileUploadResponse.message" class="pt-3">
           <h1 class="font success">{{marksFileUploadResponse.message}}</h1>
-      </div>
+      </div> -->
       
-      <div v-if="isError('marksFileUpload')  && isError('marksFileUpload').has_error" class="pt-3">
+      <!-- <div v-if="isError('marksFileUpload')  && isError('marksFileUpload').has_error" class="pt-3">
           <h1 class="font text-red-600"> {{ isError('marksFileUpload').error }} </h1>
-      </div>
+      </div> -->
 
       <hr class="my-8" />
 
@@ -313,7 +313,7 @@ export default {
       
       if (this.$v.student.session.$anyError == false && this.$v.student.exam_name.$anyError == false ) {
               await this.marksFileUpload(this.formData);
-              console.log("TOTAL 4 FILES UPLOADED",this.formData);
+              // this.$router.push("/marks/create");
               this.formData = new FormData();
               
           }
