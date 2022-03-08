@@ -129,7 +129,6 @@ export default {
 
       async uploadStudentFile() {
 
-
         if (this.hasFile) this.fileRequired = false
         else this.fileRequired = true
         if (this.fileRequired) return
@@ -141,9 +140,6 @@ export default {
         }
 
         await this.studentsFileUpload(this.formData);
-        if (this.studentsFileUploadResponse && this.studentsFileUploadResponse.message) {
-            this.$successToast(this.studentsFileUploadResponse.message);
-        }
         this.formData = new FormData();
                    
                     

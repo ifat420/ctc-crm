@@ -78,7 +78,7 @@
         }"
         >
         <option value="">Select Exam</option>
-            <option v-for="(item, index) in examName.options" :key="index" :value="item.value">{{ item.name }}</option>
+            <option v-for="(item, index) in examList" :key="index" :value="item.value">{{ item.name }}</option>
             
         </select>
         <DownArrow class="absolute w-auto h-auto top-9 right-4" />
@@ -235,6 +235,7 @@ export default {
   computed: {
     ...mapState(["session", "marksFileUploadResponse"]),
     ...mapGetters(["is", "isError"]),
+    ...mapGetters("other", ["getExams"]),
     
 
     sessionList() {
@@ -251,7 +252,12 @@ export default {
         });
       }
       return obj;
-    }
+    },
+    examList() {
+      let exm = JSON.parse(JSON.stringify(this.getExams));
+      exm.shift();
+      return exm;
+    },
   },
 
   methods: {
