@@ -146,12 +146,12 @@
         <h1 class="font success">{{ aSubject.message }}</h1>
       </div>
 
-      <div
+      <!-- <div
         v-if="isError('postCreateExam') && isError('postCreateExam').has_error"
         class="pt-3"
       >
         <h1 class="font text-red-600">{{ isError("postCreateExam").error }}</h1>
-      </div>
+      </div> -->
 
       <hr class="my-8" />
 
@@ -281,7 +281,6 @@ export default {
 
     async uploadAExam() {
       this.$v.$touch();
-      console.log("EXAM", this.$v.exam);
       if (this.$v.exam.$anyError == false) {
         await this.postCreateExam(this.exam);
         this.hasSuccess = true;

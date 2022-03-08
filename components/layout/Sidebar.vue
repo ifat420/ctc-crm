@@ -182,8 +182,8 @@ export default {
             url: "/show-result/list",
           },
           {
-            name: "Create",
-            url: "/show-result/create",
+            name: "Result Details",
+            url: "/show-result/result-details",
           },
         ],
       },

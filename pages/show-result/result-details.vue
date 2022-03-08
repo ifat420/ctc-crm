@@ -175,18 +175,9 @@
       </div>
     </div>
 
-    <div
-      class="flex flex-col"
-      v-if="result.rows && result.rows.length && showButton"
-    >
-      <div class="-my-2 sm:-mx-6 lg:-mx-8 p-8">
-        <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-          <div
-            class="shadow overflow-hidden p-8 bg-color-whiteTwo sm:rounded-lg"
-          >
-            <div class="mx-8 my-8 rounded-lg bg-white shadow-lg">
-              <div class="my-8 bg-white mx-6">
-                <div class="p-6 sm:shadow-xm">
+    <div class="mt-6" v-if="result.rows && result.rows.length && showButton">
+              <div class="mt-8 bg-white">
+                <div class=" sm:shadow-xm">
                   <div>
                     <vue-good-table
                       :columns="columns"
@@ -235,10 +226,6 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -466,7 +453,7 @@ export default {
         }
 
         await this.postResult(query);
-        this.$router.push({ path: "/show-result/create", query: query });
+        this.$router.push({ path: "/show-result/result-details", query: query });
       } catch (error) {
         console.log("error :>> ", error);
       }
@@ -492,7 +479,7 @@ export default {
       this.showButton = false;
       this.startLoading = false;
       // this.computedResult = []
-      this.$router.push("/show-result/create");
+      this.$router.push("/show-result/result-details");
     },
 
     async changePageNum(pageNum) {

@@ -698,7 +698,7 @@ export const actions = {
             console.log("response post a exam info inside store:", response);
             commit('SET_POST_A_EXAM', response);
             this.$successToast(response.message);
-            this.$router.push("/exams");
+            this.$router.push("/exams/list");
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
