@@ -458,7 +458,7 @@ export default {
         query.exam_name = this.$route.query.exam_name
           ? this.$route.query.exam_name
           : this.student.exam_name;
-        query.limit = 2;
+        query.limit = 15;
         if (pageNum) {
           query.page = pageNum;
         } else {

@@ -412,8 +412,8 @@ export const actions = {
             dispatch('start',id);
             dispatch('setError', obj)
             let response = await this.$axios.$post(`/student-sheet`,payload);
-            console.log("student file response",response);
             commit('SET_STUDENT_FILE_UPLOAD_INFORMATION',response);
+            this.$router.push("/students")
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
@@ -458,8 +458,8 @@ export const actions = {
         try {
             dispatch('start',id);
             let response = await this.$axios.$post(`/marktable-sheet`,payload);
-            console.log("marks file response",response);
             commit('SET_MARKS_FILE_UPLOAD_INFORMATION',response);
+            this.$successToast(response.message);
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
@@ -698,7 +698,7 @@ export const actions = {
             console.log("response post a exam info inside store:", response);
             commit('SET_POST_A_EXAM', response);
             this.$successToast(response.message);
-            this.$router.push("/exams");
+            this.$router.push("/exams/list");
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
