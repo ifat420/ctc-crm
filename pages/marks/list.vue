@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h2 class="text-3xl font-medium">Upload Marks</h2>
+    <h2 class="text-3xl font-medium">Marks List</h2>
+    <!-- {{ sortedList }} -->
     <div v-if="$route.query && $route.query.exam_name && $route.query.session && markData.length" class="flex items-center gap-x-3 mt-2">
       <h4 class="text-xl font-semibold capitalize">{{$route.query.exam_name}}</h4>
       <h4 class="text-xl font-semibold capitalize">{{$route.query.session}}</h4>
@@ -167,7 +168,7 @@
                       ease-in-out
                       hover:bg-gray-100
                     "
-                    v-for="(row, index) in markData"
+                    v-for="(row, index) in sortedList"
                     :key="index"
                   >
                     <td
@@ -471,10 +472,26 @@ export default {
       exm.shift();
       return exm;
     },
+
+    sortedList() {
+      let arr = []
+      if(this.marksResponse && this.marksResponse.length) {
+
+        this.marksResponse.map((item) => {
+          arr.push(item)
+        })
+      }
+
+      arr.sort((a,b) => {
+        return a.roll_number - b.roll_number
+      })
+
+      return arr;
+    }
   },
 
   methods: {
-    ...mapActions(["getSession", "createMarks", "createMarkTableUpdate"]),
+    ...mapActions(["getSession", "createMarks", "createMarkTableUpdate", "createMarksClear"]),
 
     examNameChanged(value) {
       console.log(`Exam Changed value ${value}`);
@@ -494,6 +511,8 @@ export default {
           exam_name: this.$route.query.exam_name,
           session: this.$route.query.session
         });
+      } else {
+        this.createMarksClear()
       }
     },
 
@@ -511,8 +530,7 @@ export default {
         this.markTableUpdateResponse &&
         this.markTableUpdateResponse.message
       ) {
-        // this.$toast.success("hello");
-        this.$successToast(this.markTableUpdateResponse.message);
+        
         this.hasSuccess = true;
         console.log("mark response inside", this.markTableUpdateResponse);
       }

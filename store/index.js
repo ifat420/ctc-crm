@@ -378,6 +378,10 @@ export const actions = {
         }
     },
 
+    postResultClear({commit}) {
+        commit('SET_RESULT', {});
+    },
+
     async postStudentInformation({ dispatch, commit }, payload) {
         const id = 'postStudentInformation';
 
@@ -799,6 +803,10 @@ export const actions = {
         }
     },
 
+    createMarksClear({ commit }) {
+        commit('SET_CREATE_MARKS_RESPONSE', {});
+    },
+
     async createSubjects ({ dispatch,commit }, payload) {
         const id = "createSubjects";
 
@@ -841,6 +849,10 @@ export const actions = {
             dispatch("end", id);
             dispatch('setError', obj);
         }
+    },
+
+    createMarksOnSubjectClear({commit}) {
+        commit('SET_CREATE_MARKS_ON_SUBJECT_RESPONSE', {});
     },
 
     async createMarkTableUpdate ({ dispatch,commit }, payload) {
@@ -917,6 +929,10 @@ export const actions = {
             dispatch("end", id);
             dispatch('setError', obj);
         }
+    },
+
+    createResultOverviewClear({commit}) {
+        commit('SET_CREATE_RESULT_OVERVIEW_RESPONSE', {});
     },
 
     async singleStudentResult({dispatch, commit}, payload) {

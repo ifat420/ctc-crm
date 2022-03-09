@@ -2,6 +2,12 @@
     <div>
         <div class="">
             <h2 class="text-3xl font-medium">Single Student Result</h2>
+            <div class="mt-4 mx-2">
+                <h4 class="text-md">Name: <span class="font-semibold">{{ $route.query.name }}</span> </h4>
+                <h4 class="text-md">Roll No: <span class="font-semibold">{{ $route.query.roll_number }}</span> </h4>
+                <h4 class="text-md">Total Marks: <span class="font-semibold">{{ $route.query.total_mark }}</span> </h4>
+                <h4 class="text-md">Grade Point: <span class="font-semibold">{{ $route.query.grade_point }}</span> </h4>
+            </div>
         </div>
         <div class="mt-6" v-if="getSingleStudentResult && getSingleStudentResult.length">
             <div class="">
@@ -12,7 +18,10 @@
                         :columns="columns"
                         :rows="getSingleStudentResult" 
                         :search-options="{
-                            enabled: true
+                            enabled: false
+                        }"
+                        :sort-options="{
+                            enabled: false,
                         }"
                         styleClass="vgt-table condensed">
                         >
@@ -79,12 +88,13 @@ export default {
     },
 
     computed: {
-        ...mapState(["getSingleStudentResult"]),
+        ...mapState(["getSingleStudentResult","result"]),
         ...mapGetters(["is", "isError"]),
+
     },
 
     methods: {
-        ...mapActions(["singleStudentResult"])
+        ...mapActions(["singleStudentResult","postResult"])
     },
 
     async mounted() {
@@ -96,6 +106,8 @@ export default {
         }
         console.log('query :>> ', query);
         await this.singleStudentResult(query);
+        this.result;
+        // await this.postResult(query);
     }
 }
 </script>

@@ -12,7 +12,7 @@
           </div>
         </div>
         <div>
-          <h3 class="font text-lg font-semibold">Academic Transcript</h3>
+          <h3 class="text-lg font-semibold">Academic Transcript</h3>
         </div>
       </div>
 
@@ -22,140 +22,73 @@
         <div class="bg-color-white grid grid-cols-1 sm:grid-cols-2 gap-x-6 p-6 border border-zinc-600 capitalize" v-if="singleStudentInfo && singleStudentInfo.student_info">
           
           <div>
-            <div class="grid grid-cols-2 p-2 bg-color-info mb-2">
+            <!-- <div class="grid grid-cols-2 p-2 bg-color-info mb-2">
               <p class="font">Student Id</p>
               <p class="font" v-if="singleStudentInfo.student_info.ID">{{ singleStudentInfo.student_info.ID }}</p>
+            </div> -->
+            <div class="grid grid-cols-2 p-2 bg-color-info mb-2">
+              <p class="text-sm">Student Name</p>
+              <p class="text-sm" v-if="singleStudentInfo.student_info.first_name && singleStudentInfo.student_info.last_name">{{ singleStudentInfo.student_info.first_name }} {{ singleStudentInfo.student_info.last_name }}</p>
             </div>
             <div class="grid grid-cols-2 p-2 bg-color-info mb-2">
-              <p class="font">Student Roll</p>
-              <p class="font" v-if="singleStudentInfo.student_info.roll_number">{{ singleStudentInfo.student_info.roll_number }}</p>
+              <p class="text-sm">Student Roll</p>
+              <p class="text-sm" v-if="singleStudentInfo.student_info.roll_number">{{ singleStudentInfo.student_info.roll_number }}</p>
+            </div>
+            <div class="grid grid-cols-2 p-2 bg-color-info mb-2">
+              <p class="text-sm">Date Of Birth</p>
+              <p class="text-sm" v-if="singleStudentInfo.student_info.date_of_birth">{{ birthDate }}</p>
             </div>
             <div class="grid grid-cols-2 p-2 bg-color-info mb-2 capitalize">
-              <p class="font">Exam Type</p>
-              <p class="font">{{ singleStudentInfo.student_info.type_of_student }}</p>
+              <p class="text-sm">Examnee Type</p>
+              <p class="text-sm">{{ singleStudentInfo.student_info.type_of_student }}</p>
             </div>
             <div class="grid grid-cols-2 p-2 bg-color-info mb-2">
-              <p class="font">Session</p>
-              <p class="font" v-if="singleStudentInfo.student_info.session">{{ singleStudentInfo.student_info.session }}</p>
+              <p class="text-sm">Session</p>
+              <p class="text-sm" v-if="singleStudentInfo.student_info.session">{{ singleStudentInfo.student_info.session }}</p>
             </div>
             <div class="grid grid-cols-2 p-2 bg-color-info mb-2">
-              <p class="font">Group</p>
-              <p class="font" v-if="singleStudentInfo.student_info.group">{{ singleStudentInfo.student_info.group }}</p>
+              <p class="text-sm">Group</p>
+              <p class="text-sm" v-if="singleStudentInfo.student_info.group">{{ singleStudentInfo.student_info.group }}</p>
             </div>
           </div>
 
 
           <div>
+            
             <div class="grid grid-cols-2 p-2 bg-color-info mb-2">
-              <p class="font">Student Name</p>
-              <p class="font" v-if="singleStudentInfo.student_info.first_name && singleStudentInfo.student_info.last_name">{{ singleStudentInfo.student_info.first_name }} {{ singleStudentInfo.student_info.last_name }}</p>
+              <p class="text-sm">Father's Name</p>
+              <p class="text-sm" v-if="singleStudentInfo.student_info.father_name">{{ singleStudentInfo.student_info.father_name }}</p>
             </div>
             <div class="grid grid-cols-2 p-2 bg-color-info mb-2">
-              <p class="font">Father's Name</p>
-              <p class="font" v-if="singleStudentInfo.student_info.father_name">{{ singleStudentInfo.student_info.father_name }}</p>
+              <p class="text-sm">Mother's Name</p>
+              <p class="text-sm" v-if="singleStudentInfo.student_info.mother_name">{{ singleStudentInfo.student_info.mother_name }}</p>
             </div>
             <div class="grid grid-cols-2 p-2 bg-color-info mb-2">
-              <p class="font">Mother's Name</p>
-              <p class="font" v-if="singleStudentInfo.student_info.mother_name">{{ singleStudentInfo.student_info.mother_name }}</p>
+              <p class="text-sm">Class</p>
+              <p class="text-sm" v-if="singleStudentInfo.student_info.class">{{ singleStudentInfo.student_info.class.toUpperCase() }}</p>
             </div>
             <div class="grid grid-cols-2 p-2 bg-color-info mb-2">
-              <p class="font">Class</p>
-              <p class="font" v-if="singleStudentInfo.student_info.class">{{ singleStudentInfo.student_info.class.toUpperCase() }}</p>
+              <p class="text-sm">Grade Point</p>
+              <p class="text-sm font-bold" v-if="singleStudentInfo.gpa">{{ singleStudentInfo.gpa.grade_point }}</p>
             </div>
             <div class="grid grid-cols-2 p-2 bg-color-info mb-2">
-              <p class="font">Fourth Subject</p>
-              <p class="font" v-if="singleStudentInfo.student_info.forth_subject_name">{{ singleStudentInfo.student_info.forth_subject_name }}</p>
+              <p class="text-sm">Total Marks</p>
+              <p class="text-sm font-bold" v-if="singleStudentInfo.gpa">{{ totalMarks }}</p>
             </div>
           </div>
         </div>
       </div>
       
 
-      <!-- ..................................................................................... Table .................................................................... -->
-
-  
-      <!-- <div class="p-6 sm:shadow-xm">
-        <table class="w-full flex flex-row flex-no-wrap sm:bg-white sm:py-4 rounded-lg overflow-hidden  my-5">
-              <thead  class="text-black">
-                <tr class="bg-teal-400 flex flex-col flex-no wrap sm:table-row sm:rounded-none mb-2 sm:mb-0" v-for="(table,index) in tableSizeSmall" :key="index">
-                  <th class="p-3 text-left border td-height" v-for="(head,index) in tableHead" :key="index">
-                    {{ head }}
-                  </th>
-                </tr>
-              </thead>
-
-
-
-              <tbody class="flex-1 sm:flex-none" v-if="singleStudentInfo.mark_table">
-                <tr v-for="(subject,index) in singleStudentInfo.mark_table" :key="index" class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0 border">
-                  <td class="border-grey-light border hover:bg-gray-100 p-3 td-height" >
-                      {{ subject.code }}
-                  </td>
-                  <td class="border-grey-light border hover:bg-gray-100 p-3 td-height" >
-                    {{ subject.name }}
-                  </td>
-                  <td class="border-grey-light border hover:bg-gray-100 p-3 td-height" >
-                    100
-                  </td>
-                  <td class="border-grey-light border hover:bg-gray-100 p-3 td-height">
-                    {{ subject.cq }}
-                  </td>
-                  <td  class="border-grey-light border hover:bg-gray-100 p-3 td-height">
-                    {{ subject.mcq  }}
-                  </td>
-                  <td class="border-grey-light border hover:bg-gray-100 p-3 td-height">
-                    {{ subject.practical }}
-                  </td>
-                  <td class="border-grey-light border hover:bg-gray-100 p-3 td-height">
-                    {{ subject.total_mark }}
-                  </td>
-                  <td class="border-grey-light border hover:bg-gray-100 p-3 td-height">
-                    {{ subject.grade }}
-                  </td>
-                  <td class="border-grey-light border hover:bg-gray-100 p-3 td-height" >
-                    {{ subject.grade_point.toFixed(2)  }}
-                  </td>
-                </tr>
-
-
-                <tr class="border-top flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  
-                  <td colspan="2">Total Marks</td>
-                  <td  class="px-4 py-1 whitespace-nowrap font color-black">{{ totalMarks }}</td>
-                </tr>
-                <tr class="noBorder flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  
-                  <td colspan="2">GPA(Grade Point Average)</td>
-                  <td  class="px-4 py-1 whitespace-nowrap font color-black ">{{ singleStudentInfo.gpa.grade_point }}</td>
-                </tr>
-                <tr class="noBorder flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0 pb-6">
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-               
-                  <td colspan="2">LG(Letter Grade)</td>
-                  <td  class="px-4 py-1  whitespace-nowrap font  color-black">{{ singleStudentInfo.gpa.grade }}</td>
-                </tr>
-                
-              </tbody>
-            </table>
-      </div> -->
-
       <div class="p-6 sm:shadow-xm" v-if="singleStudentInfo && singleStudentInfo.mark_table && singleStudentInfo.mark_table.length"> 
         <vue-good-table
         :columns="columns"
         :rows="fullTable" 
         :search-options="{
-            enabled: true
+            enabled: false
+        }"
+        :sort-options="{
+            enabled: false,
         }"
         styleClass="vgt-table condensed">
         >
@@ -172,11 +105,13 @@
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex'
 import LogoMomin from "~/components/shared/LogoMomin"
+import moment from 'moment'
 export default {
   layout: 'others',
 
   components: {
-    LogoMomin
+    LogoMomin,
+    
   },
 
   data() {
@@ -222,6 +157,13 @@ export default {
 
   computed: {
     ...mapState(["singleStudentInfo"]),
+
+    birthDate() {
+      if(this.singleStudentInfo && this.singleStudentInfo.student_info && this.singleStudentInfo.student_info.date_of_birth) {
+        return moment(this.singleStudentInfo.student_info.date_of_birth).format("MMMM Do YYYY")
+      }
+      
+    },
 
     fullTable() {
       let arr = []

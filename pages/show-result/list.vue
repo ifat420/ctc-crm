@@ -1,8 +1,6 @@
 <template>
     <div>
-        <h2 class="text-3xl font-medium">Result List</h2>
-        
-      <!-- SESSION & EXAM-NAME -->
+      <h2 class="text-3xl font-medium">Result List</h2>
       <div class="mt-6">
           
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 mb-10">
@@ -140,8 +138,9 @@
 
         <div class="w-full mt-8 bg-color-whiteTwo" v-if="createResultOverviewResponse && createResultOverviewResponse.all_pass">
             
-            <h3 class="color-black text-xl font-medium antialiased mb-4">Students who passed all exams</h3>
-            <div>
+            <h3 class="color-black text-xl font-medium antialiased mb-2">Students who passed all exams</h3>
+            <h4 class="">Total no Of Students who passed all exams: <span>{{createResultOverviewResponse.all_pass.length}}</span> </h4>
+            <div class="mt-6">
               <div class="grid grid-cols-8 gap-6 p-6 box-shadow-dashboard" v-if="createResultOverviewResponse && createResultOverviewResponse.all_pass && createResultOverviewResponse.all_pass.length">
                 <template>
                   <div v-for="(data,index) in createResultOverviewResponse.all_pass" :key="index">
@@ -154,12 +153,58 @@
         </div>
 
         <div class="w-full mt-8 bg-color-whiteTwo" v-if="createResultOverviewResponse && createResultOverviewResponse.all_fail">
-            <h3 class="color-black text-xl font-medium antialiased mb-4">Students who failed</h3>
-            <div>
+            <h3 class="color-black text-xl font-medium antialiased mb-2">Students who failed</h3>
+            <h4 class="">Total no Of Students who failed: <span>{{createResultOverviewResponse.all_fail.length}}</span> </h4>
+            <div class="mt-6">
               <div class="flex flex-wrap flex-1 gap-6 p-6 box-shadow-dashboard"  v-if="createResultOverviewResponse && createResultOverviewResponse.all_fail && createResultOverviewResponse.all_fail.length ">
                 <template>
                   <div v-for="(data,index) in createResultOverviewResponse.all_fail" :key="index">
-                    <p>{{ data.roll_number}}({{ data.fail_subjects }})</p>
+                    <p class="capitalize">{{ data.roll_number}}({{ data.fail_subjects }})</p>
+                  </div>
+                </template>
+              </div>
+              <p v-else class="py-4"> No Result found </p>
+            </div>
+        </div>
+
+        <div class="w-full mt-8 bg-color-whiteTwo" v-if="createResultOverviewResponse && createResultOverviewResponse.all_fail">
+            <h3 class="text-xl font-semibold mb-2">One Subject Fail</h3>
+            <h4 class="">No Of Students who failed one subject: <span>{{oneSubjectFail.length}}</span> </h4>
+            <div class="mt-6">
+              <div class="flex flex-wrap flex-1 gap-6 p-6 box-shadow-dashboard"  v-if="createResultOverviewResponse && createResultOverviewResponse.all_fail && createResultOverviewResponse.all_fail.length ">
+                <template>
+                  <div v-for="(data,index) in oneSubjectFail" :key="index">
+                    <p class="capitalize">{{ data.roll_number}}({{ data.fail_subjects }})</p>
+                  </div>
+                </template>
+              </div>
+              <p v-else class="py-4"> No Result found </p>
+            </div>
+        </div>
+
+        <div class="w-full mt-8 bg-color-whiteTwo" v-if="createResultOverviewResponse && createResultOverviewResponse.all_fail">
+            <h3 class="text-xl font-semibold mb-2">Two Subject Fail</h3>
+            <h4 class="">No Of Students who failed two subjects: <span>{{twoSubjectsFail.length}}</span> </h4>
+            <div class="mt-6">
+              <div class="flex flex-wrap flex-1 gap-6 p-6 box-shadow-dashboard"  v-if="createResultOverviewResponse && createResultOverviewResponse.all_fail && createResultOverviewResponse.all_fail.length ">
+                <template>
+                  <div v-for="(data,index) in twoSubjectsFail" :key="index">
+                    <p class="capitalize">{{ data.roll_number}}({{ data.fail_subjects }})</p>
+                  </div>
+                </template>
+              </div>
+              <p v-else class="py-4"> No Result found </p>
+            </div>
+        </div>
+
+        <div class="w-full mt-8 bg-color-whiteTwo" v-if="createResultOverviewResponse && createResultOverviewResponse.all_fail">
+            <h3 class="color-black text-xl font-medium antialiased mb-2">Three Subject Fail</h3>
+            <h4 class="">No Of Students who failed three subjects: <span>{{threeSubjectsFail.length}}</span> </h4>
+            <div class="mt-6">
+              <div class="flex flex-wrap flex-1 gap-6 p-6 box-shadow-dashboard"  v-if="createResultOverviewResponse && createResultOverviewResponse.all_fail && createResultOverviewResponse.all_fail.length ">
+                <template>
+                  <div v-for="(data,index) in threeSubjectsFail" :key="index">
+                    <p class="capitalize">{{ data.roll_number}}({{ data.fail_subjects }})</p>
                   </div>
                 </template>
               </div>
@@ -177,7 +222,10 @@
                         :columns="columns"
                         :rows="computedFive" 
                         :search-options="{
-                            enabled: true
+                          enabled: false
+                        }"
+                        :sort-options="{
+                          enabled: false,
                         }"
                         styleClass="vgt-table condensed">
                         >
@@ -303,13 +351,53 @@ export default {
             arr.push(obj)
           })
       } return arr
+    },
+
+    twoSubjectsFail() {
+      
+      if (this.createResultOverviewResponse && this.createResultOverviewResponse.all_fail && this.createResultOverviewResponse.all_fail.length) {
+        let all_fail = this.createResultOverviewResponse.all_fail;
+        let arr = []
+        all_fail.filter(item => {
+          if (item.fail_subjects.split(",").length - 1 == 1) {
+            arr.push(item);
+          }
+        })
+        return arr
+      }
+    },
+
+    threeSubjectsFail() {
+      if (this.createResultOverviewResponse && this.createResultOverviewResponse.all_fail && this.createResultOverviewResponse.all_fail.length) {
+        let all_fail = this.createResultOverviewResponse.all_fail;
+        let arr = []
+        all_fail.filter(item => {
+          if (item.fail_subjects.split(",").length - 1 == 2) {
+            arr.push(item);
+          }
+        })
+        return arr
+      }
+    },
+
+    oneSubjectFail() {
+      if (this.createResultOverviewResponse && this.createResultOverviewResponse.all_fail && this.createResultOverviewResponse.all_fail.length) {
+        let all_fail = this.createResultOverviewResponse.all_fail;
+        let arr = []
+        all_fail.filter(item => {
+          if (item.fail_subjects.split(",").length - 1 == 0) {
+            arr.push(item);
+          }
+        })
+        return arr
+      }
     }
     
   },
 
 
   methods: {
-    ...mapActions(["createResultOverview", "getSession"]),
+    ...mapActions(["createResultOverview", "getSession", "createResultOverviewClear"]),
 
     examNameChanged(value) {
         console.log(`Exam Changed value ${value}`);
@@ -333,6 +421,8 @@ export default {
           exam_name: this.$route.query.exam_name,
           session: this.$route.query.session
         });
+      } else {
+        this.createResultOverviewClear();
       }
     },
 
@@ -363,7 +453,7 @@ export default {
     }
 
     this.fetchData();
-    
+    console.log('this.createResultOverviewResponse.all_fail :>> ', this.createResultOverviewResponse);
    
   },
 

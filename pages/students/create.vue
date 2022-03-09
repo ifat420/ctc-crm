@@ -434,7 +434,8 @@
             </div>
           </div>
         </div>
-        <hr class="my-8" />
+        <hr class="mt-8" />
+        
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 mt-6">
           <div>
             <label for="mendatory" class="text-sm">
@@ -466,7 +467,7 @@
                       $v.twoSubjects.mendatory.$invalid,
                   }"
                 >
-                  <option value="">Select Class</option>
+                  <option value="">Select Subject</option>
                   <option
                     v-for="(item, index) in fourthSubjectList.options"
                     :key="index"
@@ -519,7 +520,7 @@
                       $v.requiredSubject2.$invalid,
                   }"
                 >
-                  <option value="">Select Class</option>
+                  <option value="">Select Subject</option>
                   <option
                     v-for="(item, index) in fourthSubjectList.options"
                     :key="index"
@@ -569,7 +570,7 @@
                       $v.requiredSubject3.$invalid,
                   }"
                 >
-                  <option value="">Select Class</option>
+                  <option value="">Select Subject</option>
                   <option
                     v-for="(item, index) in fourthSubjectList.options"
                     :key="index"
@@ -620,7 +621,7 @@
                       $v.twoSubjects.optional.$invalid,
                   }"
                 >
-                  <option value="">Select Session</option>
+                  <option value="">Select Subject</option>
                   <option
                     v-for="(item, index) in fourthSubjectList.options"
                     :key="index"
@@ -645,7 +646,6 @@
         </div>
       </div>
 
-     
 
       <hr class="my-8" />
 
@@ -696,7 +696,10 @@ export default {
 
   data() {
     return {
-      // rows: this.getAllStudentResponse.rows,
+      fSub: {
+        name: "",
+        options: []
+      },
       mainContents: {
         folderName: "students",
         compName: "create-a-student",
@@ -967,20 +970,6 @@ export default {
        
         console.log(this.optionalSubjectList);
       }
-
-      // this.student.session = "",
-      // this.student.class = "",
-      // this.student.group = "",
-      // this.student.gender = "",
-      // this.student.roll_number = "",
-      // this.student.reg_number = "",
-      // this.student.first_name = "",
-      // this.student.last_name = "",
-      // this.student.father_name = "",
-      // this.student.mohter_name = "",
-      // this.student.type_of_student = "",
-      // this.twoSubjects.mendatory = ""
-      // this.twoSubjects.optional = ""
     },
   },
 
@@ -990,7 +979,7 @@ export default {
         await this.getOptionalSubject({ group: val });
         await this.getRequiredSubject({ group: val });
       }
-    }
+    },
   },
 
   mounted() {

@@ -138,7 +138,13 @@ export default {
       });
     },
     onDropdownChange() {
-      this.fetchData()
+      // this.fetchData()
+      this.getAllStudent({
+        page: this.page,
+        limit: this.limit,
+        session: this.selectedSession,
+        group: this.selectedGroup,
+      });
     }
   },
 

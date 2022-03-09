@@ -97,13 +97,7 @@
           >
         </div>
 
-        <div class="mb-5">
-          <nuxt-link
-            to="/resetPassword"
-            class="text-sm color-black underline font block"
-            >Forget your password?</nuxt-link
-          >
-        </div>
+        
         
         <button
               @click.prevent="login"

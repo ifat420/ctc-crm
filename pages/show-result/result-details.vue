@@ -404,12 +404,18 @@ export default {
           arr.push(obj);
         });
       }
+
+      arr.sort((a,b) => {
+        return a.roll_number - b.roll_number
+      })
+
       return arr;
     },
+
   },
 
   methods: {
-    ...mapActions(["getSession", "getGroup", "getClass", "postResult"]),
+    ...mapActions(["getSession", "getGroup", "getClass", "postResult","postResultClear"]),
 
     onPageChnage(page) {
       this.$router.push({
@@ -443,6 +449,8 @@ export default {
         
 
         this.postResult(query);
+      } else {
+        this.postResultClear();
       }
     },
 
@@ -471,7 +479,7 @@ export default {
     async viewResult(value) {
       this.$router.push({
         path: "/show-result/single-student-result",
-        query: { roll_number: value.roll_number, exam_id: value.exam_id },
+        query: { roll_number: value.roll_number, exam_id: value.exam_id, total_mark: value.total_mark, grade_point:value.grade_point, name: value.name },
       });
     },
 

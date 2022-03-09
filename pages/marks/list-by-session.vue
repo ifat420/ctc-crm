@@ -270,7 +270,7 @@
                       ease-in-out
                       hover:bg-gray-100
                     "
-                    v-for="(row, index) in markData"
+                    v-for="(row, index) in sortedList"
                     :key="index"
                   >
                     <td
@@ -604,6 +604,22 @@ export default {
       }
       return obj;
     },
+
+    sortedList() {
+      let arr = []
+      if(this.marksOnSubjectResponse && this.marksOnSubjectResponse.length) {
+
+        this.marksOnSubjectResponse.map((item) => {
+          arr.push(item)
+        })
+      }
+
+      arr.sort((a,b) => {
+        return a.roll_number - b.roll_number
+      })
+
+      return arr;
+    }
   },
 
   methods: {
@@ -614,6 +630,7 @@ export default {
       "createMarks",
       "createMarksOnSubject",
       "createMarkTableUpdate",
+      "createMarksOnSubjectClear"
     ]),
 
     examNameChanged(value) {
@@ -637,7 +654,7 @@ export default {
     },
 
     async submitSubjectMarks() {
-      console.log(this.markData);
+      console.log("marksdata",this.markData);
       console.log("mark response", this.markTableUpdateResponse);
       await this.createMarkTableUpdate(this.markData);
       if (
@@ -671,6 +688,7 @@ export default {
         });
       } else {
           this.markInputMode = false
+          this.createMarksOnSubjectClear();
        }
     },
 
@@ -688,8 +706,9 @@ export default {
     this.getSession();
     this.getGroup();
     this.fetchData();
-    this.markData = JSON.parse(JSON.stringify(this.marksOnSubjectResponse));
+    // this.markData = JSON.parse(JSON.stringify(this.marksOnSubjectResponse));
     console.log('this.$route :>> ', this.$route);
+    console.log('this.marksOnSubjectResponse :>> ', this.marksOnSubjectResponse);
   },
 
   watch: {
