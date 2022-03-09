@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="">
-      <h2 class="text-3xl font-medium">Create Result</h2>
+      <h2 class="text-3xl font-medium">Result Details</h2>
       <div class="">
         <div class="mt-6">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 mb-10">

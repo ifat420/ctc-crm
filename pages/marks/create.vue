@@ -129,15 +129,7 @@
                 </div>
       </div>
 
-      <span v-if="fileRequired" class="error">*File is required</span>
-
-      <!-- <div v-if="!fileRequired && marksFileUploadResponse && marksFileUploadResponse.message" class="pt-3">
-          <h1 class="font success">{{marksFileUploadResponse.message}}</h1>
-      </div> -->
-      
-      <!-- <div v-if="isError('marksFileUpload')  && isError('marksFileUpload').has_error" class="pt-3">
-          <h1 class="font text-red-600"> {{ isError('marksFileUpload').error }} </h1>
-      </div> -->
+      <span v-if="fileRequired" class="text-red-500 text-xs mt-2">*File is required</span>
 
       <hr class="my-8" />
 
@@ -274,14 +266,13 @@ export default {
     },
 
     handleFileUpload(event) {
-      console.log("hello");
       this.hasFile = true;
       if (this.hasFile) this.fileRequired = false
       else this.fileRequired = true
 
 
       let file = event.target.files[0];
-      console.log("File",file);
+      console.log('file :>> ', file);
       this.student.file = file;
       if (file) {
         this.fileName = file.name;
@@ -298,7 +289,7 @@ export default {
     },
 
     async uploadMarksFile() {
-
+      console.log('this.fileName :>> ', this.fileName);
       this.$v.$touch();
       if (this.hasFile) this.fileRequired = false
       else this.fileRequired = true
@@ -313,9 +304,7 @@ export default {
       
       if (this.$v.student.session.$anyError == false && this.$v.student.exam_name.$anyError == false ) {
               await this.marksFileUpload(this.formData);
-              // this.$router.push("/marks/create");
               this.formData = new FormData();
-              
           }
 
       this.fileName = null

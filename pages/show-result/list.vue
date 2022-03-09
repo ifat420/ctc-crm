@@ -453,8 +453,6 @@ export default {
     }
 
     this.fetchData();
-    console.log('this.createResultOverviewResponse.all_fail :>> ', this.createResultOverviewResponse);
-   
   },
 
   watch: {

@@ -504,8 +504,6 @@ export default {
     },
 
     async fetchData() {
-     
-    
       if (this.$route.query && this.$route.query.exam_name && this.$route.query.session) {
         await this.createMarks({
           exam_name: this.$route.query.exam_name,
@@ -526,14 +524,6 @@ export default {
     async submitStudentMarks() {
       console.log(this.markData);
       await this.createMarkTableUpdate(this.markData);
-      if (
-        this.markTableUpdateResponse &&
-        this.markTableUpdateResponse.message
-      ) {
-        
-        this.hasSuccess = true;
-        console.log("mark response inside", this.markTableUpdateResponse);
-      }
     },
 
     resetAll() {
