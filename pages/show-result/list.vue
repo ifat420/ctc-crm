@@ -427,16 +427,6 @@ export default {
     },
 
     uploadAExam() {
-      // this.$v.$touch();
-      // if (this.$v.exam.$anyError == false )
-      //     {
-      //       await this.createResultOverview(this.exam);
-      //       this.hasSuccess = true;
-      //     }
-      // this.hasSuccess = false;
-      // this.exam.exam_name = "",
-      // this.exam.session = ""
-
       this.$router.push({
         path: "/show-result/list",
         query: this.exam

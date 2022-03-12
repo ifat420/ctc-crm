@@ -332,6 +332,7 @@
               Group is required.
             </p>
           </div>
+    
           <div>
             <label for="gender" class="text-sm"> Gender </label>
             <div class="flex flex-col">
@@ -435,7 +436,7 @@
           </div>
         </div>
         <hr class="mt-8" />
-        
+
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 mt-6">
           <div>
             <label for="mendatory" class="text-sm">
@@ -490,6 +491,10 @@
             </p>
           </div>
 
+
+
+
+
           <div v-if="isRequired">
             <label for="mendatory2" class="text-sm">
               Mendatory Subject 2
@@ -522,7 +527,7 @@
                 >
                   <option value="">Select Subject</option>
                   <option
-                    v-for="(item, index) in fourthSubjectList.options"
+                    v-for="(item, index) in mendatoryTwo.options"
                     :key="index"
                     :value="item.value"
                   >
@@ -572,7 +577,7 @@
                 >
                   <option value="">Select Subject</option>
                   <option
-                    v-for="(item, index) in fourthSubjectList.options"
+                    v-for="(item, index) in mendatoryThree.options"
                     :key="index"
                     :value="item.value"
                   >
@@ -623,7 +628,7 @@
                 >
                   <option value="">Select Subject</option>
                   <option
-                    v-for="(item, index) in fourthSubjectList.options"
+                    v-for="(item, index) in four.options"
                     :key="index"
                     :value="item.value"
                   >
@@ -696,9 +701,33 @@ export default {
 
   data() {
     return {
-      fSub: {
-        name: "",
-        options: []
+      optionalList: [],
+      four: {
+        name: "Fourth Subject",
+        options: [
+          {
+            name: "",
+            value: ""
+          }
+        ]
+      },
+      mendatoryTwo: {
+        name: "Fourth Subject",
+        options: [
+          {
+            name: "",
+            value: ""
+          }
+        ]
+      },
+      mendatoryThree: {
+        name: "Fourth Subject",
+        options: [
+          {
+            name: "",
+            value: ""
+          }
+        ]
       },
       mainContents: {
         folderName: "students",
@@ -809,18 +838,35 @@ export default {
       return glist;
     },
 
+
     fourthSubjectList() {
       let obj = {};
       obj.name = "Fourth Subject";
       obj.options = [];
 
-      if (this.optionalSubjectResponse && this.optionalSubjectResponse.length) {
+      if (this.optionalSubjectResponse && this.optionalSubjectResponse.length && this.student.group == "Science") {
         this.optionalSubjectResponse.forEach((item) => {
           let ob = {};
           ob.name = item;
           ob.value = item;
           obj.options.push(ob);
         });
+      }
+
+      else if (this.optionalSubjectResponse && this.optionalSubjectResponse.length && this.student.group == "humanities") {
+        this.optionalSubjectResponse.forEach((item) => {
+          let ob = {};
+          ob.name = item;
+          ob.value = item;
+          obj.options.push(ob);
+        });
+
+        // obj.options.splice(obj.options.indexOf("studies of islam"),1);
+        obj.options.forEach((item,index) => {
+          if(item.value == "studies of islam") {
+            obj.options.splice(index,1);
+          }
+        })
       }
       return obj;
     },
@@ -980,6 +1026,116 @@ export default {
         await this.getRequiredSubject({ group: val });
       }
     },
+
+    "twoSubjects.mendatory": function(val) {
+      this.four.options = []
+      this.mendatoryTwo.options = []
+      this.optionalList = JSON.parse(JSON.stringify(this.optionalSubjectResponse));
+      this.optionalList.forEach((item,index) => {
+        if(item == val) {
+          this.optionalList.splice(index,1);
+        }
+      })
+
+      this.optionalList.forEach((item,index) => {
+          if(item == "studies of islam") {
+            this.optionalList.splice(index,1);
+          }
+        })
+      
+
+
+      this.optionalList.forEach(item => {
+        let ob = {};
+        ob.name = item;
+        ob.value = item;
+        this.four.options.push(ob)
+        this.mendatoryTwo.options.push(ob)
+      }) 
+
+      
+      
+      console.log('this.mendatoryTwo.options :>> ', this.mendatoryTwo.options);
+    },
+
+    "requiredSubject2": function(val) {
+      this.mendatoryThree.options = []
+      let optionalList = JSON.parse(JSON.stringify(this.optionalSubjectResponse));
+      optionalList.forEach((item,index) => {
+        if(item == val) {
+          optionalList.splice(index,1);
+        }
+      })
+
+      optionalList.forEach((item,index) => {
+        if(item == this.twoSubjects.mendatory) {
+          optionalList.splice(index,1);
+        }
+      })
+
+      optionalList.forEach((item,index) => {
+          if(item == "studies of islam") {
+            optionalList.splice(index,1);
+          }
+        })
+
+      console.log('optionalList 3:>> ', optionalList);
+
+
+      optionalList.forEach(item => {
+        let ob = {};
+        ob.name = item;
+        ob.value = item;
+        this.mendatoryThree.options.push(ob)
+      })
+    },
+
+    "requiredSubject3": function(val) {
+      this.four.options = []
+      let optionalList = JSON.parse(JSON.stringify(this.optionalSubjectResponse));
+
+       optionalList.forEach((item,index) => {
+        if(item == val) {
+          optionalList.splice(index,1);
+        }
+      })
+
+      optionalList.forEach((item,index) => {
+        if(item == this.twoSubjects.mendatory) {
+          optionalList.splice(index,1);
+        }
+      })
+
+      optionalList.forEach((item,index) => {
+        if(item == this.requiredSubject2) {
+          optionalList.splice(index,1);
+        }
+      })
+
+      optionalList.forEach((item,index) => {
+          if(item == "economics") {
+            optionalList.splice(index,1);
+          }
+        })
+
+        optionalList.forEach((item,index) => {
+          if(item == "civic & good governance") {
+            optionalList.splice(index,1);
+          }
+        })
+
+        // optionalList.push("studies of islam")
+
+      console.log('optionalList 3:>> ', optionalList);
+
+
+      optionalList.forEach(item => {
+        let ob = {};
+        ob.name = item;
+        ob.value = item;
+        this.four.options.push(ob)
+      })
+    }
   },
 
   mounted() {
