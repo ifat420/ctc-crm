@@ -9,14 +9,16 @@
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'edit'">
           <nuxt-link
-            :to="`/admin/customers/edit/${props.row.id}`"
+            :to="`/subjects/edit/${props.row.ID}`"
             style="text-decoration: underline"
-            >{{ props.row.edit }}</nuxt-link
+            >
+            <button class="underline">Edit</button>
+          </nuxt-link
           >
         </span>
 
         <span v-else-if="props.column.field == 'delete'">
-          <button class="underline" @click="deleteSubject(props.row)">Delete</button>
+          <button class="underline" @click="deleteSubject(props.row.ID)">Delete</button>
         </span>
 
         <span v-else>
@@ -32,7 +34,8 @@
           fixed
           right-0
           left-0
-          top-4
+          top-32
+          md:top-4
           z-50
           justify-center
           items-center
@@ -155,11 +158,13 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
 import DownArrow from "~/components/Icons/DownArrow";
+import { mapActions, mapState, mapGetters } from "vuex";
 
 export default {
   props: {
@@ -180,11 +185,16 @@ export default {
       columns: [],
       rows: [],
       showModal: false,
-      deletedItem: null
+      deletedID: -1,
+      edit: false,
+      editedID: -1
+
     };
   },
 
   computed: {
+    ...mapState(["deleteSubjectResponse"]),
+
     tableData() {
       let arr = [];
       let data = this.subjects.rows;
@@ -200,6 +210,7 @@ export default {
               ? "No Practical"
               : item.practical_full_mark;
           obj.can_be_optional = item.can_be_optional ? "Yes" : "No";
+          obj.ID = item.ID
 
           arr.push(obj);
         });
@@ -209,6 +220,8 @@ export default {
   },
 
   methods: {
+    ...mapActions(["deleteASubject","fetchASubject"]),
+
     rotateIcon() {
       this.arrowRotate = !this.arrowRotate;
     },
@@ -217,18 +230,19 @@ export default {
       return string.charAt(0).toUpperCase() + string.slice(1);
     },
 
-    deleteSubject(value) {
+    async deleteSubject(value) {
       console.log('row :>> ', value);
       this.showModal = true
-      this.deletedItem = value
+      this.deletedID = value
     },
 
     closeModal() {
       this.showModal = false;
+      this.edit = false;
     },
 
-    deleteWorkDetailsItem() {
-      console.log('close modal only this time');
+    async deleteWorkDetailsItem() {
+      await this.deleteASubject(this.deletedID);
       this.showModal = false;
     },
 
@@ -248,6 +262,10 @@ export default {
           {
             label: "Delete",
             field: "delete"
+          },
+          {
+            label : "Edit",
+            field: "edit"
           }
           
         ];
@@ -281,6 +299,10 @@ export default {
           {
             label: "Delete",
             field: "delete"
+          },
+          {
+            label : "Edit",
+            field: "edit"
           }
         ];
       }

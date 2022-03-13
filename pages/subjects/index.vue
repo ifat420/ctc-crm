@@ -51,6 +51,10 @@ export default {
     fetchData() {
       this.getAllSubject({page: this.page, limit: this.limit })
     }
+  },
+
+  mounted() {
+    console.log(this.getAllSubjectResponse);
   }
 };
 </script>

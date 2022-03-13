@@ -30,7 +30,12 @@ export const state = () => ({
     markTableUpdateResponse: [],
     createPublishExamResponse: [],
     createResultOverviewResponse: [],
-    getSingleStudentResult: []
+    getSingleStudentResult: [],
+    deleteSubjectResponse: [],
+    singleSubject: [],
+    updatedSingleSubject: [],
+    deleteStudentResponse: [],
+    unpublishSingleExam: []
 })
 
 export const getters = {
@@ -66,6 +71,9 @@ export const getters = {
         ]
         state.session.map(item => slist.push({ name: item, value: item  }))
         return slist
+    },
+    getASubject(state) {
+        return state.singleSubject
     }
 }
 
@@ -144,6 +152,30 @@ export const mutations = {
         state.getAllStudentResponse = payload;
     },
 
+    SET_NEW_SUBJECT_LIST(state, payload) {
+        let newSubjects = state.getAllSubjectResponse.rows.filter((subject) => {
+            return subject.ID !== payload;
+        })
+
+        state.getAllSubjectResponse.rows = newSubjects;
+    },
+
+    SET_NEW_STUDENT_LIST(state, payload) {
+        let newStudents = state.getAllStudentResponse.rows.filter(student => {
+            return student.ID !== payload;
+        })
+
+        state.getAllStudentResponse.rows = newStudents;
+    },
+
+    SET_NEW_EXAM_LIST(state, payload) {
+        let newExams = state.getAllExamsResponse.rows.filter(student => {
+            return student.ID !== payload;
+        })
+
+        state.getAllExamsResponse.rows = newExams;
+    },
+
     SET_GET_ALL_SUBJECT(state, payload) {
         state.getAllSubjectResponse = payload;
     },
@@ -214,6 +246,30 @@ export const mutations = {
 
     SET_GET_SINGLE_RESULT__RESPONSE(state, payload) {
         state.getSingleStudentResult = payload;
+    },
+
+    SET_DELETE_A_SUBJECT(state, payload) {
+        state.deleteSubjectResponse = payload;
+    },
+
+    SET_DELETE_A_STUDENT(state, payload) {
+        state.deleteStudentResponse = payload;
+    },
+
+    SET_DELETE_A_EXAM(state, payload) {
+        state.deleteExamResponse = payload;
+    },
+
+    SET_A_SUBJECT(state, payload) {
+        state.singleSubject = payload;
+    },
+
+    SET_UPDATE_A_SUBJECT(state, payload) {
+        state.updatedSingleSubject = payload;
+    },
+
+    SET_UNPUBLISH_EXAM(state, payload) {
+        state.unpublishSingleExam = payload;
     }
 
 }
@@ -634,6 +690,54 @@ export const actions = {
         }
     },
 
+    async deleteAStudent({ dispatch, commit }, payload) {
+        const id = "deleteAStudent";
+
+        const obj = {}
+        obj.id = id
+        obj.error = null
+        obj.has_error = false
+
+        try {
+            dispatch('start', id);
+            let response = await this.$axios.$delete(`/student/${payload}`);
+            commit('SET_DELETE_A_STUDENT', response);
+            this.$successToast(response.message);
+            commit('SET_NEW_STUDENT_LIST',payload);
+
+        } catch (error) {
+            obj.has_error = true
+            obj.error = error.response.data.message
+        } finally {
+            dispatch("end", id);
+            dispatch('setError', obj);
+        }
+    },
+
+    async deleteAExam({ dispatch, commit }, payload) {
+        const id = "deleteAExam";
+
+        const obj = {}
+        obj.id = id
+        obj.error = null
+        obj.has_error = false
+
+        try {
+            dispatch('start', id);
+            let response = await this.$axios.$delete(`/exam/${payload}`);
+            commit('SET_DELETE_A_EXAM', response);
+            this.$successToast(response.message);
+            commit('SET_NEW_EXAM_LIST',payload);
+
+        } catch (error) {
+            obj.has_error = true
+            obj.error = error.response.data.message
+        } finally {
+            dispatch("end", id);
+            dispatch('setError', obj);
+        }
+    },
+
     async postCreateSubject({ dispatch,commit }, payload) {
         const id = "postCreateSubject";
 
@@ -688,6 +792,77 @@ export const actions = {
         }
     },
 
+    async deleteASubject({ dispatch, commit }, payload) {
+        const id = "deleteASubject";
+
+        const obj = {}
+        obj.id = id
+        obj.error = null
+        obj.has_error = false
+
+        try {
+            dispatch('start', id);
+            let response = await this.$axios.$delete(`/subjects/${payload}`);
+            commit('SET_DELETE_A_SUBJECT', response);
+            this.$successToast(response.message);
+            commit('SET_NEW_SUBJECT_LIST',payload);
+
+        } catch (error) {
+            obj.has_error = true
+            obj.error = error.response.data.message
+        } finally {
+            dispatch("end", id);
+            dispatch('setError', obj);
+        }
+    },
+
+    async updateASubject({ dispatch, commit }, payload) {
+        const id = "updateASubject";
+
+        const obj = {}
+        obj.id = id
+        obj.error = null
+        obj.has_error = false
+
+        try {
+            dispatch('start', id);
+            let response = await this.$axios.$put(`/subjects/${payload.ID}`, payload);
+            commit('SET_UPDATE_A_SUBJECT', response);
+           this.$successToast(response.message);
+           this.$router.push("/subjects");
+
+        } catch (error) {
+            obj.has_error = true
+            obj.error = error.response.data.message
+        } finally {
+            dispatch("end", id);
+            dispatch('setError', obj);
+        }
+    },
+
+    async fetchASubject({ dispatch, commit }, payload) {
+        const id = "fetchASubject";
+
+        const obj = {}
+        obj.id = id
+        obj.error = null
+        obj.has_error = false
+
+        try {
+            dispatch('start', id);
+            let response = await this.$axios.$get(`/subjects/${payload}`);
+           
+            commit('SET_A_SUBJECT',response);
+
+        } catch (error) {
+            obj.has_error = true
+            obj.error = error.response.data.message
+        } finally {
+            dispatch("end", id);
+            dispatch('setError', obj);
+        }
+    },
+
     async postCreateExam({ dispatch,commit }, payload) {
         const id = "postCreateExam";
 
@@ -726,6 +901,36 @@ export const actions = {
             let response = await this.$axios.$get('/exam', {params: payload});
             console.log("response get all exams info inside store:",response);
             commit('SET_GET_ALL_EXAMS', response);
+        } catch (error) {
+            obj.has_error = true
+            obj.error = error.response.data.message
+        } finally {
+            dispatch("end", id);
+            dispatch('setError', obj);
+        }
+    },
+
+    async unpublishAExam({ dispatch, commit }, payload) {
+        const id = "unpublishAExam";
+
+        const obj = {}
+        obj.id = id
+        obj.error = null
+        obj.has_error = false
+        console.log("payload from unpublish exam",payload);
+
+        try {
+            dispatch('start', id);
+            let response = await this.$axios.$put(`/unpublish-result/${payload}`);
+            commit('SET_UNPUBLISH_EXAM', response);
+            let page = 1;
+            let limit = 20;
+        
+            if (this.$router.currentRoute.query && this.$router.currentRoute.query.page) {
+                page = this.$router.currentRoute.query.page
+            }
+            dispatch("getAllExams", { page, limit})
+            this.$successToast(response.message);
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
@@ -899,6 +1104,7 @@ export const actions = {
                 page = this.$router.currentRoute.query.page
             }
             dispatch("getAllExams", { page, limit})
+            this.$successToast(response.message);
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message
