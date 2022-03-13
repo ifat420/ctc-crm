@@ -17,6 +17,10 @@
           >
         </span>
 
+        <span v-else-if="props.column.field == 'main_name'">
+          <span class="capitalize">{{ props.row.main_name}}</span>
+        </span>
+
         <span v-else-if="props.column.field == 'delete'">
           <button class="underline" @click="deleteSubject(props.row.ID)">Delete</button>
         </span>
@@ -211,6 +215,7 @@ export default {
               : item.practical_full_mark;
           obj.can_be_optional = item.can_be_optional ? "Yes" : "No";
           obj.ID = item.ID
+          obj.main_name = item.main_name
 
           arr.push(obj);
         });
@@ -292,9 +297,13 @@ export default {
             label: "Practical Full Mark",
             field: "practical_full_mark",
           },
+          // {
+          //   label: "Can Be Optional",
+          //   field: "can_be_optional",
+          // },
           {
-            label: "Can Be Optional",
-            field: "can_be_optional",
+            label: "Main Name",
+            field: "main_name",
           },
           {
             label: "Delete",

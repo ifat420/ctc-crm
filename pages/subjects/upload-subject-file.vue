@@ -76,17 +76,6 @@
           </div>
         </div>
         <span v-if="fileRequired" class="error">*File is required</span>
-        <div
-          v-if="
-            isError('subjectFileUpload') &&
-            isError('subjectFileUpload').has_error
-          "
-          class="pt-3"
-        >
-          <h1 class="font text-red-600">
-            {{ isError("subjectFileUpload").error }}
-          </h1>
-        </div>
 
         <hr class="my-8" />
 
