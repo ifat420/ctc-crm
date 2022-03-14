@@ -1076,7 +1076,7 @@ export const actions = {
             this.$successToast(response.message);
         } catch (error) {
             obj.has_error = true
-            obj.error = error.response.data.message
+            obj.error = error.response.data.message;
             this.$errorToast(error.response.data.message)
         } finally {
             dispatch("end", id);

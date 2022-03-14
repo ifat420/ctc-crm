@@ -168,7 +168,7 @@
                       ease-in-out
                       hover:bg-gray-100
                     "
-                    v-for="(row, index) in sortedList"
+                    v-for="(row, index) in markData"
                     :key="index"
                   >
                     <td
@@ -522,7 +522,6 @@ export default {
     },
 
     async submitStudentMarks() {
-      console.log(this.markData);
       await this.createMarkTableUpdate(this.markData);
     },
 

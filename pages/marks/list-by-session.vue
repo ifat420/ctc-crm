@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- ................... Select Option ................................. -->
-
+    <!-- {{ marksOnSubjectResponse }} -->
     <h2 class="text-3xl font-medium">Upload Marks Subjectwise</h2>
     <div v-if="$route.query && $route.query.exam_name && $route.query.session && $route.query.subject_name && markData.length" class="flex items-center gap-x-3 mt-2">
       <h4 class="text-xl font-semibold capitalize">{{$route.query.exam_name}}</h4>
@@ -270,7 +270,7 @@
                       ease-in-out
                       hover:bg-gray-100
                     "
-                    v-for="(row, index) in sortedList"
+                    v-for="(row, index) in markData"
                     :key="index"
                   >
                     <td
@@ -654,16 +654,8 @@ export default {
     },
 
     async submitSubjectMarks() {
-      console.log("marksdata",this.markData);
-      console.log("mark response", this.markTableUpdateResponse);
+      // console.log(this.markData);
       await this.createMarkTableUpdate(this.markData);
-      if (
-        this.markTableUpdateResponse &&
-        this.markTableUpdateResponse.message
-      ) {
-        
-        this.hasSuccess = true;
-      }
     },
 
     resetAll() {
