@@ -212,8 +212,13 @@ export default {
   },
 
   mounted() {
-    console.log('this.$route :>> ', this.$route);
-    if(this.$route && this.$route.query) this.postStudentInformation(this.$route.query);
+    console.log('this.$route :>> ', typeof(this.$route.query.roll_number));
+    if(this.$route && this.$route.query) this.postStudentInformation({
+      session: this.$route.query.session,
+      exam_name: this.$route.query.exam_name,
+      roll_number: parseInt(this.$route.query.roll_number),
+      group: this.$route.query.group
+    });
   }
 }
 </script>

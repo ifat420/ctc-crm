@@ -193,7 +193,7 @@
               "
               type="text"
               placeholder="Roll Number"
-              v-model="student.roll_number"
+              v-model.number="student.roll_number"
               :class="{
                     'border border-red-500':
                       $v.student.roll_number.$dirty && $v.student.roll_number.$invalid,
@@ -264,7 +264,7 @@ export default {
       student: {
         session: "",
         exam_name: "",
-        roll_number: "",
+        roll_number: null,
         group: "",
       },
 
@@ -364,6 +364,7 @@ export default {
 
     async showSingleStudentData() {
       this.$v.$touch();
+      console.log('typeof(this.student.roll_number) :>> ', typeof(this.student.roll_number));
       if (
         this.$v.student.session.$anyError == false &&
         this.$v.student.group.$anyError == false &&
@@ -375,6 +376,7 @@ export default {
           path: "/student/show-student-info",
           query: this.student,
         });
+        console.log('this.singleStudentInfo :>> ', this.singleStudentInfo);
       }
     },
   },

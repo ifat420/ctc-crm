@@ -143,7 +143,6 @@ export default {
     },
 
     handleFileUpload(event) {
-      console.log("hello");
       this.hasFile = true;
       if (this.hasFile) this.fileRequired = false;
       else this.fileRequired = true;
@@ -155,6 +154,7 @@ export default {
 
       this.formData = new FormData();
       this.formData.append("file", file);
+      console.log(this.formData);
     },
 
     async uploadSubjectFile() {

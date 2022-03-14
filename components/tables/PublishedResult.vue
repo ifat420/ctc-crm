@@ -8,7 +8,7 @@
     >
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'session'">
-          <nuxt-link :to="`/show-result/result-overview?session=${props.row.session}&exam_name=${props.row.examNameRow}`" style="text-decoration: underline">{{
+          <nuxt-link :to="`/show-result/list?session=${props.row.session}&exam_name=${props.row.examNameRow}`" style="text-decoration: underline">{{
             props.row.session
           }}</nuxt-link>
         </span>
