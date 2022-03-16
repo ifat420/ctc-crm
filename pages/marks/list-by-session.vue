@@ -3,10 +3,25 @@
     <!-- ................... Select Option ................................. -->
     <!-- {{ marksOnSubjectResponse }} -->
     <h2 class="text-3xl font-medium">Upload Marks Subjectwise</h2>
-    <div v-if="$route.query && $route.query.exam_name && $route.query.session && $route.query.subject_name && markData.length" class="flex items-center gap-x-3 mt-2">
-      <h4 class="text-xl font-semibold capitalize">{{$route.query.exam_name}}</h4>
-      <h4 class="text-xl font-semibold capitalize">{{$route.query.session}}</h4>
-      <h4 class="text-xl font-semibold capitalize">{{$route.query.subject_name}}</h4>
+    <div
+      v-if="
+        $route.query &&
+        $route.query.exam_name &&
+        $route.query.session &&
+        $route.query.subject_name &&
+        markData.length
+      "
+      class="flex items-center gap-x-3 mt-2"
+    >
+      <h4 class="text-xl font-semibold capitalize">
+        {{ $route.query.exam_name }}
+      </h4>
+      <h4 class="text-xl font-semibold capitalize">
+        {{ $route.query.session }}
+      </h4>
+      <h4 class="text-xl font-semibold capitalize">
+        {{ $route.query.subject_name }}
+      </h4>
     </div>
     <div class="mt-6" v-if="!markData.length">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 mb-10">
@@ -232,10 +247,7 @@
       </button>
     </div>
 
-    <div
-      class="mt-6"
-      v-if="markData && markData.length"
-    >
+    <div class="mt-6" v-if="markData && markData.length">
       <div class="flex flex-col">
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
@@ -399,8 +411,13 @@
       </div>
     </div>
 
-    <div class="px-6 py-2" v-if="markData && markData.length && !isError('createMarksOnSubject').error">
-        <hr class="my-8" />
+    <div
+      class="px-6 py-2"
+      v-if="
+        markData && markData.length && !isError('createMarksOnSubject').error
+      "
+    >
+      <hr class="my-8" />
 
       <button
         @click.prevent="submitSubjectMarks"
@@ -448,8 +465,6 @@
       >
         Reset
       </button>
-      
-     
     </div>
   </div>
 </template>
@@ -606,20 +621,19 @@ export default {
     },
 
     sortedList() {
-      let arr = []
-      if(this.marksOnSubjectResponse && this.marksOnSubjectResponse.length) {
-
+      let arr = [];
+      if (this.marksOnSubjectResponse && this.marksOnSubjectResponse.length) {
         this.marksOnSubjectResponse.map((item) => {
-          arr.push(item)
-        })
+          arr.push(item);
+        });
       }
 
-      arr.sort((a,b) => {
-        return a.roll_number - b.roll_number
-      })
+      arr.sort((a, b) => {
+        return a.roll_number - b.roll_number;
+      });
 
       return arr;
-    }
+    },
   },
 
   methods: {
@@ -630,7 +644,7 @@ export default {
       "createMarks",
       "createMarksOnSubject",
       "createMarkTableUpdate",
-      "createMarksOnSubjectClear"
+      "createMarksOnSubjectClear",
     ]),
 
     examNameChanged(value) {
@@ -659,7 +673,7 @@ export default {
     },
 
     resetAll() {
-      this.$router.push("/marks/list-by-session")
+      this.$router.push("/marks/list-by-session");
       this.marks.session = "";
       this.marks.exam_name = "";
       this.marks.subject_name = "";
@@ -669,29 +683,35 @@ export default {
     },
 
     async fetchData() {
-     
-    
-      if (this.$route.query && this.$route.query.exam_name && this.$route.query.session && this.$route.query.subject_name) {
-       this.markInputMode = true
+      if (
+        this.$route.query &&
+        this.$route.query.exam_name &&
+        this.$route.query.session &&
+        this.$route.query.subject_name
+      ) {
+        this.markInputMode = true;
         await this.createMarksOnSubject({
           exam_name: this.$route.query.exam_name,
           session: this.$route.query.session,
           subject_name: this.$route.query.subject_name,
         });
       } else {
-          this.markInputMode = false
-          this.createMarksOnSubjectClear();
-       }
+        this.markInputMode = false;
+        this.createMarksOnSubjectClear();
+      }
     },
 
     async uploadSubjectMarks() {
-      this.$router.push({
-        path: "/marks/list-by-session",
-        query: this.marks
-      })
-      
-    
+      this.$v.$touch();
+      if (!this.$v.marks.$invalid) {
+        this.$router.push({
+          path: "/marks/list-by-session",
+          query: this.marks,
+        });
+      }
     },
+
+    
   },
 
   mounted() {
@@ -699,8 +719,10 @@ export default {
     this.getGroup();
     this.fetchData();
     // this.markData = JSON.parse(JSON.stringify(this.marksOnSubjectResponse));
-    console.log('this.$route :>> ', this.$route);
-    console.log('this.marksOnSubjectResponse :>> ', this.marksOnSubjectResponse);
+    // this.marks.exam_name = "";
+    // this.marks.session = "";
+    // this.marks.group = "";
+    // this.marks.subject_name = "";
   },
 
   watch: {
@@ -716,8 +738,8 @@ export default {
       }
     },
 
-    "$route": function(val) {
-      this.fetchData()
+    $route: function (val) {
+      this.fetchData();
     },
   },
 };

@@ -201,88 +201,13 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
         <div>
-          <label for="subject_name" class="text-sm">Subject Name </label>
-          <input
-            id="subject_name"
-            name="subject_name"
-            type="text"
-            autocomplete="subject_name"
-            placeholder="Subject Name"
-            @blur="$v.subject.name.$touch()"
-            v-model="subject.name"
-            class="
-              appearance-none
-              block
-              w-full
-              px-4
-              py-3
-              mt-4
-              rounded-md
-              shadow-gbtn
-              placeholder-gray-400
-              focus:outline-none focus:ring-primary focus:border-primary
-              text-sm
-            "
-            :class="{
-              'border border-red-500':
-                $v.subject.name.$dirty && $v.subject.name.$invalid,
-            }"
-          />
-          <p
-            v-if="!$v.subject.name.required && $v.subject.name.$dirty"
-            class="text-red-500 text-xs mt-2"
-          >
-            Subject Name is required.
-          </p>
-        </div>
-        <div>
-          <label for="subject_code" class="text-sm">Subject Code </label>
-          <input
-            id="subject_code"
-            name="subject_code"
-            type="text"
-            autocomplete="subject_code"
-            placeholder="Subject Code"
-            @blur="$v.subject.code.$touch()"
-            v-model="subject.code"
-            class="
-              appearance-none
-              block
-              w-full
-              px-4
-              py-3
-              mt-4
-              rounded-md
-              shadow-gbtn
-              placeholder-gray-400
-              focus:outline-none focus:ring-primary focus:border-primary
-              text-sm
-            "
-            :class="{
-              'border border-red-500':
-                $v.subject.code.$dirty && $v.subject.code.$invalid,
-            }"
-          />
-          <p
-            v-if="!$v.subject.code.required && $v.subject.code.$dirty"
-            class="text-red-500 text-xs mt-2"
-          >
-            Subject Code is required.
-          </p>
-        </div>
-      </div>
-
-      <hr class="my-8" />
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
-        <div>
           <label for="subject_main" class="text-sm">Main Name </label>
           <input
             id="subject_main"
             name="subject_main"
             type="text"
             autocomplete="subject_main"
-            placeholder="Subject Code"
+            placeholder="Main Name"
             @blur="$v.subject.main_name.$touch()"
             v-model="subject.main_name"
             class="
