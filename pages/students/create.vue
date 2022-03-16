@@ -143,7 +143,7 @@
               autocomplete="roll_number"
               placeholder="Roll Number"
               @blur="$v.student.roll_number.$touch()"
-              v-model="student.roll_number"
+              v-model.number="student.roll_number"
               class="
                 appearance-none
                 block
@@ -758,7 +758,7 @@ export default {
         gender: "",
         type_of_student: "",
         reg_number: "",
-        roll_number: "",
+        roll_number: null,
         first_name: "",
         last_name: "",
         father_name: "",

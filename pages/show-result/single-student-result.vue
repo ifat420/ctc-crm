@@ -57,36 +57,32 @@
       class="mt-6"
       v-if="getSingleStudentResult && getSingleStudentResult.length"
     >
-      <div class="">
-        <div class="">
-          <div class="">
-            <div>
-              <vue-good-table
-                :columns="columns"
-                :rows="getSingleStudentResult"
-                :search-options="{
-                  enabled: false,
-                }"
-                :sort-options="{
-                  enabled: false,
-                }"
-                styleClass="vgt-table condensed"
-              >
-                >
+     
+      <div>
+        <vue-good-table
+          :columns="columns"
+          :rows="getSingleStudentResult"
+          :search-options="{
+            enabled: false,
+          }"
+          :sort-options="{
+            enabled: false,
+          }"
+          styleClass="vgt-table condensed"
+        >
+          >
 
-                <template slot="table-row" slot-scope="props">
-                  <span v-if="props.column.field == 'subject_name'">
-                    <span class="capitalize">{{ props.row.subject_name }}</span>
-                  </span>
-                  <span v-else>
-                    {{ props.formattedRow[props.column.field] }}
-                  </span>
-                </template>
-              </vue-good-table>
-            </div>
-          </div>
-        </div>
+          <template slot="table-row" slot-scope="props">
+            <span v-if="props.column.field == 'subject_name'">
+              <span class="capitalize">{{ props.row.subject_name }}</span>
+            </span>
+            <span v-else>
+              {{ props.formattedRow[props.column.field] }}
+            </span>
+          </template>
+        </vue-good-table>
       </div>
+          
     </div>
   </div>
 </template>
