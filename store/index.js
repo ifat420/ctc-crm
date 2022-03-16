@@ -759,7 +759,7 @@ export const actions = {
             }
 
             dispatch("getAllSubject", {page, limit })
-            this.$router.push("/subjects/show-all-subjects");
+            this.$router.push("/subjects");
         } catch (error) {
             obj.has_error = true
             obj.error = error.response.data.message

@@ -83,11 +83,11 @@
           <input
             id="cq_mark"
             name="cq_mark"
-            type="text"
+            type="number"
             autocomplete="cq_mark"
             placeholder="CQ Mark"
             @blur="$v.subject.cq_full_mark.$touch()"
-            v-model="subject.cq_full_mark"
+            v-model.number="subject.cq_full_mark"
             class="
               appearance-none
               block
@@ -122,11 +122,11 @@
           <input
             id="mcq_mark"
             name="mcq_mark"
-            type="text"
+            type="number"
             autocomplete="mcq_mark"
             placeholder="MCQ Full Mark"
             @blur="$v.subject.mcq_full_mark.$touch()"
-            v-model="subject.mcq_full_mark"
+            v-model.number="subject.mcq_full_mark"
             class="
               appearance-none
               block
@@ -161,11 +161,11 @@
           <input
             id="mcq_mark"
             name="mcq_mark"
-            type="text"
+            type="number"
             autocomplete="mcq_mark"
             placeholder="Practical Full Mark"
             @blur="$v.subject.practical_full_mark.$touch()"
-            v-model="subject.practical_full_mark"
+            v-model.number="subject.practical_full_mark"
             class="
               appearance-none
               block
